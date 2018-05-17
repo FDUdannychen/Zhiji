@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HaiNei.Admin.Pages
+namespace Zhiji.Admin.Pages
 {
-    public class LoginModel : PageModel
+    public class DashboardModel : PageModel
     {
         public void OnGet()
         {
