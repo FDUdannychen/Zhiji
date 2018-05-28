@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Zhiji.Common.Domain
 {
-    public interface IRepository<T> where T : IAggregateRoot
+    public interface IRepository
     {
         IUnitOfWork UnitOfWork { get; }
     }
+
+    public interface IRepository<T> : IRepository
+        where T : IAggregateRoot
+    { }
 }

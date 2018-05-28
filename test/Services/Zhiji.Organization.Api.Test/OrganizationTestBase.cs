@@ -15,7 +15,12 @@ namespace Zhiji.Organization.Api.Test
     {
         public static class Get
         {
-            public static string BranchById(int id) => $"branch/{id}";
+            public static string BranchById(int id) => $"branches/{id}";
+        }
+
+        public static class Post
+        {
+            public static string Branch => "branches";
         }
 
         protected async Task<TestServer> CreateServerAsync()

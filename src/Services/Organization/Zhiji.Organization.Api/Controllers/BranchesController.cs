@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Zhiji.Organization.Api.Commands.Branches;
-using Zhiji.Organization.Domain.Branches;
+using Zhiji.Organization.Api.ViewModels;
 
 namespace Zhiji.Organization.Api.Controllers
 {
@@ -14,15 +16,17 @@ namespace Zhiji.Organization.Api.Controllers
     public class BranchesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public BranchesController(IMediator mediator)
+        public BranchesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(Branch), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BranchViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(int id)
         {
             var request = new QueryBranchCommand { Id = id };
@@ -30,15 +34,18 @@ namespace Zhiji.Organization.Api.Controllers
             var branch = response.SingleOrDefault();
 
             if (branch == null) return NotFound();
-            return Ok(branch);
+
+            var vm = _mapper.Map<BranchViewModel>(branch);
+            return Ok(vm);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Branch), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BranchViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Post([FromBody]CreateBranchCommand request)
         {
             var branch = await _mediator.Send(request);
-            return Ok(branch);
+            var vm = _mapper.Map<BranchViewModel>(branch);
+            return CreatedAtAction(nameof(Get), new { id = branch.Id }, vm);
         }
     }
 }
