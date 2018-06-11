@@ -18,7 +18,7 @@ namespace Zhiji.Organization.Api
         public static async Task Main(string[] args)
         {
             var webHost = BuildWebHost(args);
-            await webHost.EnsureDbContextAsync<OrganizationContext>();
+            await webHost.EnsureDbContextAsync<OrganizationContext>((context, services) => context.Database.EnsureCreatedAsync());
             await webHost.RunAsync();
         }
 

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Zhiji.Common.AspNetCore;
@@ -12,26 +12,13 @@ using Zhiji.Organization.Infrastructure;
 
 namespace Zhiji.Organization.Api.Test
 {
-    public abstract class OrganizationTestBase
+    class TestServers
     {
-        public static class Get
-        {
-            public static string BranchById(int id) => $"branches/{id}";
-
-            public static string Branches => "branches";
-        }
-
-        public static class Post
-        {
-            public static string Branch => "branches";
-        }
-
-        protected async Task<TestServer> CreateServerAsync()
+        public static readonly AsyncLazy<TestServer> OrganizationApiServer = new AsyncLazy<TestServer>(async () =>
         {
             var builder = WebHost
                 .CreateDefaultBuilder()
                 .UseStartup<Startup>()
-                .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration(b => b.AddJsonFile("appsettings.json"));
 
             var server = new TestServer(builder);
@@ -41,6 +28,6 @@ namespace Zhiji.Organization.Api.Test
                 await context.Database.EnsureCreatedAsync();
             });
             return server;
-        }
+        });
     }
 }

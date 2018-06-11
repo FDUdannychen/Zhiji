@@ -8,12 +8,13 @@ namespace Zhiji.Common.AspNetCore
 {
     public static class WebHostExtensions
     {
-        public static async Task<IWebHost> EnsureDbContextAsync<TContext>(this IWebHost webHost) where TContext : DbContext
+        public static async Task<IWebHost> EnsureDbContextAsync<TContext>(this IWebHost webHost, Func<TContext, IServiceProvider, Task> seed)
+            where TContext : DbContext
         {
             using (var scope = webHost.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<TContext>();
-                await context.Database.EnsureCreatedAsync();
+                await seed(context, scope.ServiceProvider);
             }
 
             return webHost;

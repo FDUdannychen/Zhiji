@@ -31,7 +31,8 @@ namespace Zhiji.Organization.Api
             ConfigureApplication(services);
             ConfigureMediator(services);
             ConfigureEntityFramework(services);
-            services.AddAutoMapper();
+            ConfigureAutoMapper(services);
+
             services.AddRouting(o => o.LowercaseUrls = true);
             services.AddMvc();
         }
@@ -46,8 +47,7 @@ namespace Zhiji.Organization.Api
 
         public void ConfigureMediator(IServiceCollection services)
         {
-            services.AddScoped<SingleInstanceFactory>(p => p.GetService);
-            services.AddScoped<MultiInstanceFactory>(p => p.GetServices);
+            services.AddScoped<ServiceFactory>(p => p.GetService);
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
@@ -66,7 +66,13 @@ namespace Zhiji.Organization.Api
                     opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
                         o => o.EnableRetryOnFailure()));
         }
-                
+
+        public void ConfigureAutoMapper(IServiceCollection services)
+        {
+            Mapper.Reset();
+            services.AddAutoMapper();
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

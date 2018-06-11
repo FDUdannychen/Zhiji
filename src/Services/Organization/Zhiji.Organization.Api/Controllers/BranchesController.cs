@@ -25,9 +25,10 @@ namespace Zhiji.Organization.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        [ProducesResponseType(typeof(BranchViewModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get(int id)
+        [Route("{id:int}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<BranchViewModel>> Get(int id)
         {
             var request = new QueryBranchCommand { Id = id };
             var response = await _mediator.Send(request);
@@ -35,17 +36,25 @@ namespace Zhiji.Organization.Api.Controllers
 
             if (branch == null) return NotFound();
 
-            var vm = _mapper.Map<BranchViewModel>(branch);
-            return Ok(vm);
+            return _mapper.Map<BranchViewModel>(branch);
+        }
+
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IEnumerable<BranchViewModel>> GetAll()
+        {
+            var request = new QueryBranchCommand();
+            var response = await _mediator.Send(request);
+            return _mapper.Map<IEnumerable<BranchViewModel>>(response);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(BranchViewModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Post([FromBody]CreateBranchCommand request)
+        public async Task<IActionResult> CreateBranch([FromBody]CreateBranchCommand request)
         {
             var branch = await _mediator.Send(request);
             var vm = _mapper.Map<BranchViewModel>(branch);
-            return CreatedAtAction(nameof(Get), new { id = branch.Id }, vm);
+            return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
         }
     }
 }
