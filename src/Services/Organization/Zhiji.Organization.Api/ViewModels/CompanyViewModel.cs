@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Zhiji.Common.Domain;
 
-namespace Zhiji.Organization.Domain.Branches
+namespace Zhiji.Organization.Api.ViewModels
 {
-    public partial class Branch : Entity, IAggregateRoot
+    public class CompanyViewModel
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public CompanyViewModel Parent { get; set; }
     }
 }

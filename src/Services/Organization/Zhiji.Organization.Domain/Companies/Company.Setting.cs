@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Zhiji.Organization.Domain.Branches
+namespace Zhiji.Organization.Domain.Companies
 {
-    public partial class Branch
+    public partial class Company
     {
         public const int NameMaxLength = 50;
     }

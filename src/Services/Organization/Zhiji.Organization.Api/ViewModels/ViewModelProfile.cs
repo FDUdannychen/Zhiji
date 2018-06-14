@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Zhiji.Organization.Domain.Branches;
+using Zhiji.Organization.Domain.Companies;
 
 namespace Zhiji.Organization.Api.ViewModels
 {
@@ -11,7 +11,7 @@ namespace Zhiji.Organization.Api.ViewModels
     {
         public ViewModelProfile()
         {
-            this.CreateMap<Branch, BranchViewModel>();
+            this.CreateMap<Company, CompanyViewModel>();
         }
     }
 }

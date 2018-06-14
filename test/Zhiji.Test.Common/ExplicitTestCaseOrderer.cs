@@ -15,7 +15,7 @@ namespace Zhiji.Test.Common
         {
             return from c in testCases
                    let n = c.TestMethod.Method.ToRuntimeMethod().GetCustomAttribute<TestOrderAttribute>()
-                   orderby n == null ? 0 : n.Order
+                   orderby n is null ? 0 : n.Order
                    select c;
         }
     }

@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Zhiji.Organization.Domain.Branches;
+using Zhiji.Organization.Domain.Companies;
 
-namespace Zhiji.Organization.Api.Commands.Branches
+namespace Zhiji.Organization.Api.Commands.Companies
 {
-    public class QueryBranchCommand : IRequest<IEnumerable<Branch>>
+    public class QueryCompanyCommand : IRequest<IEnumerable<Company>>
     {
         public int? Id { get; set; }
     }
