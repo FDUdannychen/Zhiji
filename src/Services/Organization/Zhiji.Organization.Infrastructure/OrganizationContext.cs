@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Organization.Domain.Companies;
-using Zhiji.Organization.Infrastructure.EntityConfigurations;
 using Zhiji.Common.Domain;
+using Zhiji.Organization.Domain.Companies;
+using Zhiji.Organization.Domain.Departments;
+using Zhiji.Organization.Infrastructure.EntityConfigurations;
 
 namespace Zhiji.Organization.Infrastructure
 {
     public class OrganizationContext : DbContext, IUnitOfWork
     {
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         public OrganizationContext(DbContextOptions<OrganizationContext> options)
             : base(options)
@@ -19,6 +21,7 @@ namespace Zhiji.Organization.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CompanyConfiguration());
+            builder.ApplyConfiguration(new DepartmentConfiguration());
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using Zhiji.Common.Domain;
 using Zhiji.Organization.Infrastructure;
 
@@ -25,7 +26,7 @@ namespace Zhiji.Organization.Api
         {
             Configuration = configuration;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureApplication(services);
@@ -35,6 +36,10 @@ namespace Zhiji.Organization.Api
 
             services.AddRouting(o => o.LowercaseUrls = true);
             services.AddMvc();
+            services.AddSwaggerGen(o =>
+            {
+                o.SwaggerDoc("v1", new Info { Title = "Organization API", Version = "v1" });
+            });
         }
 
         public void ConfigureApplication(IServiceCollection services)
@@ -79,6 +84,21 @@ namespace Zhiji.Organization.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger(o =>
+            {
+                o.PreSerializeFilters.Add((document, request) =>
+                {
+                    document.Paths = document.Paths
+                        .ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
+                });
+            });
+
+            app.UseSwaggerUI(o =>
+            {
+                o.SwaggerEndpoint("/swagger/v1/swagger.json", "Organization API");
+                o.RoutePrefix = string.Empty;
+            });
 
             app.UseMvc();
         }

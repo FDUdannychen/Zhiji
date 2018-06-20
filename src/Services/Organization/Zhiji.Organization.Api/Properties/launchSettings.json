@@ -19,7 +19,7 @@
     "Zhiji.Organization.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "branches/1",
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

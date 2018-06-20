@@ -25,7 +25,7 @@ namespace Zhiji.Organization.Api.Commands.Companies
 
             if (request.Id.HasValue)
             {
-                query = query.Where(b => b.Id == request.Id.Value);
+                query = query.Where(e => e.Id == request.Id.Value);
             }
 
             return await query.ToListAsync(cancellationToken);            

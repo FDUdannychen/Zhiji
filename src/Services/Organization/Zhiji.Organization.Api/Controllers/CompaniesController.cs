@@ -11,8 +11,7 @@ using Zhiji.Organization.Api.ViewModels;
 
 namespace Zhiji.Organization.Api.Controllers
 {
-    [Route("[controller]")]
-    public class CompaniesController : Controller
+    public class CompaniesController : OrganizationControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -25,8 +24,8 @@ namespace Zhiji.Organization.Api.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<CompanyViewModel>> Get(int id)
         {
             var request = new QueryCompanyCommand { Id = id };
@@ -39,7 +38,7 @@ namespace Zhiji.Organization.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<CompanyViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IEnumerable<CompanyViewModel>> GetAll()
         {
             var request = new QueryCompanyCommand();
@@ -48,7 +47,7 @@ namespace Zhiji.Organization.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create([FromBody]CreateCompanyCommand request)
         {
             var company = await _mediator.Send(request);

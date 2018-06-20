@@ -10,6 +10,7 @@ namespace Zhiji.Organization.Api.Commands.Companies
 {
     public class QueryCompanyCommand : IRequest<IEnumerable<Company>>
     {
+        [Range(1, int.MaxValue)]
         public int? Id { get; set; }
     }
 }
