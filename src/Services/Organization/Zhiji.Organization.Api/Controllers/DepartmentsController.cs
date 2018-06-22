@@ -38,7 +38,7 @@ namespace Zhiji.Organization.Api.Controllers
         }
 
         [HttpGet]
-        [Route("in/company/{companyId:int}")]
+        [Route("/companies/{companyId:int}/[controller]")]
         [ProducesResponseType(typeof(IEnumerable<DepartmentViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IEnumerable<DepartmentViewModel>> GetAll(int companyId)
         {

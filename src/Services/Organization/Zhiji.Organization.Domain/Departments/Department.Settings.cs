@@ -6,6 +6,6 @@ namespace Zhiji.Organization.Domain.Departments
 {
     public partial class Department
     {
-        public const int NameMaxLength = 50;
+        public const int NameMaxLength = 20;
     }
 }

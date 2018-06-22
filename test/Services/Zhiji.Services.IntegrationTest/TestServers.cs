@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
-using Nito.AsyncEx;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Nito.AsyncEx;
 using Zhiji.Common.AspNetCore;
+using Zhiji.Organization.Api;
 using Zhiji.Organization.Infrastructure;
 
-namespace Zhiji.Organization.Api.Test
+namespace Zhiji.Services.IntegrationTest
 {
     class TestServers
     {

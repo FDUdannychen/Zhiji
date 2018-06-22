@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Zhiji.Common.AspNetCore;
 using Zhiji.Organization.Api.Commands.Companies;
 
-namespace Zhiji.Organization.Api.Test
+namespace Zhiji.Services.IntegrationTest.Organization
 {
     public abstract class OrganizationTestBase
     {

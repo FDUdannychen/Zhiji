@@ -6,6 +6,6 @@ namespace Zhiji.Organization.Domain.Companies
 {
     public partial class Company
     {
-        public const int NameMaxLength = 50;
+        public const int NameMaxLength = 20;
     }
 }

@@ -8,10 +8,10 @@ using Xunit;
 using Zhiji.Organization.Api.ViewModels;
 using Zhiji.Test.Common;
 
-namespace Zhiji.Organization.Api.Test
+namespace Zhiji.Services.IntegrationTest.Organization
 {
     [TestCaseOrderer("Zhiji.Test.Common.ExplicitTestCaseOrderer", "Zhiji.Test.Common")]
-    public class CompanyTest : OrganizationTestBase
+    public partial class CompanyTest : OrganizationTestBase
     {
         [Fact, TestOrder(1)]
         public async Task GetCompanyNotFound()
@@ -30,18 +30,12 @@ namespace Zhiji.Organization.Api.Test
             Assert.False(companies.Any());
         }
 
-        [Fact, TestOrder(2)]
-        public async Task CreateCompany()
+        [Theory, TestOrder(2)]
+        [MemberData(nameof(CreateCompanyData))]
+        public async Task CreateCompany(string name, int? parentId, HttpStatusCode expected)
         {
-            var r1 = await CreateCompanyImpl("company 1", null);
-            Assert.Equal(HttpStatusCode.Created, r1.StatusCode);
-            var c1 = await ProjectTo<CompanyViewModel>(r1);
-            Assert.True(c1.Id > 0);
-
-            var r2 = await CreateCompanyImpl("company 2", c1.Id);
-            Assert.Equal(HttpStatusCode.Created, r2.StatusCode);
-            var c2 = await ProjectTo<CompanyViewModel>(r2);
-            Assert.True(c2.Id > 0);
+            var response = await CreateCompanyImpl(name, parentId);
+            Assert.Equal(expected, response.StatusCode);
         }
 
         [Fact, TestOrder(3)]
