@@ -10,7 +10,7 @@ namespace Zhiji.Services.IntegrationTest.Organization
     public partial class CompanyTest
     {
         static string MaxLengthCompanyName = new string(Enumerable.Repeat('a', Company.NameMaxLength).ToArray());
-        static string[] InvalidCompanyNames = new[] { null, string.Empty, MaxLengthCompanyName + 'a' };
+        static string[] InvalidCompanyNames = new[] { null, string.Empty, "a", MaxLengthCompanyName + 'a' };
         static int?[] InvalidParentIds = new int?[] { -1, 0 };
 
         public static IEnumerable<object[]> CreateCompanyData
@@ -27,9 +27,9 @@ namespace Zhiji.Services.IntegrationTest.Organization
                     yield return new object[] { "a", invalidParentId, HttpStatusCode.BadRequest };
                 }
 
-                yield return new object[] { "a", null, HttpStatusCode.Created };
+                yield return new object[] { "aa", null, HttpStatusCode.Created };
                 yield return new object[] { MaxLengthCompanyName, null, HttpStatusCode.Created };
-                yield return new object[] { "b", 1, HttpStatusCode.Created };
+                yield return new object[] { "bb", 1, HttpStatusCode.Created };
             }
         }
     }

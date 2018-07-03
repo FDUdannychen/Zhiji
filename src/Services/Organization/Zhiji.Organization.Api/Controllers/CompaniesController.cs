@@ -4,54 +4,51 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Organization.Api.Commands.Companies;
-using Zhiji.Organization.Api.ViewModels;
+using Zhiji.Organization.Api.Models;
+using Zhiji.Organization.Domain.Companies;
 
 namespace Zhiji.Organization.Api.Controllers
 {
     public class CompaniesController : OrganizationControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CompaniesController(IMediator mediator, IMapper mapper)
+        public CompaniesController(IMapper mapper, 
+            ICompanyRepository companyRepository)
         {
-            _mediator = mediator;
             _mapper = mapper;
+            _companyRepository = companyRepository;
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<CompanyViewModel>> Get(int id)
+        [ProducesResponseType(typeof(ViewCompany), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ViewCompany), (int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<ViewCompany>> Get(int id)
         {
-            var request = new QueryCompanyCommand { Id = id };
-            var response = await _mediator.Send(request);
-            var company = response.SingleOrDefault();
-
+            var company = await _companyRepository.GetAsync(id);
             if (company is null) return NotFound();
-
-            return _mapper.Map<CompanyViewModel>(company);
+            return _mapper.Map<ViewCompany>(company);
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<CompanyViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IEnumerable<CompanyViewModel>> GetAll()
+        [ProducesResponseType(typeof(IEnumerable<ViewCompany>), (int)HttpStatusCode.OK)]
+        public async Task<IEnumerable<ViewCompany>> GetAll()
         {
-            var request = new QueryCompanyCommand();
-            var response = await _mediator.Send(request);
-            return _mapper.Map<IEnumerable<CompanyViewModel>>(response);
+            var companies = await _companyRepository.ListAsync();
+            return _mapper.Map<IEnumerable<ViewCompany>>(companies);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CompanyViewModel), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> Create([FromBody]CreateCompanyCommand request)
+        [ProducesResponseType(typeof(ViewCompany), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> Create([FromBody]CreateCompany request)
         {
-            var company = await _mediator.Send(request);
-            var vm = _mapper.Map<CompanyViewModel>(company);
+            var company = new Company(request.Name, request.ParentId);
+            _companyRepository.Add(company);
+            await _companyRepository.UnitOfWork.SaveChangesAsync();
+            var vm = _mapper.Map<ViewCompany>(company);
             return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
         }
     }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.Domain;
 using Zhiji.Organization.Domain.Companies;
 using Zhiji.Organization.Domain.Departments;
+using Zhiji.Organization.Domain.Employees;
 using Zhiji.Organization.Infrastructure.EntityConfigurations;
 
 namespace Zhiji.Organization.Infrastructure
@@ -13,6 +14,7 @@ namespace Zhiji.Organization.Infrastructure
     {
         public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         public OrganizationContext(DbContextOptions<OrganizationContext> options)
             : base(options)
@@ -22,6 +24,7 @@ namespace Zhiji.Organization.Infrastructure
         {
             builder.ApplyConfiguration(new CompanyConfiguration());
             builder.ApplyConfiguration(new DepartmentConfiguration());
+            builder.ApplyConfiguration(new EmployeeConfiguration());
         }
     }
 }

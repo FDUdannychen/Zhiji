@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Zhiji.Organization.Api.ViewModels
+namespace Zhiji.Organization.Api.Models
 {
-    public class CompanyViewModel
+    public class ViewCompany
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public CompanyViewModel Parent { get; set; }
+        public ViewCompany Parent { get; set; }
     }
 }

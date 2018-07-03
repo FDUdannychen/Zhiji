@@ -1,37 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Zhiji.Common.Domain;
 using Zhiji.Organization.Domain.Departments;
 
 namespace Zhiji.Organization.Infrastructure.Repositories
 {
-    class DepartmentRepository : IDepartmentRepository
+    class DepartmentRepository : RepositoryBase<Department>, IDepartmentRepository
     {
-        private readonly OrganizationContext _context;
-
         public DepartmentRepository(OrganizationContext context)
-        {
-            _context = context;
-        }
+            : base(context)
+        { }
 
-        public IUnitOfWork UnitOfWork => _context;
-
-        public Department Add(Department department)
+        public async Task<IEnumerable<Department>> ListAsync(int companyId)
         {
-            return _context.Departments.Add(department).Entity;
-        }
-
-        public Task<Department> GetAsync(int id)
-        {
-            return _context.Departments.FindAsync(id);
-        }
-
-        public void Update(Department department)
-        {
-            _context.Entry(department).State = EntityState.Modified;
+            return await _context.Departments
+                .Where(e => e.CompanyId == companyId)
+                .ToListAsync();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Zhiji.Common.AspNetCore;
-using Zhiji.Organization.Api.Commands.Companies;
+using Zhiji.Organization.Api.Models;
 
 namespace Zhiji.Services.IntegrationTest.Organization
 {
@@ -40,7 +40,7 @@ namespace Zhiji.Services.IntegrationTest.Organization
 
         protected async Task<HttpResponseMessage> CreateCompanyImpl(string name, int? parentId)
         {
-            var command = new CreateCompanyCommand
+            var command = new CreateCompany
             {
                 Name = name,
                 ParentId = parentId

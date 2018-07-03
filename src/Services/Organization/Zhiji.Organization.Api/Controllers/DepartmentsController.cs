@@ -4,55 +4,52 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Organization.Api.Commands.Departments;
-using Zhiji.Organization.Api.ViewModels;
+using Zhiji.Organization.Api.Models;
+using Zhiji.Organization.Domain.Departments;
 
 namespace Zhiji.Organization.Api.Controllers
 {    
     public class DepartmentsController : OrganizationControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public DepartmentsController(IMediator mediator, IMapper mapper)
+        public DepartmentsController(IMapper mapper, 
+            IDepartmentRepository departmentRepository)
         {
-            _mediator = mediator;
             _mapper = mapper;
+            _departmentRepository = departmentRepository;
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        [ProducesResponseType(typeof(DepartmentViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(DepartmentViewModel), (int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<DepartmentViewModel>> Get(int id)
+        [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<ViewDepartment>> Get(int id)
         {
-            var request = new QueryDepartmentCommand { Id = id };
-            var response = await _mediator.Send(request);
-            var department = response.SingleOrDefault();
-
+            var department = await _departmentRepository.GetAsync(id);
             if (department is null) return NotFound();
-
-            return _mapper.Map<DepartmentViewModel>(department);
+            return _mapper.Map<ViewDepartment>(department);
         }
 
         [HttpGet]
         [Route("/companies/{companyId:int}/[controller]")]
-        [ProducesResponseType(typeof(IEnumerable<DepartmentViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IEnumerable<DepartmentViewModel>> GetAll(int companyId)
+        [ProducesResponseType(typeof(IEnumerable<ViewDepartment>), (int)HttpStatusCode.OK)]
+        public async Task<IEnumerable<ViewDepartment>> GetAll(int companyId)
         {
-            var request = new QueryDepartmentCommand();
-            var response = await _mediator.Send(request);
-            return _mapper.Map<IEnumerable<DepartmentViewModel>>(response);
+            var departments = await _departmentRepository.ListAsync(companyId);
+            return _mapper.Map<IEnumerable<ViewDepartment>>(departments);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(DepartmentViewModel), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> Create([FromBody]CreateDepartmentCommand request)
+        [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> Create([FromBody]CreateDepartment request)
         {
-            var department = await _mediator.Send(request);
-            var vm = _mapper.Map<DepartmentViewModel>(department);
+            var department = new Department(request.Name, request.ParentId, request.CompanyId);
+            _departmentRepository.Add(department);
+            await _departmentRepository.UnitOfWork.SaveChangesAsync();
+            var vm = _mapper.Map<ViewDepartment>(department);
             return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
         }
     }
