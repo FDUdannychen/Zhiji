@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Nito.AsyncEx;
 using Zhiji.Common.AspNetCore;
-using Zhiji.Organization.Api;
-using Zhiji.Organization.Infrastructure;
+using Zhiji.Organizations.Api;
+using Zhiji.Organizations.Infrastructure;
 
 namespace Zhiji.Services.IntegrationTest
 {

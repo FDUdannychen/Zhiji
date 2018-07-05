@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Services\Organization\Zhiji.Organization.Api\Zhiji.Organization.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\Organizations\Zhiji.Organizations.Api\Zhiji.Organizations.Api.csproj" />
     <ProjectReference Include="..\..\Zhiji.Test.Common\Zhiji.Test.Common.csproj" />
   </ItemGroup>
 
