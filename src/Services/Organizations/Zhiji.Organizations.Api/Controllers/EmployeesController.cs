@@ -5,8 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Common.AspNetCore;
-using Zhiji.Organizations.Api.Models;
+using Zhiji.Common.Api;
+using Zhiji.Organizations.Api.Models.Employees;
 using Zhiji.Organizations.Domain.Employees;
 
 namespace Zhiji.Organizations.Api.Controllers
@@ -36,20 +36,20 @@ namespace Zhiji.Organizations.Api.Controllers
 
         [HttpGet]
         [Route("/companies/{companyId:int}/[controller]")]
-        [ProducesResponseType(typeof(IEnumerable<ViewEmployee>), (int)HttpStatusCode.OK)]
-        public async Task<IEnumerable<ViewEmployee>> ListByCompany(int companyId)
+        [ProducesResponseType(typeof(ViewEmployee[]), (int)HttpStatusCode.OK)]
+        public async Task<ViewEmployee[]> ListByCompany(int companyId)
         {
             var employees = await _employeeRepository.ListByCompanyAsync(companyId);
-            return _mapper.Map<IEnumerable<ViewEmployee>>(employees);
+            return _mapper.Map<ViewEmployee[]>(employees);
         }
 
         [HttpGet]
         [Route("/departments/{departmentId:int}/[controller]")]
-        [ProducesResponseType(typeof(IEnumerable<ViewEmployee>), (int)HttpStatusCode.OK)]
-        public async Task<IEnumerable<ViewEmployee>> ListByDepartment(int departmentId)
+        [ProducesResponseType(typeof(ViewEmployee[]), (int)HttpStatusCode.OK)]
+        public async Task<ViewEmployee[]> ListByDepartment(int departmentId)
         {
             var employees = await _employeeRepository.ListByDepartmentAsync(departmentId);
-            return _mapper.Map<IEnumerable<ViewEmployee>>(employees);
+            return _mapper.Map<ViewEmployee[]>(employees);
         }
 
         [HttpPost]
@@ -64,6 +64,8 @@ namespace Zhiji.Organizations.Api.Controllers
         }
 
         [HttpPatch]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]        
         public async Task<IActionResult> Update([FromBody]UpdateEmployee request)
         {
             var employee = await _employeeRepository.GetAsync(request.EmployeeId);

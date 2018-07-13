@@ -7,7 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Zhiji.Common.AspNetCore;
+using Zhiji.Common.Api;
 using Zhiji.Customers.Infrastructure;
 
 namespace Zhiji.Customers.Api

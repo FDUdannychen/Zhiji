@@ -11,9 +11,9 @@ namespace Zhiji.Organizations.Domain.Employees
     {
         Task<Employee> GetAsync(int id);
 
-        Task<IEnumerable<Employee>> ListByCompanyAsync(int companyId);
+        Task<Employee[]> ListByCompanyAsync(int companyId);
 
-        Task<IEnumerable<Employee>> ListByDepartmentAsync(int departmentId);
+        Task<Employee[]> ListByDepartmentAsync(int departmentId);
 
         Employee Add(Employee employee);
 

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.Domain;
-using Zhiji.Customers.Domain;
-using Zhiji.Organizations.Infrastructure.EntityConfigurations;
+using Zhiji.Customers.Domain.Customers;
+using Zhiji.Customers.Domain.Tenements;
+using Zhiji.Customers.Infrastructure.EntityConfigurations;
 
 namespace Zhiji.Customers.Infrastructure
 {

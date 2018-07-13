@@ -11,7 +11,7 @@ namespace Zhiji.Organizations.Domain.Companies
     {
         Task<Company> GetAsync(int id);
 
-        Task<IEnumerable<Company>> ListAsync();
+        Task<Company[]> ListAsync();
 
         Company Add(Company company);
 

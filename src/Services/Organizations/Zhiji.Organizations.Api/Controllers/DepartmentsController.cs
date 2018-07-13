@@ -5,8 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Common.AspNetCore;
-using Zhiji.Organizations.Api.Models;
+using Zhiji.Common.Api;
+using Zhiji.Organizations.Api.Models.Departments;
 using Zhiji.Organizations.Domain.Departments;
 
 namespace Zhiji.Organizations.Api.Controllers
@@ -16,7 +16,7 @@ namespace Zhiji.Organizations.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IDepartmentRepository _departmentRepository;
 
-        public DepartmentsController(IMapper mapper, 
+        public DepartmentsController(IMapper mapper,
             IDepartmentRepository departmentRepository)
         {
             _mapper = mapper;
@@ -26,7 +26,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [HttpGet]
         [Route("{id:int}")]
         [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewDepartment>> Get(int id)
         {
             var department = await _departmentRepository.GetAsync(id);
@@ -36,11 +36,12 @@ namespace Zhiji.Organizations.Api.Controllers
 
         [HttpGet]
         [Route("/companies/{companyId:int}/[controller]")]
-        [ProducesResponseType(typeof(IEnumerable<ViewDepartment>), (int)HttpStatusCode.OK)]
-        public async Task<IEnumerable<ViewDepartment>> GetAll(int companyId)
+        [ProducesResponseType(typeof(ViewDepartment[]), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<ViewDepartment[]>> GetAll(int companyId)
         {
             var departments = await _departmentRepository.ListAsync(companyId);
-            return _mapper.Map<IEnumerable<ViewDepartment>>(departments);
+            return _mapper.Map<ViewDepartment[]>(departments);
         }
 
         [HttpPost]

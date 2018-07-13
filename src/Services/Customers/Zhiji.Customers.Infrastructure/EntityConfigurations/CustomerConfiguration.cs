@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Zhiji.Customers.Domain;
+using Zhiji.Customers.Domain.Customers;
 
-namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
+namespace Zhiji.Customers.Infrastructure.EntityConfigurations
 {
     class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
@@ -16,9 +16,7 @@ namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.Name).IsRequired().HasMaxLength(Customer.NameMaxLength);
 
-            builder.OwnsOne(e => e.Address);
-
-            builder.HasMany(e => e.Tenements);
+            builder.OwnsOne(e => e.Address).Configure();
         }
     }
 }

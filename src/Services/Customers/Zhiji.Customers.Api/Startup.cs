@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,12 +31,14 @@ namespace Zhiji.Customers.Api
         {
             ConfigureApplication(services);
             ConfigureEntityFramework(services);
+            ConfigureAutoMapper(services);
 
-            services.AddMvc();
+            services.AddMvc().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(o =>
             {
                 o.SwaggerDoc("v1", new Info { Title = "Customer API", Version = "v1" });
+                o.AddFluentValidationRules();
             });
         }
 
@@ -54,6 +57,12 @@ namespace Zhiji.Customers.Api
                 .AddDbContext<CustomerContext>(
                     opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
                         o => o.EnableRetryOnFailure()));
+        }
+
+        public void ConfigureAutoMapper(IServiceCollection services)
+        {
+            Mapper.Reset();
+            services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

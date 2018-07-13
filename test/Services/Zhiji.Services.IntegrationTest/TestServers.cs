@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Nito.AsyncEx;
-using Zhiji.Common.AspNetCore;
+using Zhiji.Common.Api;
 using Zhiji.Organizations.Api;
 using Zhiji.Organizations.Infrastructure;
 

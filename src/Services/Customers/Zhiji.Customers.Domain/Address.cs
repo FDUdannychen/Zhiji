@@ -5,12 +5,12 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Customers.Domain
 {
-    public class Address : ValueObject
+    public partial class Address : ValueObject
     {
-        public String Country { get; private set; }
-        public String Province { get; private set; }
-        public String City { get; private set; }
-        public String Street { get; private set; }
+        public string Country { get; private set; }
+        public string Province { get; private set; }
+        public string City { get; private set; }
+        public string Street { get; private set; }
 
         private Address() { }
 

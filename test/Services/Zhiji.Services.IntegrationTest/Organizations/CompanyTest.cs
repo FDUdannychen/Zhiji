@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xunit;
-using Zhiji.Organizations.Api.Models;
+using Zhiji.Organizations.Api.Models.Companies;
 using Zhiji.Test.Common;
 
 namespace Zhiji.Services.IntegrationTest.Organization
@@ -26,7 +26,7 @@ namespace Zhiji.Services.IntegrationTest.Organization
             var response = await GetCompaniesImpl();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            var companies = await ProjectTo<IEnumerable<ViewCompany>>(response);
+            var companies = await ProjectTo<ViewCompany[]>(response);
             Assert.False(companies.Any());
         }
 
@@ -52,7 +52,7 @@ namespace Zhiji.Services.IntegrationTest.Organization
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var companies = JsonConvert.DeserializeObject<IEnumerable<ViewCompany>>(responseContent);
+            var companies = JsonConvert.DeserializeObject<ViewCompany[]>(responseContent);
             Assert.Contains(companies, c => c.Parent != null && companies.Any(p => p.Id == c.Parent.Id));
         }
     }

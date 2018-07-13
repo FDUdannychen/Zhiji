@@ -5,8 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Common.AspNetCore;
-using Zhiji.Organizations.Api.Models;
+using Zhiji.Common.Api;
+using Zhiji.Organizations.Api.Models.Companies;
 using Zhiji.Organizations.Domain.Companies;
 
 namespace Zhiji.Organizations.Api.Controllers
@@ -26,7 +26,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [HttpGet]
         [Route("{id:int}")]
         [ProducesResponseType(typeof(ViewCompany), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ViewCompany), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewCompany>> Get(int id)
         {
             var company = await _companyRepository.GetAsync(id);
@@ -35,11 +35,11 @@ namespace Zhiji.Organizations.Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ViewCompany>), (int)HttpStatusCode.OK)]
-        public async Task<IEnumerable<ViewCompany>> GetAll()
+        [ProducesResponseType(typeof(ViewCompany[]), (int)HttpStatusCode.OK)]
+        public async Task<ViewCompany[]> GetAll()
         {
             var companies = await _companyRepository.ListAsync();
-            return _mapper.Map<IEnumerable<ViewCompany>>(companies);
+            return _mapper.Map<ViewCompany[]>(companies);
         }
 
         [HttpPost]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
@@ -33,12 +34,13 @@ namespace Zhiji.Organizations.Api
             ConfigureMediator(services);
             ConfigureEntityFramework(services);
             ConfigureAutoMapper(services);
-
+            
             services.AddRouting(o => o.LowercaseUrls = true);
-            services.AddMvc();
+            services.AddMvc().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddSwaggerGen(o =>
             {
                 o.SwaggerDoc("v1", new Info { Title = "Organization API", Version = "v1" });
+                o.AddFluentValidationRules();
             });
         }
 

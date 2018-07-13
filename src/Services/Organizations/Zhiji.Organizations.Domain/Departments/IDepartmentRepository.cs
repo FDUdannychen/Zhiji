@@ -11,7 +11,7 @@ namespace Zhiji.Organizations.Domain.Departments
     {
         Task<Department> GetAsync(int id);
 
-        Task<IEnumerable<Department>> ListAsync(int companyId);
+        Task<Department[]> ListAsync(int companyId);
 
         Department Add(Department department);
 
