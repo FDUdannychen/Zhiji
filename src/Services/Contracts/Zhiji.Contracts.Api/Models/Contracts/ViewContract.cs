@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Zhiji.Contracts.Api.Models.Templates;
 
 namespace Zhiji.Contracts.Api.Models.Contracts
 {

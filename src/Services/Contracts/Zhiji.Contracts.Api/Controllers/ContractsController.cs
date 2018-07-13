@@ -36,10 +36,9 @@ namespace Zhiji.Contracts.Api.Controllers
 
         [HttpGet]        
         [ProducesResponseType(typeof(ViewContract[]), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ViewContract[]>> Search([FromQuery]int? customerId, [FromQuery]int? tenementId)
+        public async Task<ActionResult<ViewContract[]>> Search([FromQuery]SearchContract request)
         {
-            if (customerId is null && tenementId is null) return BadRequest();
-            var contracts = await _contractRepository.ListAsync(customerId, tenementId);
+            var contracts = await _contractRepository.ListAsync(request.CustomerId, request.TenementId, request.TemplateId);
             return _mapper.Map<ViewContract[]>(contracts);
         }
 

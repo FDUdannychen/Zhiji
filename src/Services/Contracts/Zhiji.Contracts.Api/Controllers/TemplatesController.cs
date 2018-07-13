@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Zhiji.Common.Api;
-using Zhiji.Contracts.Api.Models;
+using Zhiji.Contracts.Api.Models.Templates;
 using Zhiji.Contracts.Domain.Templates;
 
 namespace Zhiji.Contracts.Api.Controllers

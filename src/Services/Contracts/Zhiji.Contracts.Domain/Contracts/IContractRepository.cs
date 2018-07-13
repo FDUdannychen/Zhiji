@@ -10,8 +10,8 @@ namespace Zhiji.Contracts.Domain.Contracts
     {
         Task<Contract> GetAsync(int id);
 
-        Task<Contract[]> ListAsync(int? customerId, int? tenementId);
+        Task<Contract[]> ListAsync(int? customerId, int? tenementId, int? templateId);
 
-        Contract Add(Contract template);
+        Contract Add(Contract contract);
     }
 }
