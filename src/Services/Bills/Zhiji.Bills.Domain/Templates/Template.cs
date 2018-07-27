@@ -1,7 +1,7 @@
 ﻿using System;
 using Zhiji.Common.Domain;
 
-namespace Zhiji.Contracts.Domain.Templates
+namespace Zhiji.Bills.Domain.Templates
 {
     public partial class Template : Entity, IAggregateRoot
     {
@@ -16,8 +16,6 @@ namespace Zhiji.Contracts.Domain.Templates
         }
 
         public string Name => _name;
-        public decimal Price => _price;
-        public BillingDate BillingDate { get; private set; }
 
         public void ChangeName(string name)
         {

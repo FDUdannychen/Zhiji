@@ -17,7 +17,7 @@ namespace Zhiji.Customers.Infrastructure.Repositories
         public Task<Tenement[]> ListAsync(int ownerId)
         {
             return _context.Tenements
-                .Where(e => e.OwnerId == ownerId)
+                .Where(e => e.Owner.Id == ownerId)
                 .ToArrayAsync();
         }
     }

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.104" />
+    <PackageReference Include="MediatR" Version="5.0.1" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="0.8.2" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
+    <PackageReference Include="Scrutor" Version="2.2.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.Api\Zhiji.Common.Api.csproj" />
+    <ProjectReference Include="..\Zhiji.Bills.Domain\Zhiji.Bills.Domain.csproj" />
+    <ProjectReference Include="..\Zhiji.Bills.Infrastructure\Zhiji.Bills.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

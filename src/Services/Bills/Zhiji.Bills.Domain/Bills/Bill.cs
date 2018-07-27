@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Zhiji.Common.Domain;
-using Zhiji.Contracts.Domain.Templates;
+using Zhiji.Bills.Domain.Templates;
 
-namespace Zhiji.Contracts.Domain.Contracts
+namespace Zhiji.Bills.Domain.Contracts
 {
-    public class Contract : Entity, IAggregateRoot
+    public class Bill : Entity, IAggregateRoot
     {
         private int _templateId;
         private Template _template;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Zhiji.Contracts.Domain.Templates;
+using Zhiji.Bills.Domain.Templates;
 
-namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
+namespace Zhiji.Bills.Infrastructure.EntityConfigurations
 {
     class TemplateConfiguration : IEntityTypeConfiguration<Template>
     {
@@ -15,10 +15,6 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Name).IsRequired().HasMaxLength(Template.NameMaxLength);
-
-            builder.Property(e => e.Price).IsRequired();
-
-            builder.OwnsOne(e => e.BillingDate).Configure();
         }
     }
 }

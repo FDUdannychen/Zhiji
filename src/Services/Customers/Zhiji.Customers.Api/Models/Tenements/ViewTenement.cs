@@ -13,5 +13,9 @@ namespace Zhiji.Customers.Api.Models.Tenements
         public ViewCustomer Owner { get; set; }
 
         public Address Address { get; set; }
+
+        public decimal Area { get; set; }
+
+        public string Type { get; set; }
     }
 }

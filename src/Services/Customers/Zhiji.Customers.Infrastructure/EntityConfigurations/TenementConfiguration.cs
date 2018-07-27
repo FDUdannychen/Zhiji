@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Zhiji.Common.Domain;
 using Zhiji.Customers.Domain.Tenements;
 
 namespace Zhiji.Customers.Infrastructure.EntityConfigurations
@@ -16,7 +17,7 @@ namespace Zhiji.Customers.Infrastructure.EntityConfigurations
 
             builder.OwnsOne(e => e.Address).Configure();
 
-            builder.HasOne(e => e.Owner).WithMany().HasForeignKey(e => e.OwnerId);
+            builder.HasOne(e => e.Owner).WithMany().HasForeignKey(nameof(Tenement.Owner) + nameof(Entity.Id));
         }
     }
 }

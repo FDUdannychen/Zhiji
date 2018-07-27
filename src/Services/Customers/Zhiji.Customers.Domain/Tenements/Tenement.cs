@@ -10,6 +10,8 @@ namespace Zhiji.Customers.Domain.Tenements
     {
         private int _ownerId;
         private Customer _owner;
+        private decimal _area;
+        private int _tenementTypeId;
 
         private Tenement() { }
 
@@ -20,7 +22,8 @@ namespace Zhiji.Customers.Domain.Tenements
         }
 
         public Address Address { get; private set; }
-        public int OwnerId => _ownerId;
         public Customer Owner => _owner;
+        public decimal Area => _area;
+        public TenementType Type { get; private set; }
     }
 }

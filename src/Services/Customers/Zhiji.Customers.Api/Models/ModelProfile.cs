@@ -20,7 +20,8 @@ namespace Zhiji.Customers.Api.Models
             this.CreateMap<Address, Domain.Address>()
                 .ConstructUsing(s => new Domain.Address(s.Country, s.Province, s.City, s.Street));
 
-            this.CreateMap<Tenement, ViewTenement>();
+            this.CreateMap<Tenement, ViewTenement>()
+                .ForMember(t => t.Type, c => c.MapFrom(s => s.Type.Name));
         }
     }
 }

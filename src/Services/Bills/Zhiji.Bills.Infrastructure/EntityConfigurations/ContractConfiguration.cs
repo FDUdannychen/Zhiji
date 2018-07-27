@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Zhiji.Contracts.Domain.Contracts;
+using Zhiji.Bills.Domain.Contracts;
 
-namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
+namespace Zhiji.Bills.Infrastructure.EntityConfigurations
 {
     class ContractConfiguration : IEntityTypeConfiguration<Contract>
     {
