@@ -11,14 +11,15 @@ namespace Zhiji.Customers.Domain.Tenements
         private int _ownerId;
         private Customer _owner;
         private decimal _area;
-        private int _tenementTypeId;
+        private int _typeId;
 
         private Tenement() { }
 
-        public Tenement(Address address, int ownerId)
+        public Tenement(Address address, int ownerId, int typeId)
         {
             this.Address = address;
             _ownerId = ownerId;
+            _typeId = typeId;
         }
 
         public Address Address { get; private set; }

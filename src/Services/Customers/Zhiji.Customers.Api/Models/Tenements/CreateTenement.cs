@@ -10,5 +10,7 @@ namespace Zhiji.Customers.Api.Models.Tenements
         public int OwnerId { get; set; }
 
         public Address Address { get; set; }
+
+        public int TypeId { get; set; }
     }
 }

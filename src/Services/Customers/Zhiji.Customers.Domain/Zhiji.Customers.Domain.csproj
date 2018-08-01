@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <NoWarn>1701;1702;IDE0032;CS0649</NoWarn>
+    <NoWarn>1701;1702;IDE0032;CS0169;CS0649</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

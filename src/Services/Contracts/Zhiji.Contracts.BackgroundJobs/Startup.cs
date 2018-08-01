@@ -16,7 +16,6 @@ namespace Zhiji.Contracts.BackgroundJobs
             services.AddSingleton<IHostedService, BillGenerationJob>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -24,10 +23,7 @@ namespace Zhiji.Contracts.BackgroundJobs
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.Run(context => context.Response.WriteAsync("Service is running"));
         }
     }
 }

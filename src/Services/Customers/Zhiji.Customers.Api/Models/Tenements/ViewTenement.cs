@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Zhiji.Customers.Api.Models.Customers;
+using Zhiji.Customers.Domain.Tenements;
 
 namespace Zhiji.Customers.Api.Models.Tenements
 {
@@ -16,6 +17,6 @@ namespace Zhiji.Customers.Api.Models.Tenements
 
         public decimal Area { get; set; }
 
-        public string Type { get; set; }
+        public TenementType Type { get; set; }
     }
 }

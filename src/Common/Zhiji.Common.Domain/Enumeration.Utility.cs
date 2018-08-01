@@ -8,17 +8,21 @@ namespace Zhiji.Common.Domain
 {
     public abstract partial class Enumeration
     {
-        public static IEnumerable<T> GetAll<T>() where T : Enumeration, new()
+        class Cached<T> where T : Enumeration
         {
-            var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            public static IEnumerable<T> Value { get; set; }
+        }
 
-            foreach (var info in fields)
+        public static IEnumerable<T> GetAll<T>() where T : Enumeration
+        {
+            if (Cached<T>.Value is null)
             {
-                var instance = new T();
-                var locatedValue = info.GetValue(instance) as T;
-
-                if (locatedValue != null) yield return locatedValue;
+                var instance = Activator.CreateInstance(typeof(T), true);
+                var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+                Cached<T>.Value = fields.Select(f => f.GetValue(instance)).OfType<T>().ToArray();
             }
+
+            return Cached<T>.Value;
         }
 
         public static int AbsoluteDifference(Enumeration firstValue, Enumeration secondValue)
@@ -27,19 +31,19 @@ namespace Zhiji.Common.Domain
             return absoluteDifference;
         }
 
-        public static T FromValue<T>(int value) where T : Enumeration, new()
+        public static T FromValue<T>(int value) where T : Enumeration
         {
             var matchingItem = Parse<T, int>(value, "value", item => item.Id == value);
             return matchingItem;
         }
 
-        public static T FromDisplayName<T>(string displayName) where T : Enumeration, new()
+        public static T FromDisplayName<T>(string displayName) where T : Enumeration
         {
             var matchingItem = Parse<T, string>(displayName, "display name", item => item.Name == displayName);
             return matchingItem;
         }
 
-        private static T Parse<T, K>(K value, string description, Func<T, bool> predicate) where T : Enumeration, new()
+        private static T Parse<T, K>(K value, string description, Func<T, bool> predicate) where T : Enumeration
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
 

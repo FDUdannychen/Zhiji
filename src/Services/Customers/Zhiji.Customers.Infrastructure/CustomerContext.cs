@@ -13,6 +13,7 @@ namespace Zhiji.Customers.Infrastructure
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Tenement> Tenements { get; set; }
+        public DbSet<TenementType> TenementTypes { get; set; }
 
         public CustomerContext(DbContextOptions<CustomerContext> options)
             : base(options)
@@ -22,6 +23,7 @@ namespace Zhiji.Customers.Infrastructure
         {
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new TenementConfiguration());
+            builder.ApplyConfiguration(new TenementTypeConfiguration());
         }
     }
 }

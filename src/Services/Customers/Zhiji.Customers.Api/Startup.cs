@@ -33,6 +33,7 @@ namespace Zhiji.Customers.Api
             ConfigureEntityFramework(services);
             ConfigureAutoMapper(services);
 
+            services.AddRouting(o => o.LowercaseUrls = true);
             services.AddMvc().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(o =>

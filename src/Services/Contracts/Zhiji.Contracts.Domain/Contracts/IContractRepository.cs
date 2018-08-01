@@ -12,6 +12,8 @@ namespace Zhiji.Contracts.Domain.Contracts
 
         Task<Contract[]> ListAsync(int? customerId, int? tenementId, int? templateId);
 
+        Task<Contract[]> ListEffectiveAsync();
+
         Contract Add(Contract contract);
     }
 }

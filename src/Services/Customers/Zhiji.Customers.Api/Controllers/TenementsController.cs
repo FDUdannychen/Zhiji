@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Zhiji.Common.Api;
+using Zhiji.Common.Domain;
 using Zhiji.Customers.Api.Models.Customers;
 using Zhiji.Customers.Api.Models.Tenements;
 using Zhiji.Customers.Domain.Tenements;
@@ -49,11 +50,18 @@ namespace Zhiji.Customers.Api.Controllers
         public async Task<IActionResult> Create([FromBody]CreateTenement request)
         {
             var address = _mapper.Map<Domain.Address>(request.Address);
-            var tenement = new Tenement(address, request.OwnerId);
+            var tenement = new Tenement(address, request.OwnerId, request.TypeId);
             _tenementRepository.Add(tenement);
             await _tenementRepository.UnitOfWork.SaveChangesAsync();
             var vm = _mapper.Map<ViewCustomer>(tenement);
             return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
+        }
+
+        [HttpGet]
+        [Route("types")]
+        public TenementType[] GetAllTenementTypes()
+        {
+            return Enumeration.GetAll<TenementType>().ToArray();
         }
     }
 }

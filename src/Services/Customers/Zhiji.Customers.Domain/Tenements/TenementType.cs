@@ -12,7 +12,7 @@ namespace Zhiji.Customers.Domain.Tenements
 
         private TenementType() { }
 
-        public TenementType(int id, string name)
+        private TenementType(int id, string name)
             : base(id, name)
         { }
     }

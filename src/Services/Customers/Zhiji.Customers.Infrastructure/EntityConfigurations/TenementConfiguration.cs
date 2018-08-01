@@ -17,7 +17,15 @@ namespace Zhiji.Customers.Infrastructure.EntityConfigurations
 
             builder.OwnsOne(e => e.Address).Configure();
 
-            builder.HasOne(e => e.Owner).WithMany().HasForeignKey(nameof(Tenement.Owner) + nameof(Entity.Id));
+            builder.HasOne(e => e.Owner)
+                .WithMany()
+                .HasForeignKey(nameof(Tenement.Owner) + nameof(Entity.Id))
+                .IsRequired();
+
+            builder.HasOne(e => e.Type)
+                .WithMany()
+                .HasForeignKey(nameof(Tenement.Type) + nameof(Entity.Id))
+                .IsRequired();
         }
     }
 }

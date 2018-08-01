@@ -8,7 +8,7 @@ namespace Zhiji.Customers.Api.Models.Tenements
 {
     public class UpdateTenementValidator : AbstractValidator<UpdateTenement>
     {
-        public UpdateTenementValidator(IValidator<Address> addressValidator)
+        public UpdateTenementValidator()
         {
             this.RuleFor(m => m.TenementId)
                 .NotEmpty()
@@ -16,9 +16,6 @@ namespace Zhiji.Customers.Api.Models.Tenements
 
             this.RuleFor(m => m.OwnerId)
                 .GreaterThanOrEqualTo(1);
-
-            this.RuleFor(m => m.Address)
-                .SetValidator(addressValidator);
         }
     }
 }

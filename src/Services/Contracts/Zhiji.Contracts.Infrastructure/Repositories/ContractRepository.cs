@@ -22,9 +22,16 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
 
             if (customerId.HasValue) query = query.Where(e => e.CustomerId == customerId);
             if (tenementId.HasValue) query = query.Where(e => e.TenementId == tenementId);
-            if (templateId.HasValue) query = query.Where(e => e.TemplateId == templateId);
+            if (templateId.HasValue) query = query.Where(e => e.Template.Id == templateId);
 
             return query.ToArrayAsync();
+        }
+
+        public Task<Contract[]> ListEffectiveAsync()
+        {
+            return _context.Contracts
+                .Where(c => c.StartTime <= DateTime.UtcNow && c.EndTime > DateTime.UtcNow)
+                .ToArrayAsync();
         }
     }
 }

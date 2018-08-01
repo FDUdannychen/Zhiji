@@ -18,6 +18,7 @@ namespace Zhiji.Contracts.Domain.Contracts
         private Contract() { }
 
         public Contract(int templateId, int customerId, int tenementId)
+            : this()
         {
             _templateId = templateId;
             _customerId = customerId;
@@ -25,7 +26,6 @@ namespace Zhiji.Contracts.Domain.Contracts
         }
 
         public Template Template => _template;
-        public int TemplateId => _templateId;
         public int CustomerId => _customerId;
         public int TenementId => _tenementId;
         public DateTimeOffset StartTime => _startTime;

@@ -8,9 +8,9 @@ namespace Zhiji.Common.Domain
 {
     public abstract partial class Enumeration : IComparable
     {
-        public string Name { get; private set; }
-
         public int Id { get; private set; }
+
+        public string Name { get; private set; }
 
         protected Enumeration() { }
 
