@@ -11,5 +11,6 @@ namespace Zhiji.Contracts.Api.Models.Templates
 
         public decimal Price { get; set; }
 
+        public int BillingModeId { get; set; }
     }
 }

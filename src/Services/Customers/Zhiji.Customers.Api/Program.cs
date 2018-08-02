@@ -34,10 +34,10 @@ namespace Zhiji.Customers.Api
             {
                 await context.Database.EnsureCreatedAsync();
 
-                if (!context.TenementTypes.Any())
+                if (!context.Set<TenementType>().Any())
                 {
                     var tenementTypes = Enumeration.GetAll<TenementType>();
-                    await context.TenementTypes.AddRangeAsync(tenementTypes);
+                    await context.Set<TenementType>().AddRangeAsync(tenementTypes);
                 }
 
                 await context.SaveChangesAsync();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Zhiji.Common.Domain;
 using Zhiji.Organizations.Domain.Departments;
 
 namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
@@ -16,9 +17,14 @@ namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.Name).IsRequired().HasMaxLength(Department.NameMaxLength);
 
-            builder.HasOne(e => e.Parent).WithMany().HasForeignKey(e => e.ParentId);
+            builder.HasOne(e => e.Parent)
+                .WithMany()
+                .HasForeignKey(nameof(Department.Parent) + nameof(Entity.Id));
 
-            builder.HasOne(e => e.Company).WithMany().HasForeignKey(e => e.CompanyId);
+            builder.HasOne(e => e.Company)
+                .WithMany()
+                .HasForeignKey(nameof(Department.Company) + nameof(Entity.Id))
+                .IsRequired();
         }
     }
 }

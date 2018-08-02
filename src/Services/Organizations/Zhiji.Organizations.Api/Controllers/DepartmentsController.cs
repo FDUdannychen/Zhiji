@@ -37,7 +37,6 @@ namespace Zhiji.Organizations.Api.Controllers
         [HttpGet]
         [Route("/companies/{companyId:int}/[controller]")]
         [ProducesResponseType(typeof(ViewDepartment[]), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewDepartment[]>> GetAll(int companyId)
         {
             var departments = await _departmentRepository.ListAsync(companyId);

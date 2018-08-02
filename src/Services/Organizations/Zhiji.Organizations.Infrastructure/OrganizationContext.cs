@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.Domain;
+using Zhiji.Common.Infrastructure;
 using Zhiji.Organizations.Domain.Companies;
 using Zhiji.Organizations.Domain.Departments;
 using Zhiji.Organizations.Domain.Employees;
@@ -25,6 +26,7 @@ namespace Zhiji.Organizations.Infrastructure
             builder.ApplyConfiguration(new CompanyConfiguration());
             builder.ApplyConfiguration(new DepartmentConfiguration());
             builder.ApplyConfiguration(new EmployeeConfiguration());
+            builder.ApplyConfiguration(new EnumerationEntityConfiguration<EmployeeStatus>());
         }
     }
 }

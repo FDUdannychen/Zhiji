@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Zhiji.Customers.Domain.Tenements;
+using Zhiji.Common.Domain;
 
-namespace Zhiji.Customers.Infrastructure.EntityConfigurations
+namespace Zhiji.Common.Infrastructure
 {
-    class TenementTypeConfiguration : IEntityTypeConfiguration<TenementType>
+    public class EnumerationEntityConfiguration<T> : IEntityTypeConfiguration<T>
+        where T : Enumeration
     {
-        public void Configure(EntityTypeBuilder<TenementType> builder)
+        public void Configure(EntityTypeBuilder<T> builder)
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedNever();

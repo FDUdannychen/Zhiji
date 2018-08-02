@@ -8,26 +8,23 @@ namespace Zhiji.Contracts.Domain.Bills
 {
     public class Bill : Entity, IAggregateRoot
     {
-        private string _name;
+        public string Name { get; private set; }
+        public Contract Contract { get; private set; }
+        public BillingPeriod Period { get; private set; }
+        public BillStatus Status { get; private set; }
+
         private int _contractId;
-        private Contract _contract;        
         private int _statusId;
-        private BillStatus _status;
 
         private Bill() { }
 
         public Bill(string name, int contractId, BillingPeriod period)
         {
-            _name = name;
+            this.Name = name;
             _contractId = contractId;
             this.Period = period;
             _statusId = BillStatus.Created.Id;
         }
-
-        public string Name => _name;
-        public Contract Contract => _contract;
-        public BillingPeriod Period { get; private set; }
-        public BillStatus Status => _status;
 
         public void SetPaidStatus()
         {
@@ -37,7 +34,7 @@ namespace Zhiji.Contracts.Domain.Bills
             }
             else
             {
-                throw new ContractDomainException($"Can't change bill status from {_status.Name} to {BillStatus.Paid.Name}");
+                throw new ContractDomainException($"Can't change bill status from {this.Status.Name} to {BillStatus.Paid.Name}");
             }
         }
     }

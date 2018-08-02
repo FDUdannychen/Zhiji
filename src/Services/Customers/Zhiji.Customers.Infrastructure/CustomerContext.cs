@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.Domain;
+using Zhiji.Common.Infrastructure;
 using Zhiji.Customers.Domain.Customers;
 using Zhiji.Customers.Domain.Tenements;
 using Zhiji.Customers.Infrastructure.EntityConfigurations;
@@ -13,7 +14,6 @@ namespace Zhiji.Customers.Infrastructure
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Tenement> Tenements { get; set; }
-        public DbSet<TenementType> TenementTypes { get; set; }
 
         public CustomerContext(DbContextOptions<CustomerContext> options)
             : base(options)
@@ -23,7 +23,7 @@ namespace Zhiji.Customers.Infrastructure
         {
             builder.ApplyConfiguration(new CustomerConfiguration());
             builder.ApplyConfiguration(new TenementConfiguration());
-            builder.ApplyConfiguration(new TenementTypeConfiguration());
+            builder.ApplyConfiguration(new EnumerationEntityConfiguration<TenementType>());
         }
     }
 }

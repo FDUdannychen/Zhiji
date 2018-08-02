@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using Zhiji.Common.Api;
 using Zhiji.Common.Domain;
 using Zhiji.Organizations.Infrastructure;
 
@@ -41,6 +42,7 @@ namespace Zhiji.Organizations.Api
             {
                 o.SwaggerDoc("v1", new Info { Title = "Organization API", Version = "v1" });
                 o.AddFluentValidationRules();
+                o.DocumentFilter<LowerCaseDocumentFilter>();
             });
         }
 
@@ -87,14 +89,7 @@ namespace Zhiji.Organizations.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(o =>
-            {
-                o.PreSerializeFilters.Add((document, request) =>
-                {
-                    document.Paths = document.Paths
-                        .ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
-                });
-            });
+            app.UseSwagger();
 
             app.UseSwaggerUI(o =>
             {

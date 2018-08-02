@@ -53,7 +53,7 @@ namespace Zhiji.Customers.Api.Controllers
             var tenement = new Tenement(address, request.OwnerId, request.TypeId);
             _tenementRepository.Add(tenement);
             await _tenementRepository.UnitOfWork.SaveChangesAsync();
-            var vm = _mapper.Map<ViewCustomer>(tenement);
+            var vm = _mapper.Map<ViewTenement>(tenement);
             return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
         }
 

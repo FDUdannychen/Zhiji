@@ -16,17 +16,28 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
             : base(context)
         { }
 
+        public override Task<Employee> GetAsync(int id)
+        {
+            return _context.Employees
+                .Include(e => e.Department.Company)
+                .Include(e => e.Status)
+                .SingleOrDefaultAsync(e => e.Id == id);
+        }
+
         public async Task<Employee[]> ListByCompanyAsync(int companyId)
         {
             return await _context.Employees
-                .Where(e => e.Department.CompanyId == companyId)
+                .Include(e => e.Department)
+                .Include(e => e.Status)
+                .Where(e => e.Department.Company.Id == companyId)
                 .ToArrayAsync();
         }
 
         public Task<Employee[]> ListByDepartmentAsync(int departmentId)
         {
             return _context.Employees
-                .Where(e => e.DepartmentId == departmentId)
+                .Include(e => e.Status)
+                .Where(e => e.Department.Id == departmentId)
                 .ToArrayAsync();
         }
     }

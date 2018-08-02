@@ -46,7 +46,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType(typeof(ViewTemplate), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create([FromBody]CreateTemplate request)
         {
-            var template = new Template(request.Name);
+            var template = new Template(request.Name, request.Price, request.BillingModeId);
             _templateRepository.Add(template);
             await _templateRepository.UnitOfWork.SaveChangesAsync();
             var vm = _mapper.Map<ViewTemplate>(template);

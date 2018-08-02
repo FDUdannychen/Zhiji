@@ -10,7 +10,9 @@ namespace Zhiji.Organizations.Domain.Employees
         public static readonly EmployeeStatus Normal = new EmployeeStatus(1, nameof(Normal));
         public static readonly EmployeeStatus Demission = new EmployeeStatus(2, nameof(Demission));
 
-        public EmployeeStatus(int id, string name)
+        private EmployeeStatus() { }
+
+        private EmployeeStatus(int id, string name)
             : base(id, name)
         { }
     }

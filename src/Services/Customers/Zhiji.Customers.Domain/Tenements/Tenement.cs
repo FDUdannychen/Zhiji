@@ -8,10 +8,10 @@ namespace Zhiji.Customers.Domain.Tenements
 {
     public partial class Tenement : Entity, IAggregateRoot
     {
-        private int _ownerId;
+        private int? _ownerId;
         private Customer _owner;
         private decimal _area;
-        private int _typeId;
+        private int? _typeId;
 
         private Tenement() { }
 

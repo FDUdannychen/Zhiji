@@ -17,8 +17,18 @@ namespace Zhiji.Customers.Infrastructure.Repositories
         public Task<Tenement[]> ListAsync(int ownerId)
         {
             return _context.Tenements
+                .Include(e => e.Owner)
+                .Include(e => e.Type)
                 .Where(e => e.Owner.Id == ownerId)
                 .ToArrayAsync();
+        }
+
+        public override Task<Tenement> GetAsync(int id)
+        {
+            return _context.Tenements
+                .Include(e => e.Owner)
+                .Include(e => e.Type)
+                .SingleOrDefaultAsync(e => e.Id == id);
         }
     }
 }

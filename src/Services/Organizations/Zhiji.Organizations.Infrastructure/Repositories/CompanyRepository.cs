@@ -15,6 +15,6 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
             : base(context)
         { }
 
-        public Task<Company[]> ListAsync() => _context.Set<Company>().ToArrayAsync();
+        public Task<Company[]> ListAsync() => _context.Companies.ToArrayAsync();
     }
 }

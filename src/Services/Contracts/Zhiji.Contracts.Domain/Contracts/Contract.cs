@@ -8,12 +8,13 @@ namespace Zhiji.Contracts.Domain.Contracts
 {
     public class Contract : Entity, IAggregateRoot
     {
+        public Template Template { get; private set; }
+        public int CustomerId { get; private set; }
+        public int TenementId { get; private set; }
+        public DateTimeOffset StartTime { get; private set; }
+        public DateTimeOffset? EndTime { get; private set; }
+
         private int _templateId;
-        private Template _template;
-        private int _customerId;
-        private int _tenementId;
-        private DateTimeOffset _startTime;
-        private DateTimeOffset? _endTime;
 
         private Contract() { }
 
@@ -21,14 +22,10 @@ namespace Zhiji.Contracts.Domain.Contracts
             : this()
         {
             _templateId = templateId;
-            _customerId = customerId;
-            _tenementId = tenementId;
+            this.CustomerId = customerId;
+            this.TenementId = tenementId;
         }
 
-        public Template Template => _template;
-        public int CustomerId => _customerId;
-        public int TenementId => _tenementId;
-        public DateTimeOffset StartTime => _startTime;
-        public DateTimeOffset? EndTime => _endTime;
+
     }
 }

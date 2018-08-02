@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Text;
 using Zhiji.Common.Domain;
-using Zhiji.Organizations.Domain.Companies;
 using Zhiji.Organizations.Domain.Departments;
 
 namespace Zhiji.Organizations.Domain.Employees
 {
     public partial class Employee : Entity, IAggregateRoot
     {
-        private string _name;
-        private int _departmentId;
-        private Department _department;
+        public string Name { get; private set; }
+        public Department Department { get; private set; }
+        public EmployeeStatus Status { get; private set; }
+
+        private int? _departmentId;        
+        private int? _statusId;
+
+        private Employee() { }
 
         public Employee(string name, int departmentId)
         {
-            _name = name;
+            this.Name = name;
             _departmentId = departmentId;
+            _statusId = EmployeeStatus.Normal.Id;
         }
-
-        public string Name => _name;
-        public int DepartmentId => _departmentId;
-        public Department Department => _department;
 
         public void ChangeName(string newName)
         {
-            _name = newName;
+            this.Name = newName;
         }
 
         public void TransferDepartment(int targetDepartmentId)

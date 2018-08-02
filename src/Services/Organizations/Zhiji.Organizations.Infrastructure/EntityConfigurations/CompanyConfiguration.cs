@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Zhiji.Common.Domain;
 using Zhiji.Organizations.Domain.Companies;
 
 namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
@@ -16,7 +17,7 @@ namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.Name).IsRequired().HasMaxLength(Company.NameMaxLength);
 
-            builder.HasOne(e => e.Parent).WithMany().HasForeignKey(e => e.ParentId);
+            builder.HasOne(e => e.Parent).WithMany().HasForeignKey(nameof(Company.Parent) + nameof(Entity.Id));
         }
     }
 }

@@ -5,25 +5,26 @@ namespace Zhiji.Contracts.Domain.Templates
 {
     public partial class Template : Entity, IAggregateRoot
     {
-        private string _name;
-        private decimal _price;
-
-        private Template() { }
-
-        public Template(string name)
-            : this()
-        {
-            _name = name;
-        }
-
-        public string Name => _name;
-        public decimal Price => _price;
+        public string Name { get; private set; }
+        public decimal Price { get; private set; }
         public BillingMode BillingMode { get; private set; }
         public BillingDate BillingDate { get; private set; }
 
+        private int? _billingModeId;
+
+        private Template() { }
+
+        public Template(string name, decimal price, int billingModeId)
+            : this()
+        {
+            this.Name = name;
+            this.Price = price;
+            _billingModeId = billingModeId;
+        }
+
         public void ChangeName(string name)
         {
-            _name = name;
+            this.Name = name;
         }
     }
 }

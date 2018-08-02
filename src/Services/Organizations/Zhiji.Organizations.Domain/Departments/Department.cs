@@ -8,23 +8,20 @@ namespace Zhiji.Organizations.Domain.Departments
 {
     public partial class Department : Entity, IAggregateRoot
     {
-        private string _name;
+        public string Name { get; private set; }
+        public Department Parent { get; private set; }
+        public Company Company { get; private set; }
+
         private int? _parentId;
-        private Department _parent;
-        private int _companyId;
-        private Company _company;
+        private int? _companyId;
+
+        private Department() { }
 
         public Department(string name, int? parentId, int companyId)
         {
-            _name = name;
+            this.Name = name;
             _parentId = parentId;
             _companyId = companyId;
         }
-
-        public string Name => _name;
-        public int? ParentId => _parentId;
-        public Department Parent => _parent;
-        public int CompanyId => _companyId;
-        public Company Company => _company;
     }
 }
