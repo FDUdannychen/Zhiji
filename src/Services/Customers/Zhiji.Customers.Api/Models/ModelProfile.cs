@@ -16,8 +16,8 @@ namespace Zhiji.Customers.Api.Models
         {
             this.CreateMap<Customer, ViewCustomer>();
 
-            this.CreateMap<Domain.Address, Address>();
-            this.CreateMap<Address, Domain.Address>()
+            this.CreateMap<Domain.Address, Address>()
+                .ReverseMap()
                 .ConstructUsing(s => new Domain.Address(s.Country, s.Province, s.City, s.Street));
 
             this.CreateMap<Tenement, ViewTenement>();

@@ -7,12 +7,12 @@ namespace Zhiji.Contracts.Domain.Bills
 {
     public class BillingPeriod : ValueObject
     {
-        public DateTime Start { get; private set; }
-        public DateTime End { get; private set; }
+        public DateTimeOffset Start { get; private set; }
+        public DateTimeOffset End { get; private set; }
 
         private BillingPeriod() { }
 
-        public BillingPeriod(DateTime start, DateTime end)
+        public BillingPeriod(DateTimeOffset start, DateTimeOffset end)
         {
             this.Start = start;
             this.End = end;

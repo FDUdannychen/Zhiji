@@ -16,20 +16,20 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
             : base(context)
         { }
 
-        public override Task<Department> GetAsync(int id)
+        public override Task<Department> GetAsync(int id, CancellationToken cancellationToken = default)
         {
             return _context.Departments
                 .Include(e => e.Parent)
                 .Include(e => e.Company)
-                .SingleOrDefaultAsync(e => e.Id == id);
+                .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public Task<Department[]> ListAsync(int companyId)
+        public Task<Department[]> ListAsync(int companyId, CancellationToken cancellationToken = default)
         {
             return _context.Departments
                 .Include(e => e.Parent)
                 .Where(e => e.Company.Id == companyId)                
-                .ToArrayAsync();
+                .ToArrayAsync(cancellationToken);
         }
     }
 }

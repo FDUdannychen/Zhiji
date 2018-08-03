@@ -15,7 +15,13 @@ namespace Zhiji.Contracts.Api.Models
         public ModelProfile()
         {
             this.CreateMap<Template, ViewTemplate>();
+
             this.CreateMap<Contract, ViewContract>();
+
+            this.CreateMap<Domain.Templates.BillingDate, Templates.BillingDate>()
+                .ReverseMap()
+                .ConstructUsing(m => new Domain.Templates.BillingDate(m.Month, m.Day));
+            
         }
     }
 }

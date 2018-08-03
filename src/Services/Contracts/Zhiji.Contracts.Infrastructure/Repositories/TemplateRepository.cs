@@ -15,9 +15,9 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
             : base(context)
         { }
 
-        public Task<Template[]> ListAsync()
+        public Task<Template[]> ListAsync(CancellationToken cancellationToken = default)
         {
-            return _context.Templates.ToArrayAsync();
+            return _context.Templates.ToArrayAsync(cancellationToken);
         }
     }
 }

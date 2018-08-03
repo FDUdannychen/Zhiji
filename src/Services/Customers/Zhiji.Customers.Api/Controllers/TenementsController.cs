@@ -50,7 +50,7 @@ namespace Zhiji.Customers.Api.Controllers
         public async Task<IActionResult> Create([FromBody]CreateTenement request)
         {
             var address = _mapper.Map<Domain.Address>(request.Address);
-            var tenement = new Tenement(address, request.OwnerId, request.TypeId);
+            var tenement = new Tenement(address, request.OwnerId, request.Area, request.TypeId);
             _tenementRepository.Add(tenement);
             await _tenementRepository.UnitOfWork.SaveChangesAsync();
             var vm = _mapper.Map<ViewTenement>(tenement);

@@ -2,7 +2,7 @@
 {
     public partial class Employee
     {
-        public const int NameMinLength = 2;
-        public const int NameMaxLength = 20;
+        public static readonly int NameMinLength = 2;
+        public static readonly int NameMaxLength = 20;
     }
 }

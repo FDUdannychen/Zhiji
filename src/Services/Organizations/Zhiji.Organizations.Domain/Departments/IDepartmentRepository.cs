@@ -9,9 +9,9 @@ namespace Zhiji.Organizations.Domain.Departments
 {
     public interface IDepartmentRepository : IRepository<Department>
     {
-        Task<Department> GetAsync(int id);
+        Task<Department> GetAsync(int id, CancellationToken cancellationToken = default);
 
-        Task<Department[]> ListAsync(int companyId);
+        Task<Department[]> ListAsync(int companyId, CancellationToken cancellationToken = default);
 
         Department Add(Department department);
 

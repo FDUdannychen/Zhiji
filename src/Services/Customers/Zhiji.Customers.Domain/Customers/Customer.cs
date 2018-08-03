@@ -7,22 +7,20 @@ namespace Zhiji.Customers.Domain.Customers
 {
     public partial class Customer : Entity, IAggregateRoot
     {
-        private string _name;
+        public string Name { get; private set; }
+        public Address Address { get; private set; }
 
         private Customer() { }
 
-        public Customer(string name, Address address) : this()
+        public Customer(string name, Address address)
         {
-            _name = name;
+            this.Name = name;
             this.Address = address;
         }
 
-        public string Name => _name;
-        public Address Address { get; private set; }
-
         public void ChangeName(string newName)
         {
-            _name = newName;
+            this.Name = newName;
         }
 
         public void ChangeAddress(Address address)

@@ -14,12 +14,13 @@ namespace Zhiji.Contracts.Domain.Templates
 
         private Template() { }
 
-        public Template(string name, decimal price, int billingModeId)
+        public Template(string name, decimal price, int billingModeId, BillingDate billingDate)
             : this()
         {
             this.Name = name;
             this.Price = price;
             _billingModeId = billingModeId;
+            this.BillingDate = billingDate;
         }
 
         public void ChangeName(string name)

@@ -52,5 +52,10 @@ namespace Zhiji.Common.Domain
 
             return matchingItem;
         }
+
+        public static bool ContainsValue<T>(int value) where T : Enumeration
+        {
+            return GetAll<T>().Any(e => e.Id == value);
+        }
     }
 }

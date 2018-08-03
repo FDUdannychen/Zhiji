@@ -5,7 +5,7 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Contracts.Domain.Templates
 {
-    public class BillingDate : ValueObject
+    public partial class BillingDate : ValueObject
     {
         public int? Month { get; private set; }
         public int Day { get; private set; }

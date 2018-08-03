@@ -2,16 +2,16 @@
 {
     public partial class Address
     {
-        public const int CountryMinLength = 2;
-        public const int CountryMaxLength = 20;
+        public static readonly int CountryMinLength = 2;
+        public static readonly int CountryMaxLength = 20;
 
-        public const int ProvinceMinLength = 2;
-        public const int ProvinceMaxLength = 20;
+        public static readonly int ProvinceMinLength = 2;
+        public static readonly int ProvinceMaxLength = 20;
 
-        public const int CityMinLength = 2;
-        public const int CityMaxLength = 20;
+        public static readonly int CityMinLength = 2;
+        public static readonly int CityMaxLength = 20;
 
-        public const int StreetMinLength = 2;
-        public const int StreetMaxLength = 50;
+        public static readonly int StreetMinLength = 2;
+        public static readonly int StreetMaxLength = 50;
     }
 }

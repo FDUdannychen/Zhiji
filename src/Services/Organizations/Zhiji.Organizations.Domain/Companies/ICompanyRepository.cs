@@ -9,9 +9,9 @@ namespace Zhiji.Organizations.Domain.Companies
 {
     public interface ICompanyRepository : IRepository<Company>
     {
-        Task<Company> GetAsync(int id);
+        Task<Company> GetAsync(int id, CancellationToken cancellationToken = default);
 
-        Task<Company[]> ListAsync();
+        Task<Company[]> ListAsync(CancellationToken cancellationToken = default);
 
         Company Add(Company company);
 

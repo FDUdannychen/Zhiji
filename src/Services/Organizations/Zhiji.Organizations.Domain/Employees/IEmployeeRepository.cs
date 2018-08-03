@@ -9,11 +9,11 @@ namespace Zhiji.Organizations.Domain.Employees
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
-        Task<Employee> GetAsync(int id);
+        Task<Employee> GetAsync(int id, CancellationToken cancellationToken = default);
 
-        Task<Employee[]> ListByCompanyAsync(int companyId);
+        Task<Employee[]> ListByCompanyAsync(int companyId, CancellationToken cancellationToken = default);
 
-        Task<Employee[]> ListByDepartmentAsync(int departmentId);
+        Task<Employee[]> ListByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default);
 
         Employee Add(Employee employee);
 

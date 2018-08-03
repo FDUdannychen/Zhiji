@@ -33,16 +33,12 @@ namespace Zhiji.Contracts.Api
             ConfigureApplication(services);
             ConfigureEntityFramework(services);
             ConfigureAutoMapper(services);
+            ConfigureSwagger(services);
 
-            services.AddRouting(o => o.LowercaseUrls = true);
-            services.AddMvc().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
-
-            services.AddSwaggerGen(o =>
-            {
-                o.SwaggerDoc("v1", new Info { Title = "Contract API", Version = "v1" });
-                o.AddFluentValidationRules();
-                o.DocumentFilter<LowerCaseDocumentFilter>();
-            });
+            services
+                .AddRouting(o => o.LowercaseUrls = true)
+                .AddMvc()
+                .AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         public void ConfigureApplication(IServiceCollection services)
@@ -66,6 +62,17 @@ namespace Zhiji.Contracts.Api
         {
             Mapper.Reset();
             services.AddAutoMapper();
+        }
+
+        public void ConfigureSwagger(IServiceCollection services)
+        {
+            services
+                .AddSwaggerGen(o =>
+                {
+                    o.SwaggerDoc("v1", new Info { Title = "Contract API", Version = "v1" });
+                    o.AddFluentValidationRules();
+                    o.DocumentFilter<LowerCaseDocumentFilter>();
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

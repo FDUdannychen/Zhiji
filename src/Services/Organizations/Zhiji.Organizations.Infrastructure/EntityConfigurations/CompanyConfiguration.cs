@@ -15,9 +15,13 @@ namespace Zhiji.Organizations.Infrastructure.EntityConfigurations
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            builder.Property(e => e.Name).IsRequired().HasMaxLength(Company.NameMaxLength);
+            builder.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(Company.NameMaxLength);
 
-            builder.HasOne(e => e.Parent).WithMany().HasForeignKey(nameof(Company.Parent) + nameof(Entity.Id));
+            builder.HasOne(e => e.Parent)
+                .WithMany()
+                .HasForeignKey(nameof(Company.Parent) + nameof(Entity.Id));
         }
     }
 }

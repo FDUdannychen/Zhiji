@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.Infrastructure;
@@ -14,21 +15,21 @@ namespace Zhiji.Customers.Infrastructure.Repositories
             : base(context)
         { }
 
-        public Task<Tenement[]> ListAsync(int ownerId)
+        public Task<Tenement[]> ListAsync(int ownerId, CancellationToken cancellationToken = default)
         {
             return _context.Tenements
                 .Include(e => e.Owner)
                 .Include(e => e.Type)
                 .Where(e => e.Owner.Id == ownerId)
-                .ToArrayAsync();
+                .ToArrayAsync(cancellationToken);
         }
 
-        public override Task<Tenement> GetAsync(int id)
+        public override Task<Tenement> GetAsync(int id, CancellationToken cancellationToken = default)
         {
             return _context.Tenements
                 .Include(e => e.Owner)
                 .Include(e => e.Type)
-                .SingleOrDefaultAsync(e => e.Id == id);
+                .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
     }
 }

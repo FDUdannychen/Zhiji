@@ -13,8 +13,8 @@ namespace Zhiji.Contracts.Domain.Bills
         public BillingPeriod Period { get; private set; }
         public BillStatus Status { get; private set; }
 
-        private int _contractId;
-        private int _statusId;
+        private int? _contractId;
+        private int? _statusId;
 
         private Bill() { }
 

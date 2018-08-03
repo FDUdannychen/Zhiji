@@ -14,7 +14,7 @@ namespace Zhiji.Contracts.Domain.Contracts
         public DateTimeOffset StartTime { get; private set; }
         public DateTimeOffset? EndTime { get; private set; }
 
-        private int _templateId;
+        private int? _templateId;
 
         private Contract() { }
 

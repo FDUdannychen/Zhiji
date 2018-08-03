@@ -26,9 +26,9 @@ namespace Zhiji.Common.Infrastructure
             return _context.Set<TAggreateRoot>().Add(entity).Entity;
         }
 
-        public virtual Task<TAggreateRoot> GetAsync(int id)
+        public virtual Task<TAggreateRoot> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            return _context.Set<TAggreateRoot>().FindAsync(id);
+            return _context.Set<TAggreateRoot>().FindAsync(new[] { id }, cancellationToken);
         }
 
         public virtual void Update(TAggreateRoot entity)

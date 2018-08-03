@@ -18,7 +18,9 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.Price).IsRequired();
 
-            builder.OwnsOne(e => e.BillingDate).Configure();
+            var billingDate = builder.OwnsOne(e => e.BillingDate);
+            billingDate.Property(e => e.Month);
+            billingDate.Property(e => e.Day).IsRequired();
         }
     }
 }

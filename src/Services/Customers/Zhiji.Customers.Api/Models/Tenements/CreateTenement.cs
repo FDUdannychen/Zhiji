@@ -7,9 +7,11 @@ namespace Zhiji.Customers.Api.Models.Tenements
 {
     public class CreateTenement
     {
-        public int OwnerId { get; set; }
-
         public Address Address { get; set; }
+
+        public int OwnerId { get; set; }        
+
+        public decimal Area { get; set; }
 
         public int TypeId { get; set; }
     }
