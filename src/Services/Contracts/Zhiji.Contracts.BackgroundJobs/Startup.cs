@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Zhiji.Common.Domain;
 using Zhiji.Contracts.BackgroundJobs.BillGeneration;
 using Zhiji.Contracts.Infrastructure;
@@ -27,9 +28,7 @@ namespace Zhiji.Contracts.BackgroundJobs
         {
             ConfigureApplication(services);
             ConfigureEntityFramework(services);
-
-            services.Configure<BillGenerationOptions>(this.Configuration.GetSection("BillGeneration"));
-            services.AddSingleton<IHostedService, BillGenerationJob>();
+            ConfigureLogging(services);
         }
 
         public void ConfigureApplication(IServiceCollection services)
@@ -38,6 +37,9 @@ namespace Zhiji.Contracts.BackgroundJobs
                 .FromAssemblyOf<ContractContext>()
                 .AddClasses(t => t.AssignableTo<IRepository>())
                 .AsImplementedInterfaces());
+
+            services.Configure<BillGenerationOptions>(this.Configuration.GetSection("BillGeneration"));
+            services.AddSingleton<IHostedService, BillGenerationJob>();
         }
 
         public void ConfigureEntityFramework(IServiceCollection services)
@@ -47,6 +49,16 @@ namespace Zhiji.Contracts.BackgroundJobs
                 .AddDbContext<ContractContext>(
                     opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
                         o => o.EnableRetryOnFailure()));
+        }
+
+        public void ConfigureLogging(IServiceCollection services)
+        {
+            services.AddLogging(b =>
+            {
+                b.AddConfiguration(this.Configuration.GetSection("Logging"));
+                b.AddConsole();
+                b.AddDebug();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -25,6 +25,7 @@ namespace Zhiji.Contracts.Infrastructure
         {
             builder.ApplyConfiguration(new ContractConfiguration());
             builder.ApplyConfiguration(new TemplateConfiguration());
+            builder.ApplyConfiguration(new BillConfiguration());
             builder.ApplyConfiguration(new EnumerationEntityConfiguration<BillingMode>());
             builder.ApplyConfiguration(new EnumerationEntityConfiguration<BillStatus>());
         }

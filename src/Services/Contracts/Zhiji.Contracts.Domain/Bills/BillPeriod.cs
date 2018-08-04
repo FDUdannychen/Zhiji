@@ -5,14 +5,14 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Contracts.Domain.Bills
 {
-    public class BillingPeriod : ValueObject
+    public class BillPeriod : ValueObject
     {
         public DateTimeOffset Start { get; private set; }
         public DateTimeOffset End { get; private set; }
 
-        private BillingPeriod() { }
+        private BillPeriod() { }
 
-        public BillingPeriod(DateTimeOffset start, DateTimeOffset end)
+        public BillPeriod(DateTimeOffset start, DateTimeOffset end)
         {
             this.Start = start;
             this.End = end;

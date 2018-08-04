@@ -4,18 +4,22 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Zhiji.Contracts.BackgroundJobs
 {
     public abstract class IntervalJob : BackgroundService
     {
         public TimeSpan Interval { get; }
+        public ILogger Logger { get; }
+
         private Task _task;
         private CancellationTokenSource _cts;
 
-        protected IntervalJob(TimeSpan interval)
+        protected IntervalJob(TimeSpan interval, ILogger logger)
         {
             this.Interval = interval;
+            this.Logger = logger;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -48,7 +52,15 @@ namespace Zhiji.Contracts.BackgroundJobs
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await this.ExecutePeriodicallyAsync(stoppingToken);
+                try
+                {
+                    await this.ExecutePeriodicallyAsync(stoppingToken);
+                }
+                catch (Exception e)
+                {
+                    this.Logger.LogError(e.Message);
+                }
+
                 await Task.Delay(this.Interval, stoppingToken);
             }
         }

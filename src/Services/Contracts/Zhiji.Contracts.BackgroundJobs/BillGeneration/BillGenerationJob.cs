@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Zhiji.Contracts.Domain.Bills;
 using Zhiji.Contracts.Domain.Contracts;
@@ -13,40 +15,43 @@ namespace Zhiji.Contracts.BackgroundJobs.BillGeneration
 {
     public class BillGenerationJob : IntervalJob
     {
-        private readonly IContractRepository _contractRepository;
-        private readonly IBillRepository _billRepository;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public BillGenerationJob(
-            IContractRepository contractRepository,
-            IBillRepository billRepository,
-            IOptions<BillGenerationOptions> options)
-            : base(options.Value.Interval)
+            IServiceScopeFactory serviceScopeFactory, 
+            IOptions<BillGenerationOptions> options,
+            ILogger<BillGenerationJob> logger)
+            : base(options.Value.Interval, logger)
         {
-            _contractRepository = contractRepository;
-            _billRepository = billRepository;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override async Task ExecutePeriodicallyAsync(CancellationToken stoppingToken)
         {
-            var contracts = await _contractRepository.ListEffectiveAsync(stoppingToken);
-
-            foreach (var contract in contracts)
+            using (var scope = _serviceScopeFactory.CreateScope())
             {
-                var bills = await _billRepository.ListAsync(contract.Id, stoppingToken);
-                var allPeriods = GetBillingPeriods(contract);
-                var missingPeriods = allPeriods.Where(p => bills.All(b => !b.Period.Equals(p)));
+                var contractRepository = scope.ServiceProvider.GetService<IContractRepository>();
+                var billRepository = scope.ServiceProvider.GetService<IBillRepository>();
+                var contracts = await contractRepository.ListEffectiveAsync(stoppingToken);
 
-                foreach (var period in missingPeriods)
+                foreach (var contract in contracts)
                 {
-                    var bill = new Bill(contract.Template.Name, contract.Id, period);
-                    _billRepository.Add(bill);
-                }
-            }
+                    var bills = await billRepository.ListAsync(contract.Id, stoppingToken);
+                    var allPeriods = GetBillPeriods(contract);
+                    var missingPeriods = allPeriods.Where(p => bills.All(b => !b.Period.Equals(p)));
 
-            await _billRepository.UnitOfWork.SaveChangesAsync(stoppingToken);
+                    foreach (var period in missingPeriods)
+                    {
+                        var bill = new Bill(contract.Template.Name, contract.Id, period);
+                        billRepository.Add(bill);
+                    }
+                }
+
+                await billRepository.UnitOfWork.SaveChangesAsync(stoppingToken);
+            }
         }
 
-        private IEnumerable<BillingPeriod> GetBillingPeriods(Contract contract)
+        private IEnumerable<BillPeriod> GetBillPeriods(Contract contract)
         {
             var template = contract.Template;
             int year = contract.StartTime.Year, month, day = template.BillingDate.Day, step;
@@ -79,7 +84,7 @@ namespace Zhiji.Contracts.BackgroundJobs.BillGeneration
             while (billingDate <= today && (!contract.EndTime.HasValue || billingDate <= contract.EndTime.Value))
             {
                 var nextBillingDate = billingDate.AddMonths(step);
-                yield return new BillingPeriod(billingDate, nextBillingDate);
+                yield return new BillPeriod(billingDate, nextBillingDate);
                 billingDate = nextBillingDate;
             }
         }

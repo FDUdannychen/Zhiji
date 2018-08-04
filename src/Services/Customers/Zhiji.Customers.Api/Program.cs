@@ -33,13 +33,7 @@ namespace Zhiji.Customers.Api
             using (context)
             {
                 await context.Database.EnsureCreatedAsync();
-
-                if (!context.Set<TenementType>().Any())
-                {
-                    var tenementTypes = Enumeration.GetAll<TenementType>();
-                    await context.Set<TenementType>().AddRangeAsync(tenementTypes);
-                }
-
+                await context.EnsureEnumerationAsync<TenementType>();
                 await context.SaveChangesAsync();
             }
         }

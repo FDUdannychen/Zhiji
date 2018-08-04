@@ -10,7 +10,7 @@ namespace Zhiji.Contracts.Domain.Bills
     {
         public string Name { get; private set; }
         public Contract Contract { get; private set; }
-        public BillingPeriod Period { get; private set; }
+        public BillPeriod Period { get; private set; }
         public BillStatus Status { get; private set; }
 
         private int? _contractId;
@@ -18,7 +18,7 @@ namespace Zhiji.Contracts.Domain.Bills
 
         private Bill() { }
 
-        public Bill(string name, int contractId, BillingPeriod period)
+        public Bill(string name, int contractId, BillPeriod period)
         {
             this.Name = name;
             _contractId = contractId;

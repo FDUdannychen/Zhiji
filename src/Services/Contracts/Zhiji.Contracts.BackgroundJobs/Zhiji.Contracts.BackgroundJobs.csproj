@@ -2,14 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="wwwroot\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
@@ -17,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.Api\Zhiji.Common.Api.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Domain\Zhiji.Contracts.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Infrastructure\Zhiji.Contracts.Infrastructure.csproj" />
   </ItemGroup>
