@@ -18,15 +18,17 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
 
         public override Task<Employee> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            return _context.Employees
+            return _context
+                .Set<Employee>()
                 .Include(e => e.Department.Company)
                 .Include(e => e.Status)
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public async Task<Employee[]> ListByCompanyAsync(int companyId, CancellationToken cancellationToken = default)
+        public Task<Employee[]> ListByCompanyAsync(int companyId, CancellationToken cancellationToken = default)
         {
-            return await _context.Employees
+            return _context
+                .Set<Employee>()
                 .Include(e => e.Department)
                 .Include(e => e.Status)
                 .Where(e => e.Department.Company.Id == companyId)
@@ -35,7 +37,8 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
 
         public Task<Employee[]> ListByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
         {
-            return _context.Employees
+            return _context
+                .Set<Employee>()
                 .Include(e => e.Status)
                 .Where(e => e.Department.Id == departmentId)
                 .ToArrayAsync(cancellationToken);

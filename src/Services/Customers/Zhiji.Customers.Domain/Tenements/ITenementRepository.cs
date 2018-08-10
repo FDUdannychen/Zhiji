@@ -7,7 +7,7 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Customers.Domain.Tenements
 {
-    public interface ITenementRepository : IRepository<Tenement>
+    public interface ITenementRepository : IRepository
     {
         Task<Tenement> GetAsync(int id, CancellationToken cancellationToken = default);
 

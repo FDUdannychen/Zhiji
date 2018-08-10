@@ -14,7 +14,9 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            builder.Property(e => e.Name).IsRequired().HasMaxLength(Template.NameMaxLength);
+            builder.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(Template.NameMaxLength);
 
             builder.Property(e => e.Price).IsRequired();
 

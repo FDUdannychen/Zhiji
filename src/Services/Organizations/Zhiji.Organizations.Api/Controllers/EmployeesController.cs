@@ -14,12 +14,15 @@ namespace Zhiji.Organizations.Api.Controllers
     public class EmployeesController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IEmployeeQuery _employeeQuery;
         private readonly IEmployeeRepository _employeeRepository;
 
         public EmployeesController(IMapper mapper,
+            IEmployeeQuery employeeQuery,
             IEmployeeRepository employeeRepository)
         {
             _mapper = mapper;
+            _employeeQuery = employeeQuery;
             _employeeRepository = employeeRepository;
         }
 
@@ -29,7 +32,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType(typeof(ViewEmployee), (int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewEmployee>> Get(int id)
         {
-            var employee = await _employeeRepository.GetAsync(id);
+            var employee = await _employeeQuery.GetAsync(id);
             if (employee is null) return NotFound();
             return _mapper.Map<ViewEmployee>(employee);
         }
@@ -39,7 +42,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType(typeof(ViewEmployee[]), (int)HttpStatusCode.OK)]
         public async Task<ViewEmployee[]> ListByCompany(int companyId)
         {
-            var employees = await _employeeRepository.ListByCompanyAsync(companyId);
+            var employees = await _employeeQuery.ListByCompanyAsync(companyId);
             return _mapper.Map<ViewEmployee[]>(employees);
         }
 
@@ -48,7 +51,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType(typeof(ViewEmployee[]), (int)HttpStatusCode.OK)]
         public async Task<ViewEmployee[]> ListByDepartment(int departmentId)
         {
-            var employees = await _employeeRepository.ListByDepartmentAsync(departmentId);
+            var employees = await _employeeQuery.ListByDepartmentAsync(departmentId);
             return _mapper.Map<ViewEmployee[]>(employees);
         }
 

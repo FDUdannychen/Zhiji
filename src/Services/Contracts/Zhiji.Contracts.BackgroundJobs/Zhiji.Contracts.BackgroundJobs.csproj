@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Zhiji.Common.Api\Zhiji.Common.Api.csproj" />
+    <ProjectReference Include="..\..\..\EventBus\IntegrationEventLog\IntegrationEventLog.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Domain\Zhiji.Contracts.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Infrastructure\Zhiji.Contracts.Infrastructure.csproj" />
   </ItemGroup>

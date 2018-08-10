@@ -16,6 +16,13 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
             : base(context)
         { }
 
+        public override Task<Contract> GetAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return _context.Contracts
+                .Include(e => e.Template.BillingMode)
+                .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+        }
+
         public Task<Contract[]> ListAsync(int? customerId, int? tenementId, int? templateId, CancellationToken cancellationToken = default)
         {
             IQueryable<Contract> query = _context.Contracts.Include(e => e.Template.BillingMode);

@@ -12,5 +12,9 @@ namespace Zhiji.Contracts.Api.Models.Contracts
         public int TenementId { get; set; }
 
         public int TemplateId { get; set; }
+
+        public DateTimeOffset StartTime { get; set; }
+
+        public DateTimeOffset? EndTime { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Zhiji.Common.Api;
 using Zhiji.Organizations.Api.Models.Companies;
+using Zhiji.Organizations.Domain;
 using Zhiji.Organizations.Domain.Companies;
 
 namespace Zhiji.Organizations.Api.Controllers
@@ -14,12 +15,15 @@ namespace Zhiji.Organizations.Api.Controllers
     public class CompaniesController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ICompanyQuery _companyQuery;
         private readonly ICompanyRepository _companyRepository;
 
-        public CompaniesController(IMapper mapper, 
+        public CompaniesController(IMapper mapper,
+            ICompanyQuery companyQuery,
             ICompanyRepository companyRepository)
         {
             _mapper = mapper;
+            _companyQuery = companyQuery;
             _companyRepository = companyRepository;
         }
 
@@ -29,7 +33,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewCompany>> Get(int id)
         {
-            var company = await _companyRepository.GetAsync(id);
+            var company = await _companyQuery.GetAsync(id);
             if (company is null) return NotFound();
             return _mapper.Map<ViewCompany>(company);
         }
@@ -38,7 +42,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType(typeof(ViewCompany[]), (int)HttpStatusCode.OK)]
         public async Task<ViewCompany[]> GetAll()
         {
-            var companies = await _companyRepository.ListAsync();
+            var companies = await _companyQuery.ListAsync();
             return _mapper.Map<ViewCompany[]>(companies);
         }
 

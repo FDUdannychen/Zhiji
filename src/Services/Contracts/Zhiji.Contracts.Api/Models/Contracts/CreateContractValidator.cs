@@ -21,6 +21,9 @@ namespace Zhiji.Contracts.Api.Models.Contracts
             this.RuleFor(m => m.TemplateId)
                 .NotEmpty()
                 .GreaterThanOrEqualTo(1);
+
+            this.RuleFor(m => m.StartTime)
+                .NotEmpty();
         }
     }
 }

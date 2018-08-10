@@ -13,6 +13,8 @@ namespace Zhiji.Organizations.Domain.Companies
 
         private int? _parentId;
 
+        private Company() { }
+
         public Company(string name, int? parentId)
         {
             this.Name = name;

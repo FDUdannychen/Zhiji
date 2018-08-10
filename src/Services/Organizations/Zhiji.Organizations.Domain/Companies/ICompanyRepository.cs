@@ -7,11 +7,9 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Organizations.Domain.Companies
 {
-    public interface ICompanyRepository : IRepository<Company>
+    public interface ICompanyRepository : IRepository
     {
         Task<Company> GetAsync(int id, CancellationToken cancellationToken = default);
-
-        Task<Company[]> ListAsync(CancellationToken cancellationToken = default);
 
         Company Add(Company company);
 

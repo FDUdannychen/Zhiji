@@ -36,7 +36,7 @@ namespace Zhiji.Organizations.Api
             ConfigureEntityFramework(services);
             ConfigureAutoMapper(services);
             ConfigureSwagger(services);
-            
+
             services
                 .AddRouting(o => o.LowercaseUrls = true)
                 .AddMvc()
@@ -47,8 +47,10 @@ namespace Zhiji.Organizations.Api
         {
             services.Scan(s => s
                 .FromAssemblyOf<OrganizationContext>()
-                .AddClasses(t => t.AssignableTo<IRepository>())
-                .AsImplementedInterfaces());
+                    .AddClasses(t => t.AssignableTo<IRepository>())
+                        .AsImplementedInterfaces()
+                    .AddClasses(t => t.AssignableTo<IQuery>())
+                        .AsImplementedInterfaces());
         }
 
         public void ConfigureMediator(IServiceCollection services)
@@ -68,9 +70,15 @@ namespace Zhiji.Organizations.Api
         {
             services
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<OrganizationContext>(
-                    opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
-                        o => o.EnableRetryOnFailure()));
+                .AddDbContextPool<OrganizationContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Master"),
+                            o => o.EnableRetryOnFailure()))
+                .AddDbContextPool<OrganizationQueryContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Query"),
+                            o => o.EnableRetryOnFailure())
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
         public void ConfigureAutoMapper(IServiceCollection services)

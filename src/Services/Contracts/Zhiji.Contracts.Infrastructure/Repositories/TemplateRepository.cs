@@ -15,9 +15,18 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
             : base(context)
         { }
 
+        public override Task<Template> GetAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return _context.Templates
+                .Include(e => e.BillingMode)
+                .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+        }
+
         public Task<Template[]> ListAsync(CancellationToken cancellationToken = default)
         {
-            return _context.Templates.ToArrayAsync(cancellationToken);
+            return _context.Templates
+                .Include(e => e.BillingMode)
+                .ToArrayAsync(cancellationToken);
         }
     }
 }

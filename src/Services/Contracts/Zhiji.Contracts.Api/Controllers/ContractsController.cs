@@ -46,7 +46,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType(typeof(ViewContract), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create([FromBody]CreateContract request)
         {
-            var contract = new Contract(request.TemplateId, request.CustomerId, request.TenementId);
+            var contract = new Contract(request.TemplateId, request.CustomerId, request.TenementId, request.StartTime, request.EndTime);
             _contractRepository.Add(contract);
             await _contractRepository.UnitOfWork.SaveChangesAsync();
             var vm = _mapper.Map<ViewContract>(contract);

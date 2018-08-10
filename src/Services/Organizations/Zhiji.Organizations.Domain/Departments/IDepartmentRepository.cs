@@ -7,11 +7,9 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Organizations.Domain.Departments
 {
-    public interface IDepartmentRepository : IRepository<Department>
+    public interface IDepartmentRepository : IRepository
     {
         Task<Department> GetAsync(int id, CancellationToken cancellationToken = default);
-
-        Task<Department[]> ListAsync(int companyId, CancellationToken cancellationToken = default);
 
         Department Add(Department department);
 

@@ -14,12 +14,15 @@ namespace Zhiji.Organizations.Api.Controllers
     public class DepartmentsController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IDepartmentQuery _departmentQuery;
         private readonly IDepartmentRepository _departmentRepository;
 
         public DepartmentsController(IMapper mapper,
+            IDepartmentQuery departmentQuery,
             IDepartmentRepository departmentRepository)
         {
             _mapper = mapper;
+            _departmentQuery = departmentQuery;
             _departmentRepository = departmentRepository;
         }
 
@@ -29,7 +32,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewDepartment>> Get(int id)
         {
-            var department = await _departmentRepository.GetAsync(id);
+            var department = await _departmentQuery.GetAsync(id);
             if (department is null) return NotFound();
             return _mapper.Map<ViewDepartment>(department);
         }
@@ -39,7 +42,7 @@ namespace Zhiji.Organizations.Api.Controllers
         [ProducesResponseType(typeof(ViewDepartment[]), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ViewDepartment[]>> GetAll(int companyId)
         {
-            var departments = await _departmentRepository.ListAsync(companyId);
+            var departments = await _departmentQuery.ListAsync(companyId);
             return _mapper.Map<ViewDepartment[]>(departments);
         }
 

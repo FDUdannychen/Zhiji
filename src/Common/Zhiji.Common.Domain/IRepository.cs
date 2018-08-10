@@ -8,8 +8,4 @@ namespace Zhiji.Common.Domain
     {
         IUnitOfWork UnitOfWork { get; }
     }
-
-    public interface IRepository<T> : IRepository
-        where T : IAggregateRoot
-    { }
 }

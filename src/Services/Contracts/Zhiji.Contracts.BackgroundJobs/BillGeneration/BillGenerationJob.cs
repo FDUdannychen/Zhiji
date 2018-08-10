@@ -36,7 +36,7 @@ namespace Zhiji.Contracts.BackgroundJobs.BillGeneration
 
                 foreach (var contract in contracts)
                 {
-                    var bills = await billRepository.ListAsync(contract.Id, stoppingToken);
+                    var bills = await billRepository.ListAsync(contractId: contract.Id, cancellationToken: stoppingToken);
                     var allPeriods = GetBillPeriods(contract);
                     var missingPeriods = allPeriods.Where(p => bills.All(b => !b.Period.Equals(p)));
 
@@ -75,9 +75,9 @@ namespace Zhiji.Contracts.BackgroundJobs.BillGeneration
 
             var billingDate = new DateTimeOffset(year, month, day, 0, 0, 0, TimeSpan.Zero);
 
-            while (billingDate < contract.StartTime)
+            while (billingDate > contract.StartTime)
             {
-                billingDate = billingDate.AddMonths(step);
+                billingDate = billingDate.AddMonths(-step);
             }
 
             var today = DateTimeOffset.UtcNow.Date;

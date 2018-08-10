@@ -18,14 +18,14 @@ namespace Zhiji.Contracts.Domain.Contracts
 
         private Contract() { }
 
-        public Contract(int templateId, int customerId, int tenementId)
+        public Contract(int templateId, int customerId, int tenementId, DateTimeOffset startTime, DateTimeOffset? endTime)
             : this()
         {
             _templateId = templateId;
             this.CustomerId = customerId;
             this.TenementId = tenementId;
+            this.StartTime = startTime;
+            this.EndTime = endTime;
         }
-
-
     }
 }
