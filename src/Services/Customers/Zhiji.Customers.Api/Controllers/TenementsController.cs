@@ -7,7 +7,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Zhiji.Common.Api;
 using Zhiji.Common.Domain;
-using Zhiji.Customers.Api.Models.Customers;
 using Zhiji.Customers.Api.Models.Tenements;
 using Zhiji.Customers.Domain.Tenements;
 
@@ -16,12 +15,15 @@ namespace Zhiji.Customers.Api.Controllers
     public class TenementsController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ITenementQuery _tenementQuery;
         private readonly ITenementRepository _tenementRepository;
 
         public TenementsController(IMapper mapper,
+            ITenementQuery tenementQuery,
             ITenementRepository tenementRepository)
         {
             _mapper = mapper;
+            _tenementQuery = tenementQuery;
             _tenementRepository = tenementRepository;
         }
 
@@ -31,7 +33,7 @@ namespace Zhiji.Customers.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewTenement>> Get(int id)
         {
-            var tenement = await _tenementRepository.GetAsync(id);
+            var tenement = await _tenementQuery.GetAsync(id);
             if (tenement is null) return NotFound();
             return _mapper.Map<ViewTenement>(tenement);
         }
@@ -41,7 +43,7 @@ namespace Zhiji.Customers.Api.Controllers
         [ProducesResponseType(typeof(ViewTenement[]), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ViewTenement[]>> GetAll(int ownerId)
         {
-            var tenements = await _tenementRepository.ListAsync(ownerId);
+            var tenements = await _tenementQuery.ListAsync(ownerId);
             return _mapper.Map<ViewTenement[]>(tenements);
         }
 

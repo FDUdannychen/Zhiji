@@ -14,12 +14,15 @@ namespace Zhiji.Contracts.Api.Controllers
     public class ContractsController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IContractQuery _contractQuery;
         private readonly IContractRepository _contractRepository;
 
         public ContractsController(IMapper mapper,
+            IContractQuery contractQuery,
             IContractRepository contractRepository)
         {
             _mapper = mapper;
+            _contractQuery = contractQuery;
             _contractRepository = contractRepository;
         }
 
@@ -29,7 +32,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewContract>> Get(int id)
         {
-            var contract = await _contractRepository.GetAsync(id);
+            var contract = await _contractQuery.GetAsync(id);
             if (contract is null) return NotFound();
             return _mapper.Map<ViewContract>(contract);
         }
@@ -38,7 +41,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType(typeof(ViewContract[]), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ViewContract[]>> Search([FromQuery]SearchContract request)
         {
-            var contracts = await _contractRepository.ListAsync(request.CustomerId, request.TenementId, request.TemplateId);
+            var contracts = await _contractQuery.ListAsync(request.CustomerId, request.TenementId, request.TemplateId);
             return _mapper.Map<ViewContract[]>(contracts);
         }
 

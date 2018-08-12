@@ -30,9 +30,9 @@ namespace Zhiji.Contracts.BackgroundJobs.BillGeneration
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                var contractRepository = scope.ServiceProvider.GetService<IContractRepository>();
+                var contractQuery = scope.ServiceProvider.GetService<IContractQuery>();
                 var billRepository = scope.ServiceProvider.GetService<IBillRepository>();
-                var contracts = await contractRepository.ListEffectiveAsync(stoppingToken);
+                var contracts = await contractQuery.ListEffectiveAsync(stoppingToken);
 
                 foreach (var contract in contracts)
                 {

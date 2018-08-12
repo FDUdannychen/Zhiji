@@ -7,10 +7,10 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Customers.Domain.Tenements
 {
-    public interface ITenementRepository : IRepository
+    public interface ITenementQuery : IQuery
     {
         Task<Tenement> GetAsync(int id, CancellationToken cancellationToken = default);
 
-        Tenement Add(Tenement tenement);
+        Task<Tenement[]> ListAsync(int ownerId, CancellationToken cancellationToken = default);
     }
 }

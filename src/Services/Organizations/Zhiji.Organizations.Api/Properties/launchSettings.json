@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Zhiji.Organization.Api": {
+    "Zhiji.Organizations.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "",

@@ -16,6 +16,7 @@ namespace Zhiji.Organizations.Infrastructure
         public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
 
         public OrganizationContextBase(DbContextOptions options)
             : base(options)

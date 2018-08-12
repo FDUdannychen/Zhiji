@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Zhiji.Common.Infrastructure;
 using Zhiji.Organizations.Domain.Departments;
 
 namespace Zhiji.Organizations.Infrastructure.Queries
@@ -19,8 +18,7 @@ namespace Zhiji.Organizations.Infrastructure.Queries
 
         public Task<Department> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            return _context
-                .Set<Department>()
+            return _context.Departments
                 .Include(e => e.Parent)
                 .Include(e => e.Company)
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
@@ -28,8 +26,7 @@ namespace Zhiji.Organizations.Infrastructure.Queries
 
         public Task<Department[]> ListAsync(int companyId, CancellationToken cancellationToken = default)
         {
-            return _context
-                .Set<Department>()
+            return _context.Departments
                 .Include(e => e.Parent)
                 .Where(e => e.Company.Id == companyId)                
                 .ToArrayAsync(cancellationToken);

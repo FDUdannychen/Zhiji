@@ -35,8 +35,10 @@ namespace Zhiji.Contracts.BackgroundJobs
         {
             services.Scan(s => s
                 .FromAssemblyOf<ContractContext>()
-                .AddClasses(t => t.AssignableTo<IRepository>())
-                .AsImplementedInterfaces());
+                    .AddClasses(t => t.AssignableTo<IRepository>())
+                        .AsImplementedInterfaces()
+                    .AddClasses(t => t.AssignableTo<IQuery>())
+                        .AsImplementedInterfaces());
 
             services.Configure<BillGenerationOptions>(this.Configuration.GetSection("BillGeneration"));
             services.AddSingleton<IHostedService, BillGenerationJob>();
@@ -46,9 +48,15 @@ namespace Zhiji.Contracts.BackgroundJobs
         {
             services
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<ContractContext>(
-                    opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
-                        o => o.EnableRetryOnFailure()));
+                .AddDbContextPool<ContractContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Master"),
+                            o => o.EnableRetryOnFailure()))
+                .AddDbContextPool<ContractQueryContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Query"),
+                            o => o.EnableRetryOnFailure())
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
         public void ConfigureLogging(IServiceCollection services)

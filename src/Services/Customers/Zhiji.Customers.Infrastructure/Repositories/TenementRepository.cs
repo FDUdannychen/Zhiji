@@ -15,15 +15,6 @@ namespace Zhiji.Customers.Infrastructure.Repositories
             : base(context)
         { }
 
-        public Task<Tenement[]> ListAsync(int ownerId, CancellationToken cancellationToken = default)
-        {
-            return _context.Tenements
-                .Include(e => e.Owner)
-                .Include(e => e.Type)
-                .Where(e => e.Owner.Id == ownerId)
-                .ToArrayAsync(cancellationToken);
-        }
-
         public override Task<Tenement> GetAsync(int id, CancellationToken cancellationToken = default)
         {
             return _context.Tenements

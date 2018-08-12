@@ -14,8 +14,5 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
         public CompanyRepository(OrganizationContext context)
             : base(context)
         { }
-
-        public Task<Company[]> ListAsync(CancellationToken cancellationToken = default) 
-            => _context.Set<Company>().ToArrayAsync(cancellationToken);
     }
 }

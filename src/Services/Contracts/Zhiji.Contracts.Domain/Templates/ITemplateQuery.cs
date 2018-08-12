@@ -7,10 +7,10 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Contracts.Domain.Templates
 {
-    public interface ITemplateRepository : IRepository
+    public interface ITemplateQuery : IQuery
     {
         Task<Template> GetAsync(int id, CancellationToken cancellationToken = default);
 
-        Template Add(Template template);
+        Task<Template[]> ListAsync(CancellationToken cancellationToken = default);
     }
 }

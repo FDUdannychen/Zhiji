@@ -45,17 +45,25 @@ namespace Zhiji.Contracts.Api
         {
             services.Scan(s => s
                 .FromAssemblyOf<ContractContext>()
-                .AddClasses(t => t.AssignableTo<IRepository>())
-                .AsImplementedInterfaces());
+                    .AddClasses(t => t.AssignableTo<IRepository>())
+                        .AsImplementedInterfaces()
+                    .AddClasses(t => t.AssignableTo<IQuery>())
+                        .AsImplementedInterfaces());
         }
 
         public void ConfigureEntityFramework(IServiceCollection services)
         {
             services
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<ContractContext>(
-                    opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
-                        o => o.EnableRetryOnFailure()));
+                .AddDbContextPool<ContractContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Master"),
+                            o => o.EnableRetryOnFailure()))
+                .AddDbContextPool<ContractQueryContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Query"),
+                            o => o.EnableRetryOnFailure())
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
         public void ConfigureAutoMapper(IServiceCollection services)

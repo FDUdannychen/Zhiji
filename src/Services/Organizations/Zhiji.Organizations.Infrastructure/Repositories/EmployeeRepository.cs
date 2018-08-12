@@ -18,30 +18,10 @@ namespace Zhiji.Organizations.Infrastructure.Repositories
 
         public override Task<Employee> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            return _context
-                .Set<Employee>()
+            return _context.Employees
                 .Include(e => e.Department.Company)
                 .Include(e => e.Status)
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
-        }
-
-        public Task<Employee[]> ListByCompanyAsync(int companyId, CancellationToken cancellationToken = default)
-        {
-            return _context
-                .Set<Employee>()
-                .Include(e => e.Department)
-                .Include(e => e.Status)
-                .Where(e => e.Department.Company.Id == companyId)
-                .ToArrayAsync(cancellationToken);
-        }
-
-        public Task<Employee[]> ListByDepartmentAsync(int departmentId, CancellationToken cancellationToken = default)
-        {
-            return _context
-                .Set<Employee>()
-                .Include(e => e.Status)
-                .Where(e => e.Department.Id == departmentId)
-                .ToArrayAsync(cancellationToken);
         }
     }
 }

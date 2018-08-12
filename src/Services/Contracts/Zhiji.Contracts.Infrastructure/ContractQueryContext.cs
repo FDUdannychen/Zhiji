@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Domain;
 
 namespace Zhiji.Contracts.Infrastructure
 {
-    public class ContractContext : ContractContextBase, IUnitOfWork
+    public class ContractQueryContext : ContractContextBase
     {
-        public ContractContext(DbContextOptions<ContractContext> options)
+        public ContractQueryContext(DbContextOptions<ContractQueryContext> options)
             : base(options)
         { }
     }

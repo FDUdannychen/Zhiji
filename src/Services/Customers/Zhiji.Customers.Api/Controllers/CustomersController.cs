@@ -14,12 +14,15 @@ namespace Zhiji.Customers.Api.Controllers
     public class CustomersController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ICustomerQuery _customerQuery;
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomersController(IMapper mapper, 
+        public CustomersController(IMapper mapper,
+            ICustomerQuery customerQuery,
             ICustomerRepository customerRepository)
         {
             _mapper = mapper;
+            _customerQuery = customerQuery;
             _customerRepository = customerRepository;
         }
 
@@ -29,7 +32,7 @@ namespace Zhiji.Customers.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewCustomer>> Get(int id)
         {
-            var customer = await _customerRepository.GetAsync(id);
+            var customer = await _customerQuery.GetAsync(id);
             if (customer is null) return NotFound();
             return _mapper.Map<ViewCustomer>(customer);
         }

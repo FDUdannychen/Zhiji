@@ -16,9 +16,9 @@ namespace Zhiji.Organizations.Infrastructure.Queries
             => _context = context;
 
         public Task<Company> GetAsync(int id, CancellationToken cancellationToken = default)
-            => _context.Set<Company>().SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+            => _context.Companies.SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
 
         public Task<Company[]> ListAsync(CancellationToken cancellationToken = default) 
-            => _context.Set<Company>().ToArrayAsync(cancellationToken);
+            => _context.Companies.ToArrayAsync(cancellationToken);
     }
 }

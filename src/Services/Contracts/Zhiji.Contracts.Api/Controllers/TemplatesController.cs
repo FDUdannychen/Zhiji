@@ -14,12 +14,15 @@ namespace Zhiji.Contracts.Api.Controllers
     public class TemplatesController : ApiControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ITemplateQuery _templateQuery;
         private readonly ITemplateRepository _templateRepository;
 
         public TemplatesController(IMapper mapper,
+            ITemplateQuery templateQuery,
             ITemplateRepository templateRepository)
         {
             _mapper = mapper;
+            _templateQuery = templateQuery;
             _templateRepository = templateRepository;
         }
 
@@ -29,7 +32,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ViewTemplate>> Get(int id)
         {
-            var template = await _templateRepository.GetAsync(id);
+            var template = await _templateQuery.GetAsync(id);
             if (template is null) return NotFound();
             return _mapper.Map<ViewTemplate>(template);
         }
@@ -38,7 +41,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType(typeof(ViewTemplate[]), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ViewTemplate[]>> GetAll()
         {
-            var templates = await _templateRepository.ListAsync();
+            var templates = await _templateQuery.ListAsync();
             return _mapper.Map<ViewTemplate[]>(templates);
         }
 

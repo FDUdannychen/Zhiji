@@ -7,10 +7,12 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Contracts.Domain.Contracts
 {
-    public interface IContractRepository : IRepository
+    public interface IContractQuery : IQuery
     {
         Task<Contract> GetAsync(int id, CancellationToken cancellationToken = default);
 
-        Contract Add(Contract contract);
+        Task<Contract[]> ListAsync(int? customerId, int? tenementId, int? templateId, CancellationToken cancellationToken = default);
+
+        Task<Contract[]> ListEffectiveAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -22,24 +22,5 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
                 .Include(e => e.Template.BillingMode)
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
-
-        public Task<Contract[]> ListAsync(int? customerId, int? tenementId, int? templateId, CancellationToken cancellationToken = default)
-        {
-            IQueryable<Contract> query = _context.Contracts.Include(e => e.Template.BillingMode);
-
-            if (customerId.HasValue) query = query.Where(e => e.CustomerId == customerId);
-            if (tenementId.HasValue) query = query.Where(e => e.TenementId == tenementId);
-            if (templateId.HasValue) query = query.Where(e => e.Template.Id == templateId);
-
-            return query.ToArrayAsync(cancellationToken);
-        }
-
-        public Task<Contract[]> ListEffectiveAsync(CancellationToken cancellationToken = default)
-        {
-            return _context.Contracts
-                .Include(e => e.Template.BillingMode)
-                .Where(c => c.StartTime <= DateTimeOffset.UtcNow && c.EndTime > DateTimeOffset.UtcNow)
-                .ToArrayAsync(cancellationToken);
-        }
     }
 }

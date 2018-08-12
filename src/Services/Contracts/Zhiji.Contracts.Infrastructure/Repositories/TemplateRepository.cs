@@ -21,12 +21,5 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
                 .Include(e => e.BillingMode)
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
-
-        public Task<Template[]> ListAsync(CancellationToken cancellationToken = default)
-        {
-            return _context.Templates
-                .Include(e => e.BillingMode)
-                .ToArrayAsync(cancellationToken);
-        }
     }
 }

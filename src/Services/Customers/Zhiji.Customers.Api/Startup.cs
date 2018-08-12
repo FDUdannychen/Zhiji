@@ -45,17 +45,25 @@ namespace Zhiji.Customers.Api
         {
             services.Scan(s => s
                 .FromAssemblyOf<CustomerContext>()
-                .AddClasses(t => t.AssignableTo<IRepository>())
-                .AsImplementedInterfaces());
+                    .AddClasses(t => t.AssignableTo<IRepository>())
+                        .AsImplementedInterfaces()
+                    .AddClasses(t => t.AssignableTo<IQuery>())
+                        .AsImplementedInterfaces());
         }
 
         public void ConfigureEntityFramework(IServiceCollection services)
         {
             services
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<CustomerContext>(
-                    opt => opt.UseSqlServer(this.Configuration["ConnectionString"],
-                        o => o.EnableRetryOnFailure()));
+                .AddDbContextPool<CustomerContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Master"),
+                            o => o.EnableRetryOnFailure()))
+                .AddDbContextPool<CustomerQueryContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Query"),
+                            o => o.EnableRetryOnFailure())
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
         public void ConfigureAutoMapper(IServiceCollection services)
