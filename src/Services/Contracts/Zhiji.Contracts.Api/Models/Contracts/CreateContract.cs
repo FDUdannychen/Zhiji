@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NodaTime;
 
 namespace Zhiji.Contracts.Api.Models.Contracts
 {
@@ -13,8 +14,8 @@ namespace Zhiji.Contracts.Api.Models.Contracts
 
         public int TemplateId { get; set; }
 
-        public DateTimeOffset StartTime { get; set; }
+        public LocalDate StartDate { get; set; }
 
-        public DateTimeOffset? EndTime { get; set; }
+        public LocalDate? EndDate { get; set; }
     }
 }

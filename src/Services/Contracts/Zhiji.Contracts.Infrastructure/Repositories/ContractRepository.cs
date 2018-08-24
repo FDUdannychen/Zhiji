@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Infrastructure;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Contracts.Domain.Contracts;
 
 namespace Zhiji.Contracts.Infrastructure.Repositories

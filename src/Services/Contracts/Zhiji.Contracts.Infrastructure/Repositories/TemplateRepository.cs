@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Infrastructure;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Contracts.Domain.Templates;
 
 namespace Zhiji.Contracts.Infrastructure.Repositories
@@ -14,12 +14,5 @@ namespace Zhiji.Contracts.Infrastructure.Repositories
         public TemplateRepository(ContractContext context)
             : base(context)
         { }
-
-        public override Task<Template> GetAsync(int id, CancellationToken cancellationToken = default)
-        {
-            return _context.Templates
-                .Include(e => e.BillingMode)
-                .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
-        }
     }
 }

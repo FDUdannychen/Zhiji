@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Infrastructure;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Organizations.Domain.Companies;
 using Zhiji.Organizations.Domain.Departments;
 using Zhiji.Organizations.Domain.Employees;

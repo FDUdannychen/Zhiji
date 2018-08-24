@@ -5,7 +5,7 @@ using System.Text;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Zhiji.Common.Api
+namespace Zhiji.Common.AspNetCore
 {
     public class LowerCaseDocumentFilter : IDocumentFilter
     {

@@ -14,5 +14,11 @@ namespace Zhiji.Contracts.Api.Models.Templates
         public int BillingModeId { get; set; }
 
         public BillingDate BillingDate { get; set; }
+
+        public int BillingPeriodMonth { get; set; }
+
+        public int BillingPeriodStartMonthOffset { get; set; }
+
+        public string TimeZone { get; set; }
     }
 }

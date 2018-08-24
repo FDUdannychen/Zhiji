@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Zhiji.Contracts.Api.Models.Bills;
 using Zhiji.Contracts.Api.Models.Contracts;
 using Zhiji.Contracts.Api.Models.Templates;
-using Zhiji.Contracts.Domain.Bills;
 using Zhiji.Contracts.Domain.Contracts;
 using Zhiji.Contracts.Domain.Templates;
 
@@ -22,9 +20,7 @@ namespace Zhiji.Contracts.Api.Models
 
             this.CreateMap<Domain.Templates.BillingDate, Templates.BillingDate>()
                 .ReverseMap()
-                .ConstructUsing(m => new Domain.Templates.BillingDate(m.Month, m.Day));
-
-            this.CreateMap<Bill, ViewBill>();            
+                .ConstructUsing(m => new Domain.Templates.BillingDate(m.Month, m.Day, m.IntervalMonth));
         }
     }
 }

@@ -4,5 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NodaTime" Version="2.4.0" />
+  </ItemGroup>
 </Project>

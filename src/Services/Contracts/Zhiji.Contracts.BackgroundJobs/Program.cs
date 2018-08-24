@@ -5,10 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Zhiji.Common.Api;
-using Zhiji.Contracts.Domain.Bills;
+using Zhiji.Common.AspNetCore;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Contracts.Domain.Templates;
 using Zhiji.Contracts.Infrastructure;
 
@@ -33,8 +31,7 @@ namespace Zhiji.Contracts.BackgroundJobs
             using (context)
             {
                 await context.Database.EnsureCreatedAsync();
-                await context.EnsureEnumerationAsync<BillingMode>();
-                await context.EnsureEnumerationAsync<BillStatus>();
+                context.EnsureEnumeration<BillingMode>();
                 await context.SaveChangesAsync();
             }
         }

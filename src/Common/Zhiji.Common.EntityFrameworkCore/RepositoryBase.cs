@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.Domain;
 
-namespace Zhiji.Common.Infrastructure
+namespace Zhiji.Common.EntityFrameworkCore
 {
     public abstract class RepositoryBase<TContext, TAggreateRoot> : IRepository
         where TContext : DbContext, IUnitOfWork

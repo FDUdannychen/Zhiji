@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Zhiji.Contracts.BackgroundJobs.BillGeneration
+namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
 {
-    public class BillGenerationOptions
+    public class BillingDateCheckOptions
     {
         public TimeSpan Interval { get; set; } = TimeSpan.FromHours(6);
     }

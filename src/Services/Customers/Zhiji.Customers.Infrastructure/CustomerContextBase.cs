@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Infrastructure;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Customers.Domain.Customers;
 using Zhiji.Customers.Domain.Tenements;
 using Zhiji.Customers.Infrastructure.EntityConfigurations;

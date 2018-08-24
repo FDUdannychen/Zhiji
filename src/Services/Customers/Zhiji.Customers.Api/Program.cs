@@ -5,10 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Zhiji.Common.Api;
-using Zhiji.Common.Domain;
+using Zhiji.Common.AspNetCore;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Customers.Domain.Tenements;
 using Zhiji.Customers.Infrastructure;
 
@@ -33,7 +31,7 @@ namespace Zhiji.Customers.Api
             using (context)
             {
                 await context.Database.EnsureCreatedAsync();
-                await context.EnsureEnumerationAsync<TenementType>();
+                context.EnsureEnumeration<TenementType>();
                 await context.SaveChangesAsync();
             }
         }

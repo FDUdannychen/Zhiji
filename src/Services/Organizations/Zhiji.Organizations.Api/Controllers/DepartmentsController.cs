@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Common.Api;
 using Zhiji.Organizations.Api.Models.Departments;
 using Zhiji.Organizations.Domain.Departments;
 
 namespace Zhiji.Organizations.Api.Controllers
-{    
-    public class DepartmentsController : ApiControllerBase
+{
+    [Route("[controller]")]
+    [ApiController]
+    public class DepartmentsController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IDepartmentQuery _departmentQuery;
@@ -30,9 +32,9 @@ namespace Zhiji.Organizations.Api.Controllers
         [Route("{id:int}")]
         [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<ViewDepartment>> Get(int id)
+        public async Task<ActionResult<ViewDepartment>> GetAsync(int id, CancellationToken cancellationToken)
         {
-            var department = await _departmentQuery.GetAsync(id);
+            var department = await _departmentQuery.GetAsync(id, cancellationToken);
             if (department is null) return NotFound();
             return _mapper.Map<ViewDepartment>(department);
         }
@@ -40,21 +42,21 @@ namespace Zhiji.Organizations.Api.Controllers
         [HttpGet]
         [Route("/companies/{companyId:int}/[controller]")]
         [ProducesResponseType(typeof(ViewDepartment[]), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ViewDepartment[]>> GetAll(int companyId)
+        public async Task<ActionResult<ViewDepartment[]>> ListAllAsync(int companyId, CancellationToken cancellationToken)
         {
-            var departments = await _departmentQuery.ListAsync(companyId);
+            var departments = await _departmentQuery.ListAsync(companyId, cancellationToken);
             return _mapper.Map<ViewDepartment[]>(departments);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ViewDepartment), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> Create([FromBody]CreateDepartment request)
+        public async Task<IActionResult> CreateAsync([FromBody]CreateDepartment request, CancellationToken cancellationToken)
         {
             var department = new Department(request.Name, request.ParentId, request.CompanyId);
             _departmentRepository.Add(department);
-            await _departmentRepository.UnitOfWork.SaveChangesAsync();
+            await _departmentRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             var vm = _mapper.Map<ViewDepartment>(department);
-            return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
+            return CreatedAtAction(nameof(GetAsync), new { id = vm.Id }, vm);
         }
     }
 }

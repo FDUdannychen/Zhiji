@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
-using Zhiji.Common.Api;
+using Zhiji.Common.AspNetCore;
 using Zhiji.Common.Domain;
 using Zhiji.Customers.Infrastructure;
 
@@ -37,7 +37,7 @@ namespace Zhiji.Customers.Api
 
             services
                 .AddRouting(o => o.LowercaseUrls = true)
-                .AddMvc()
+                .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 

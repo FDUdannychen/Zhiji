@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Zhiji.Common.Domain;
 
-namespace Zhiji.Common.Infrastructure
+namespace Zhiji.Common.EntityFrameworkCore
 {
     public class EnumerationEntityConfiguration<T> : IEntityTypeConfiguration<T>
         where T : Enumeration

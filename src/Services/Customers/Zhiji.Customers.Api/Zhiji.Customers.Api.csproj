@@ -17,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Zhiji.Common.Api\Zhiji.Common.Api.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.AspNetCore\Zhiji.Common.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.EntityFrameworkCore\Zhiji.Common.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Zhiji.Customers.Domain\Zhiji.Customers.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Customers.Infrastructure\Zhiji.Customers.Infrastructure.csproj" />
   </ItemGroup>

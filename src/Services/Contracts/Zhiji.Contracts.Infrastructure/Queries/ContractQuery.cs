@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
+using Zhiji.Common;
 using Zhiji.Contracts.Domain.Contracts;
 
 namespace Zhiji.Contracts.Infrastructure.Queries
@@ -12,9 +14,13 @@ namespace Zhiji.Contracts.Infrastructure.Queries
     class ContractQuery : IContractQuery
     {
         private readonly ContractQueryContext _context;
+        private readonly IClock _clock;
 
-        public ContractQuery(ContractQueryContext context)
-            => _context = context;
+        public ContractQuery(ContractQueryContext context, IClock clock)
+        {
+            _context = context;
+            _clock = clock;
+        }
 
         public Task<Contract> GetAsync(int id, CancellationToken cancellationToken = default)
         {
@@ -36,9 +42,11 @@ namespace Zhiji.Contracts.Infrastructure.Queries
 
         public Task<Contract[]> ListEffectiveAsync(CancellationToken cancellationToken = default)
         {
+            var now = _clock.GetCurrentInstant();
+
             return _context.Contracts
                 .Include(e => e.Template.BillingMode)
-                .Where(c => c.StartTime <= DateTimeOffset.UtcNow && c.EndTime > DateTimeOffset.UtcNow)
+                .Where(c => c.StartDate <= now && c.EndDate > now)
                 .ToArrayAsync(cancellationToken);
         }
     }

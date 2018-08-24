@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Zhiji.Common.Infrastructure\Zhiji.Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.EntityFrameworkCore\Zhiji.Common.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Zhiji.Organizations.Domain\Zhiji.Organizations.Domain.csproj" />
   </ItemGroup>
 

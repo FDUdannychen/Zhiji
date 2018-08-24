@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Zhiji.Common.Api
+namespace Zhiji.Common.Http
 {
     public static class ContentType
     {

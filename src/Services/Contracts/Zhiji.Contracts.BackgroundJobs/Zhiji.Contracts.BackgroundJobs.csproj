@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Zhiji.Common.Api\Zhiji.Common.Api.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.AspNetCore\Zhiji.Common.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.EntityFrameworkCore\Zhiji.Common.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\EventBus\IntegrationEventLog\IntegrationEventLog.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Domain\Zhiji.Contracts.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Infrastructure\Zhiji.Contracts.Infrastructure.csproj" />

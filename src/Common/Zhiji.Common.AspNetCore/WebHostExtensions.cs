@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Zhiji.Common.Api
+namespace Zhiji.Common.AspNetCore
 {
     public static class WebHostExtensions
     {

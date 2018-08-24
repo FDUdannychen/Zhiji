@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Zhiji.Common.Api;
-using Zhiji.Contracts.Domain.Bills;
+using Microsoft.EntityFrameworkCore;
+using Zhiji.Common.AspNetCore;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Contracts.Domain.Templates;
 using Zhiji.Contracts.Infrastructure;
+using Zhiji.IntegrationEventLog;
 
 namespace Zhiji.Contracts.Api
 {
@@ -20,6 +20,13 @@ namespace Zhiji.Contracts.Api
         {
             var webHost = BuildWebHost(args);
             await webHost.EnsureDbContextAsync<ContractContext>(SeedContractContext);
+            await webHost.EnsureDbContextAsync<IntegrationEventContext>(async (c, p) =>
+            {
+                using (c)
+                {
+                    await c.Database.MigrateAsync();
+                }
+            });
             await webHost.RunAsync();
         }
 
@@ -33,8 +40,7 @@ namespace Zhiji.Contracts.Api
             using (context)
             {
                 await context.Database.EnsureCreatedAsync();
-                await context.EnsureEnumerationAsync<BillingMode>();
-                await context.EnsureEnumerationAsync<BillStatus>();
+                context.EnsureEnumeration<BillingMode>();
                 await context.SaveChangesAsync();
             }
         }

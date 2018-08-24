@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Zhiji.Common.Api;
+using Zhiji.Common.AspNetCore;
 using Zhiji.Common.Domain;
 using Zhiji.Organizations.Domain.Employees;
 using Zhiji.Organizations.Infrastructure;

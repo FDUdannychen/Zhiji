@@ -22,8 +22,11 @@ namespace Zhiji.Contracts.Api.Models.Contracts
                 .NotEmpty()
                 .GreaterThanOrEqualTo(1);
 
-            this.RuleFor(m => m.StartTime)
+            this.RuleFor(m => m.StartDate)
                 .NotEmpty();
+
+            this.RuleFor(m => m.EndDate)
+                .Must((m, v) => v.Value > m.StartDate).When(m => m.EndDate.HasValue);
         }
     }
 }

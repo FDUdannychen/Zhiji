@@ -1,5 +1,5 @@
 ﻿using System;
-using Zhiji.Common.Infrastructure;
+using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Customers.Domain.Customers;
 
 namespace Zhiji.Customers.Infrastructure.Repositories

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -12,21 +13,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MicroElements.Swashbuckle.NodaTime;
+using NodaTime;
+using NodaTime.Serialization.JsonNet;
 using Swashbuckle.AspNetCore.Swagger;
-using Zhiji.Common.Api;
+using Zhiji.Common.AspNetCore;
 using Zhiji.Common.Domain;
 using Zhiji.Contracts.Infrastructure;
+using Zhiji.IntegrationEventLog;
 
 namespace Zhiji.Contracts.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -38,6 +43,8 @@ namespace Zhiji.Contracts.Api
             services
                 .AddRouting(o => o.LowercaseUrls = true)
                 .AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Latest)
+                    .AddJsonOptions(o => o.SerializerSettings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb))
                 .AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
@@ -49,6 +56,9 @@ namespace Zhiji.Contracts.Api
                         .AsImplementedInterfaces()
                     .AddClasses(t => t.AssignableTo<IQuery>())
                         .AsImplementedInterfaces());
+
+            services.AddSingleton(DateTimeZoneProviders.Tzdb);
+            services.AddSingleton<IClock>(SystemClock.Instance);
         }
 
         public void ConfigureEntityFramework(IServiceCollection services)
@@ -63,7 +73,11 @@ namespace Zhiji.Contracts.Api
                     opt => opt
                         .UseSqlServer(this.Configuration.GetConnectionString("Query"),
                             o => o.EnableRetryOnFailure())
-                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking))
+                .AddDbContextPool<IntegrationEventContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Master"),
+                            o => o.EnableRetryOnFailure()));
         }
 
         public void ConfigureAutoMapper(IServiceCollection services)
@@ -80,6 +94,7 @@ namespace Zhiji.Contracts.Api
                     o.SwaggerDoc("v1", new Info { Title = "Contract API", Version = "v1" });
                     o.AddFluentValidationRules();
                     o.DocumentFilter<LowerCaseDocumentFilter>();
+                    o.ConfigureForNodaTime();
                 });
         }
 
@@ -98,7 +113,7 @@ namespace Zhiji.Contracts.Api
                 o.RoutePrefix = string.Empty;
             });
 
-            app.UseMvc();
+            app.UseMvc();            
         }
     }
 }

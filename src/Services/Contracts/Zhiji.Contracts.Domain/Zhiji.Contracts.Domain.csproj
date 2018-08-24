@@ -6,11 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Contracts\Contract.cs~RF28910d3.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="5.1.0" />
+    <PackageReference Include="NodaTime" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Zhiji.Common.Domain\Zhiji.Common.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common\Zhiji.Common.csproj" />
   </ItemGroup>
 
 </Project>

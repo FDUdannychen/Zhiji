@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Zhiji.Common.Api;
 using Zhiji.Organizations.Api.Models.Employees;
 using Zhiji.Organizations.Domain.Employees;
 
 namespace Zhiji.Organizations.Api.Controllers
-{    
-    public class EmployeesController : ApiControllerBase
+{
+    [Route("[controller]")]
+    [ApiController]
+    public class EmployeesController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IEmployeeQuery _employeeQuery;
@@ -30,9 +32,9 @@ namespace Zhiji.Organizations.Api.Controllers
         [Route("{id:int}")]
         [ProducesResponseType(typeof(ViewEmployee), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ViewEmployee), (int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<ViewEmployee>> Get(int id)
+        public async Task<ActionResult<ViewEmployee>> GetAsync(int id, CancellationToken cancellationToken)
         {
-            var employee = await _employeeQuery.GetAsync(id);
+            var employee = await _employeeQuery.GetAsync(id, cancellationToken);
             if (employee is null) return NotFound();
             return _mapper.Map<ViewEmployee>(employee);
         }
@@ -40,44 +42,44 @@ namespace Zhiji.Organizations.Api.Controllers
         [HttpGet]
         [Route("/companies/{companyId:int}/[controller]")]
         [ProducesResponseType(typeof(ViewEmployee[]), (int)HttpStatusCode.OK)]
-        public async Task<ViewEmployee[]> ListByCompany(int companyId)
+        public async Task<ViewEmployee[]> ListByCompanyAsync(int companyId, CancellationToken cancellationToken)
         {
-            var employees = await _employeeQuery.ListByCompanyAsync(companyId);
+            var employees = await _employeeQuery.ListByCompanyAsync(companyId, cancellationToken);
             return _mapper.Map<ViewEmployee[]>(employees);
         }
 
         [HttpGet]
         [Route("/departments/{departmentId:int}/[controller]")]
         [ProducesResponseType(typeof(ViewEmployee[]), (int)HttpStatusCode.OK)]
-        public async Task<ViewEmployee[]> ListByDepartment(int departmentId)
+        public async Task<ViewEmployee[]> ListByDepartmentAsync(int departmentId, CancellationToken cancellationToken)
         {
-            var employees = await _employeeQuery.ListByDepartmentAsync(departmentId);
+            var employees = await _employeeQuery.ListByDepartmentAsync(departmentId, cancellationToken);
             return _mapper.Map<ViewEmployee[]>(employees);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ViewEmployee), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> Create([FromBody]CreateEmployee request)
+        public async Task<IActionResult> CreateAsync([FromBody]CreateEmployee request, CancellationToken cancellationToken)
         {
             var employee = new Employee(request.Name, request.DepartmentId);
             _employeeRepository.Add(employee);
-            await _employeeRepository.UnitOfWork.SaveChangesAsync();
+            await _employeeRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             var vm = _mapper.Map<ViewEmployee>(employee);
-            return CreatedAtAction(nameof(Get), new { id = vm.Id }, vm);
+            return CreatedAtAction(nameof(GetAsync), new { id = vm.Id }, vm);
         }
 
         [HttpPatch]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]        
-        public async Task<IActionResult> Update([FromBody]UpdateEmployee request)
+        public async Task<IActionResult> UpdateAsync([FromBody]UpdateEmployee request, CancellationToken cancellationToken)
         {
-            var employee = await _employeeRepository.GetAsync(request.EmployeeId);
+            var employee = await _employeeRepository.GetAsync(request.EmployeeId, cancellationToken);
             if (employee is null) return NotFound();
 
             if (request.Name != null) employee.ChangeName(request.Name);
             if (request.DepartmentId.HasValue) employee.TransferDepartment(request.DepartmentId.Value);
 
-            await _employeeRepository.UnitOfWork.SaveChangesAsync();
+            await _employeeRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             return Ok();
         }
     }

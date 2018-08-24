@@ -8,13 +8,14 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
-using Zhiji.Common.Api;
+using Zhiji.Common.AspNetCore;
 using Zhiji.Common.Domain;
 using Zhiji.Organizations.Infrastructure;
 
@@ -39,7 +40,7 @@ namespace Zhiji.Organizations.Api
 
             services
                 .AddRouting(o => o.LowercaseUrls = true)
-                .AddMvc()
+                .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 

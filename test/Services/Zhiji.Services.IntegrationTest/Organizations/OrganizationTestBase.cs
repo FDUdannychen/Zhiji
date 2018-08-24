@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Zhiji.Common.Api;
+using Zhiji.Common.Http;
 using Zhiji.Organizations.Api.Models.Companies;
 
 namespace Zhiji.Services.IntegrationTest.Organization

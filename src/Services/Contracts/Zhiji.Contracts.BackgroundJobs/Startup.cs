@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -9,9 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 using Zhiji.Common.Domain;
-using Zhiji.Contracts.BackgroundJobs.BillGeneration;
+using Zhiji.Contracts.BackgroundJobs.BillingDateCheck;
 using Zhiji.Contracts.Infrastructure;
+using Zhiji.IntegrationEventLog;
 
 namespace Zhiji.Contracts.BackgroundJobs
 {
@@ -39,9 +42,12 @@ namespace Zhiji.Contracts.BackgroundJobs
                         .AsImplementedInterfaces()
                     .AddClasses(t => t.AssignableTo<IQuery>())
                         .AsImplementedInterfaces());
-
-            services.Configure<BillGenerationOptions>(this.Configuration.GetSection("BillGeneration"));
-            services.AddSingleton<IHostedService, BillGenerationJob>();
+                        
+            services.Configure<BillingDateCheckOptions>(this.Configuration.GetSection("BillingDateCheck"));
+            services.AddSingleton<IHostedService, BillingDateCheckJob>();
+            services.AddSingleton<Func<DbConnection, IIntegrationEventService>>(c => new IntegrationEventService(c));
+            services.AddSingleton(DateTimeZoneProviders.Tzdb);
+            services.AddSingleton<IClock>(SystemClock.Instance);
         }
 
         public void ConfigureEntityFramework(IServiceCollection services)
