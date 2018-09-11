@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Zhiji.IntegrationEventLog;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using NodaTime;
+//using Zhiji.EventBus;
 
-namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
-{
-    public class BillingDateReachedIntegrationEvent : IntegrationEvent
-    {
-        public int ContractId { get; }
+//namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
+//{
+//    class BillingDateReachedIntegrationEvent : IntegrationEvent
+//    {
+//        public int ContractId { get; }
 
-        public DateTimeOffset BillingDate { get; }
+//        public Instant BillingDate { get; }
 
-        public DateTimeOffset BillingPeriodStart { get; }
+//        public Instant BillingPeriodStart { get; }
 
-        public DateTimeOffset BillingPeriodEnd { get; }
+//        public Instant BillingPeriodEnd { get; }
 
-        public BillingDateReachedIntegrationEvent(int contractId, DateTimeOffset billingDate, DateTimeOffset billingPeriodStart, DateTimeOffset billingPeriodEnd)
-        {
-            this.ContractId = contractId;
-            this.BillingDate = billingDate;
-            this.BillingPeriodStart = billingPeriodStart;
-            this.BillingPeriodEnd = billingPeriodEnd;
-        }
-    }
-}
+//        public BillingDateReachedIntegrationEvent(int contractId, Instant billingDate, Instant billingPeriodStart, Instant billingPeriodEnd)
+//        {
+//            this.ContractId = contractId;
+//            this.BillingDate = billingDate;
+//            this.BillingPeriodStart = billingPeriodStart;
+//            this.BillingPeriodEnd = billingPeriodEnd;
+//        }
+//    }
+//}

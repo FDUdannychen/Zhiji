@@ -7,7 +7,7 @@ using Zhiji.Common.Domain;
 
 namespace Zhiji.Bills.Domain.Bills
 {
-    public interface IBillRepository : IRepository<Bill>
+    public interface IBillRepository : IRepository
     {
         Task<Bill> GetAsync(int id, CancellationToken cancellationToken = default);
 

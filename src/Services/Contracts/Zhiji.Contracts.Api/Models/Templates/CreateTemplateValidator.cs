@@ -21,7 +21,7 @@ namespace Zhiji.Contracts.Api.Models.Templates
 
             this.RuleFor(m => m.BillingModeId)
                 .Must(Enumeration.ContainsValue<BillingMode>);
-
+                        
             this.RuleFor(m => m.BillingDate)
                 .NotNull()
                 .SetValidator(billingDateValidator);

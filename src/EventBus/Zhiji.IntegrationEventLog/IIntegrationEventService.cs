@@ -3,12 +3,13 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 using NodaTime;
+using Zhiji.EventBus;
 
 namespace Zhiji.IntegrationEventLog
 {
     public interface IIntegrationEventService
     {
-        Task SaveEventAsync(IntegrationEvent evt, DbTransaction transaction, CancellationToken cancellationToken = default);
+        Task SaveEventAsync(IntegrationEvent evt, DbTransaction transaction = default, CancellationToken cancellationToken = default);
 
         Task MarkEventPublishedAsync(IntegrationEvent evt, CancellationToken cancellationToken = default);
 

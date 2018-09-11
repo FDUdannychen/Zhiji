@@ -24,7 +24,7 @@ namespace Zhiji.Services.IntegrationTest
                 .ConfigureAppConfiguration(b => b.AddJsonFile("appsettings.json"));
 
             var server = new TestServer(builder);
-            await server.Host.EnsureDbContextAsync<OrganizationContext>(async (context, services) =>
+            await server.Host.MigrateDbContextAsync<OrganizationContext>(async (context, services) =>
             {
                 await context.Database.EnsureDeletedAsync();
                 await context.Database.EnsureCreatedAsync();

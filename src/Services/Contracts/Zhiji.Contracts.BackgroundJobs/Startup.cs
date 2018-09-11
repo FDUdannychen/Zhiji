@@ -10,10 +10,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NodaTime;
+using NodaTime.Serialization.JsonNet;
 using Zhiji.Common.Domain;
 using Zhiji.Contracts.BackgroundJobs.BillingDateCheck;
 using Zhiji.Contracts.Infrastructure;
+using Zhiji.EventBus;
+using Zhiji.EventBus.RabbitMQ;
 using Zhiji.IntegrationEventLog;
 
 namespace Zhiji.Contracts.BackgroundJobs
@@ -31,6 +35,7 @@ namespace Zhiji.Contracts.BackgroundJobs
         {
             ConfigureApplication(services);
             ConfigureEntityFramework(services);
+            ConfigureEventBus(services);
             ConfigureLogging(services);
         }
 
@@ -62,7 +67,22 @@ namespace Zhiji.Contracts.BackgroundJobs
                     opt => opt
                         .UseSqlServer(this.Configuration.GetConnectionString("Query"),
                             o => o.EnableRetryOnFailure())
-                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking))
+                .AddDbContextPool<IntegrationEventContext>(
+                    opt => opt
+                        .UseSqlServer(this.Configuration.GetConnectionString("Master"),
+                            o => o.EnableRetryOnFailure()));
+        }
+
+        public void ConfigureEventBus(IServiceCollection services)
+        {
+            services.AddSingleton<IEventBus, RabbitMQEventBus>();
+            services.RegisterEasyNetQ(
+                this.Configuration.GetConnectionString("RabbitMQ"),
+                r => r.Register<EasyNetQ.ISerializer>(
+                    new EasyNetQ.JsonSerializer(
+                        new JsonSerializerSettings()
+                            .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb))));
         }
 
         public void ConfigureLogging(IServiceCollection services)

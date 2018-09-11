@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
+using Zhiji.EventBus;
 
 namespace Zhiji.IntegrationEventLog
 {
@@ -22,10 +23,10 @@ namespace Zhiji.IntegrationEventLog
                     .Options);
         }
 
-        public async Task SaveEventAsync(IntegrationEvent evt, DbTransaction transaction, CancellationToken cancellationToken = default)
+        public async Task SaveEventAsync(IntegrationEvent evt, DbTransaction transaction = default, CancellationToken cancellationToken = default)
         {
             var entry = new IntegrationEventEntry(evt);
-            _context.Database.UseTransaction(transaction);
+            if (transaction != null) _context.Database.UseTransaction(transaction);
             _context.IntegrationEvents.Add(entry);
             await _context.SaveChangesAsync(cancellationToken);
         }
@@ -38,12 +39,15 @@ namespace Zhiji.IntegrationEventLog
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<Instant> GetLastCreateTimeAsync<T>(CancellationToken cancellationToken = default) where T : IntegrationEvent
+        public async Task<Instant> GetLastCreateTimeAsync<T>(CancellationToken cancellationToken = default) where T : IntegrationEvent
         {
-            return _context
-                .IntegrationEvents
-                .Where(e => e.Type == typeof(T).Name)                
-                .MaxAsync(e => e.CreateTime, cancellationToken);
+            var latest = await _context.IntegrationEvents
+                .Where(e => e.Type == typeof(T).Name)
+                .OrderByDescending(e => e.CreateTime)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (latest is null) return Instant.MinValue;
+            return latest.CreateTime;
         }
     }
 }

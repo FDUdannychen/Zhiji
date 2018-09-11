@@ -26,11 +26,11 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.StartDate)
                 .IsRequired()
-                .HasConversion(v => v.ToDateTimeUtc(), v => Instant.FromDateTimeUtc(v));
+                .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
 
             builder.Property(e => e.EndDate)
-                .HasConversion(v => v == null ? (DateTime?)null : v.Value.ToDateTimeUtc(),
-                    v => v == null ? (Instant?)null : Instant.FromDateTimeUtc(v.Value));
+                .HasConversion(v => v == null ? (long?)null : v.Value.ToUnixTimeTicks(),
+                    v => v == null ? (Instant?)null : Instant.FromUnixTimeTicks(v.Value));
         }
     }
 }

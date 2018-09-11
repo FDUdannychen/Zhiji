@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Domain;
 
 namespace Zhiji.Bills.Infrastructure
 {
-    public class BillContext : BillContextBase, IUnitOfWork
+    public class BillQueryContext : BillContextBase
     {
-        public BillContext(DbContextOptions<BillContext> options)
+        public BillQueryContext(DbContextOptions<BillContext> options)
             : base(options)
         { }
     }

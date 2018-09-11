@@ -17,7 +17,7 @@ namespace Zhiji.Customers.Api
         public static async Task Main(string[] args)
         {
             var webHost = BuildWebHost(args);
-            await webHost.EnsureDbContextAsync<CustomerContext>(SeedCustomerContext);
+            await webHost.MigrateDbContextAsync<CustomerContext>(SeedCustomerContext);
             await webHost.RunAsync();
         }
 

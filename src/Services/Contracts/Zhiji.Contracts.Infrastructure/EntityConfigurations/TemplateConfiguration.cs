@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using NodaTime;
 using Zhiji.Common.Domain;
 using Zhiji.Contracts.Domain.Templates;
@@ -20,7 +21,9 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
                 .IsRequired()
                 .HasMaxLength(Template.NameMaxLength);
 
-            builder.Property(e => e.Price).IsRequired();
+            builder.Property(e => e.Price)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
 
             builder.HasOne(e => e.BillingMode)
                 .WithMany()

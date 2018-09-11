@@ -2,7 +2,7 @@
 
 namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
 {
-    public class BillingDateCheckOptions
+    class BillingDateCheckOptions
     {
         public TimeSpan Interval { get; set; } = TimeSpan.FromHours(6);
     }

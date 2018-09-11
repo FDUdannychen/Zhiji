@@ -9,6 +9,7 @@ using Zhiji.Common.AspNetCore;
 using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Contracts.Domain.Templates;
 using Zhiji.Contracts.Infrastructure;
+using Zhiji.IntegrationEventLog;
 
 namespace Zhiji.Contracts.BackgroundJobs
 {
@@ -17,7 +18,8 @@ namespace Zhiji.Contracts.BackgroundJobs
         public static async Task Main(string[] args)
         {
             var webHost = BuildWebHost(args);
-            await webHost.EnsureDbContextAsync<ContractContext>(SeedContractContext);
+            await webHost.MigrateDbContextAsync<ContractContext>(SeedContractContext);
+            await webHost.MigrateDbContextAsync<IntegrationEventContext>();
             await webHost.RunAsync();
         }
 
@@ -28,12 +30,8 @@ namespace Zhiji.Contracts.BackgroundJobs
 
         static async Task SeedContractContext(ContractContext context, IServiceProvider services)
         {
-            using (context)
-            {
-                await context.Database.EnsureCreatedAsync();
-                context.EnsureEnumeration<BillingMode>();
-                await context.SaveChangesAsync();
-            }
+            context.EnsureEnumeration<BillingMode>();
+            await context.SaveChangesAsync();
         }
     }
 }

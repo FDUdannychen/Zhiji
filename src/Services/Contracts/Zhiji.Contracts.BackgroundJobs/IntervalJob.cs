@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Zhiji.Contracts.BackgroundJobs
 {
-    public abstract class IntervalJob : BackgroundService
+    abstract class IntervalJob : BackgroundService
     {
         public TimeSpan Interval { get; }
         public ILogger Logger { get; }

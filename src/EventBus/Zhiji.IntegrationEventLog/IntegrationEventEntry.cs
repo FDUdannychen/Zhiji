@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using NodaTime;
+using NodaTime.Serialization.JsonNet;
 using Zhiji.Common.Json;
+using Zhiji.EventBus;
 
 namespace Zhiji.IntegrationEventLog
 {
     public class IntegrationEventEntry
     {
-        private static readonly JsonSerializerSettings _jsonSettings 
-            = new JsonSerializerSettings { ContractResolver = new DeclaredPropertiesResolver() };
+        private static readonly JsonSerializerSettings _jsonSettings
+            = new JsonSerializerSettings { ContractResolver = new DeclaredPropertiesResolver() }
+            .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 
         public Guid Id { get; private set; }
         public Instant CreateTime { get; private set; }

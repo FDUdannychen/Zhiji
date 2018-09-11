@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MediatR;
 using NodaTime;
 
-namespace Zhiji.IntegrationEventLog
+namespace Zhiji.EventBus
 {
     public abstract class IntegrationEvent
     {

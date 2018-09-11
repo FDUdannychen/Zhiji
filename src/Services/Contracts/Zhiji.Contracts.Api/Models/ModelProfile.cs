@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using NodaTime;
 using Zhiji.Contracts.Api.Models.Contracts;
 using Zhiji.Contracts.Api.Models.Templates;
 using Zhiji.Contracts.Domain.Contracts;
@@ -16,7 +17,11 @@ namespace Zhiji.Contracts.Api.Models
         {
             this.CreateMap<Template, ViewTemplate>();
 
-            this.CreateMap<Contract, ViewContract>();
+            this.CreateMap<Contract, ViewContract>()
+                .ForMember(v => v.StartDate,
+                    o => o.ResolveUsing(c => c.StartDate.InZone(c.Template.TimeZone).Date))
+                .ForMember(v => v.EndDate,
+                    o => o.ResolveUsing(c => c.EndDate is null ? (LocalDate?)null : c.EndDate.Value.InZone(c.Template.TimeZone).Date));
 
             this.CreateMap<Domain.Templates.BillingDate, Templates.BillingDate>()
                 .ReverseMap()

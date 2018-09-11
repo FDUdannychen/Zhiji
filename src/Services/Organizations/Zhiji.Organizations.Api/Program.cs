@@ -17,7 +17,7 @@ namespace Zhiji.Organizations.Api
         public static async Task Main(string[] args)
         {
             var webHost = BuildWebHost(args);
-            await webHost.EnsureDbContextAsync<OrganizationContext>(SeedOrganizationContext);
+            await webHost.MigrateDbContextAsync<OrganizationContext>(SeedOrganizationContext);
             await webHost.RunAsync();
         }
 

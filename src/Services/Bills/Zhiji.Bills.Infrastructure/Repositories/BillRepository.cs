@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Zhiji.Common.Infrastructure;
 using Zhiji.Bills.Domain.Bills;
+using Zhiji.Common.EntityFrameworkCore;
 
 namespace Zhiji.Bills.Infrastructure.Repositories
 {

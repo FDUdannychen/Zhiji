@@ -19,14 +19,8 @@ namespace Zhiji.Contracts.Api
         public static async Task Main(string[] args)
         {
             var webHost = BuildWebHost(args);
-            await webHost.EnsureDbContextAsync<ContractContext>(SeedContractContext);
-            await webHost.EnsureDbContextAsync<IntegrationEventContext>(async (c, p) =>
-            {
-                using (c)
-                {
-                    await c.Database.MigrateAsync();
-                }
-            });
+            await webHost.MigrateDbContextAsync<ContractContext>(SeedContractContext);
+            await webHost.MigrateDbContextAsync<IntegrationEventContext>();
             await webHost.RunAsync();
         }
 
@@ -37,12 +31,8 @@ namespace Zhiji.Contracts.Api
 
         static async Task SeedContractContext(ContractContext context, IServiceProvider services)
         {
-            using (context)
-            {
-                await context.Database.EnsureCreatedAsync();
-                context.EnsureEnumeration<BillingMode>();
-                await context.SaveChangesAsync();
-            }
+            context.EnsureEnumeration<BillingMode>();
+            await context.SaveChangesAsync();
         }
     }
 }

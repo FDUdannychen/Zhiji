@@ -12,10 +12,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NodaTime" Version="2.4.0" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Zhiji.Common\Zhiji.Common.csproj" />
+    <ProjectReference Include="..\Zhiji.EventBus\Zhiji.EventBus.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,16 +10,28 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.104" />
     <PackageReference Include="MediatR" Version="5.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.1.0" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="0.8.2" />
+    <PackageReference Include="MicroElements.Swashbuckle.NodaTime" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
+    <PackageReference Include="NodaTime" Version="2.4.0" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="2.0.0" />
     <PackageReference Include="Scrutor" Version="2.2.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="EasyNetQ.DI.Microsoft" Version="3.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Zhiji.Common.Api\Zhiji.Common.Api.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.AspNetCore\Zhiji.Common.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common.EntityFrameworkCore\Zhiji.Common.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\EventBus\Zhiji.EventBus.RabbitMQ\Zhiji.EventBus.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\EventBus\Zhiji.IntegrationEventLog\Zhiji.IntegrationEventLog.csproj" />
     <ProjectReference Include="..\Zhiji.Bills.Domain\Zhiji.Bills.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Bills.Infrastructure\Zhiji.Bills.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Zhiji.Common.Api;
 using Zhiji.Bills.Domain.Bills;
 using Zhiji.Bills.Infrastructure;
+using Zhiji.Common.AspNetCore;
+using Zhiji.Common.EntityFrameworkCore;
+using Zhiji.IntegrationEventLog;
 
 namespace Zhiji.Bills.Api
 {
@@ -18,7 +18,8 @@ namespace Zhiji.Bills.Api
         public static async Task Main(string[] args)
         {
             var webHost = BuildWebHost(args);
-            await webHost.EnsureDbContextAsync<BillContext>(SeedContractContext);
+            await webHost.MigrateDbContextAsync<BillContext>(SeedBillContext);
+            await webHost.MigrateDbContextAsync<IntegrationEventContext>();
             await webHost.RunAsync();
         }
 
@@ -27,14 +28,10 @@ namespace Zhiji.Bills.Api
                 .UseStartup<Startup>()
                 .Build();
 
-        static async Task SeedContractContext(BillContext context, IServiceProvider services)
+        static async Task SeedBillContext(BillContext context, IServiceProvider services)
         {
-            using (context)
-            {
-                await context.Database.EnsureCreatedAsync();
-                await context.EnsureEnumerationAsync<BillStatus>();
-                await context.SaveChangesAsync();
-            }
+            context.EnsureEnumeration<BillStatus>();
+            await context.SaveChangesAsync();
         }
     }
 }
