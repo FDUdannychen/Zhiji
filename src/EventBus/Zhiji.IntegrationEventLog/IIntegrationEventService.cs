@@ -13,6 +13,6 @@ namespace Zhiji.IntegrationEventLog
 
         Task MarkEventPublishedAsync(IntegrationEvent evt, CancellationToken cancellationToken = default);
 
-        Task<Instant> GetLastCreateTimeAsync<T>(CancellationToken cancellationToken = default) where T : IntegrationEvent;
+        Task<Instant> GetLastPublishTimeAsync<T>(CancellationToken cancellationToken = default) where T : IntegrationEvent;
     }
 }

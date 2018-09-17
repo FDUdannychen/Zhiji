@@ -29,8 +29,9 @@ namespace Zhiji.Bills.Infrastructure.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<long>("End");
+
+                    b.Property<long>("Start");
 
                     b.Property<int?>("StatusId")
                         .IsRequired();
@@ -64,24 +65,6 @@ namespace Zhiji.Bills.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.OwnsOne("Zhiji.Bills.Domain.Bills.BillPeriod", "Period", b1 =>
-                        {
-                            b1.Property<int?>("BillId")
-                                .ValueGeneratedOnAdd()
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<DateTimeOffset>("End");
-
-                            b1.Property<DateTimeOffset>("Start");
-
-                            b1.ToTable("Bills");
-
-                            b1.HasOne("Zhiji.Bills.Domain.Bills.Bill")
-                                .WithOne("Period")
-                                .HasForeignKey("Zhiji.Bills.Domain.Bills.BillPeriod", "BillId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 #pragma warning restore 612, 618
         }

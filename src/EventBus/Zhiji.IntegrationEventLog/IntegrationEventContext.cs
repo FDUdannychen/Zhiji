@@ -21,9 +21,8 @@ namespace Zhiji.IntegrationEventLog
             eventEntity.HasKey(e => e.Id);
             eventEntity.Property(e => e.Id).ValueGeneratedNever();            
             eventEntity.Property(e => e.Arguments).IsRequired();
-            eventEntity.Property(e => e.PublishTimes).IsRequired();
             eventEntity.Property(e => e.Type).IsRequired();
-            eventEntity.Property(e => e.Status).IsRequired();
+            eventEntity.Property(e => e.Published).IsRequired();
 
             eventEntity.Property(e => e.CreateTime)
                 .IsRequired()

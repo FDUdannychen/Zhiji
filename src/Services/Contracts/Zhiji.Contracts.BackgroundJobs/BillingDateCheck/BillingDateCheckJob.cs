@@ -49,12 +49,14 @@ namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
                 var contractContext = scope.ServiceProvider.GetService<ContractContext>();
                 var integrationEventService = _integrationEventServiceFactory(contractContext.Database.GetDbConnection());
 
-                var lastCreateTime = await integrationEventService.GetLastCreateTimeAsync<BillingDateReachedIntegrationEvent>(stoppingToken);
+                var lastTime = await integrationEventService.GetLastPublishTimeAsync<BillingDateReachedIntegrationEvent>(stoppingToken);
                 var contracts = await contractQuery.ListEffectiveAsync(stoppingToken);
+
+                this.Logger.LogInformation($"Last publish time: {lastTime.InUtc()}");
 
                 foreach (var contract in contracts)
                 {
-                    var events = GetEvents(contract, lastCreateTime);
+                    var events = GetEvents(contract, lastTime);
                     foreach (var evt in events)
                     {
                         await integrationEventService.SaveEventAsync(evt, cancellationToken: stoppingToken);
@@ -99,6 +101,9 @@ namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
 
                     yield return new BillingDateReachedIntegrationEvent(
                         contract.Id,
+                        contract.Template.Id,
+                        contract.CustomerId,
+                        contract.TenementId,
                         nextBillingDate.AtStartOfDayInZone(timeZone).ToInstant(),
                         billingStart.AtStartOfDayInZone(timeZone).ToInstant(),
                         billingEnd.AtStartOfDayInZone(timeZone).ToInstant());

@@ -1,37 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NodaTime;
 using Zhiji.Common.Domain;
 
 namespace Zhiji.Bills.Domain.Bills
 {
     public class Bill : Entity, IAggregateRoot
     {
-        public string Name { get; private set; }
         public int ContractId { get; private set; }
+        public int TemplateId { get; private set; }
         public int CustomerId { get; private set; }
         public int TenementId { get; private set; }
-        public int TemplateId { get; private set; }
-        public BillPeriod Period { get; private set; }
+        public Instant Start { get; private set; }
+        public Instant End { get; private set; }
         public BillStatus Status { get; private set; }
 
-        private int? _statusId;
+        public int? _statusId;
 
         private Bill() { }
 
-        public Bill(string name, int contractId, int customerId, int tenementId, int templateId, BillPeriod period)
+        public Bill(
+            int contractId,
+            int templateId,
+            int customerId,
+            int tenementId,            
+            Instant start, 
+            Instant end)
         {
-            this.Name = name;
             this.ContractId = contractId;
-            this.TenementId = TenementId;
             this.TemplateId = templateId;
-            this.Period = period;
+            this.CustomerId = customerId;
+            this.TenementId = tenementId;
+            this.Start = start;
+            this.End = end;
             _statusId = BillStatus.Created.Id;
         }
 
         public void SetPaidStatus()
         {
-            if (_statusId == BillStatus.Created.Id)
+            if (this.Status == BillStatus.Created)
             {
                 _statusId = BillStatus.Paid.Id;
             }

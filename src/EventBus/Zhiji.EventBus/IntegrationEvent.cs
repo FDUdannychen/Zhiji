@@ -6,7 +6,7 @@ using NodaTime;
 
 namespace Zhiji.EventBus
 {
-    public abstract class IntegrationEvent
+    public abstract class IntegrationEvent : INotification
     {
         public Guid Id { get; protected set; }
 

@@ -23,10 +23,8 @@ namespace Zhiji.Bills.Api
             await webHost.RunAsync();
         }
 
-        static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        static IWebHost BuildWebHost(string[] args)
+            => WebHost.CreateDefaultBuilder<Startup>(args).Build();
 
         static async Task SeedBillContext(BillContext context, IServiceProvider services)
         {

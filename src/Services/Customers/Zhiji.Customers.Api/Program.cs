@@ -21,10 +21,8 @@ namespace Zhiji.Customers.Api
             await webHost.RunAsync();
         }
 
-        static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        static IWebHost BuildWebHost(string[] args) 
+            => WebHost.CreateDefaultBuilder<Startup>(args).Build();
 
         static async Task SeedCustomerContext(CustomerContext context, IServiceProvider services)
         {

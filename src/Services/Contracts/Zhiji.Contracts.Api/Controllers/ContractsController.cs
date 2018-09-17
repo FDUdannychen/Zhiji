@@ -53,7 +53,7 @@ namespace Zhiji.Contracts.Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ViewContract), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateAsync([FromBody]CreateContract request, CancellationToken cancellationToken)
         {
             var template = await _templateQuery.GetAsync(request.TemplateId);
@@ -67,11 +67,12 @@ namespace Zhiji.Contracts.Api.Controllers
             var endDate = request.EndDate.HasValue 
                 ? request.EndDate.Value.AtStartOfDayInZone(template.TimeZone).ToInstant()
                 : (Instant?)null;
+
             var contract = new Contract(request.TemplateId, request.CustomerId, request.TenementId, startDate, endDate);
             _contractRepository.Add(contract);
             await _contractRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            var vm = _mapper.Map<ViewContract>(contract);
-            return CreatedAtAction(nameof(GetAsync), new { id = vm.Id }, vm);
+
+            return CreatedAtAction(nameof(GetAsync), new { id = contract.Id }, new { ContractId = contract.Id });
         }
     }
 }

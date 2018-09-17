@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Zhiji.Common.AspNetCore;
 using Zhiji.Common.EntityFrameworkCore;
 using Zhiji.Contracts.Domain.Templates;
@@ -24,10 +23,8 @@ namespace Zhiji.Contracts.Api
             await webHost.RunAsync();
         }
 
-        static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        static IWebHost BuildWebHost(string[] args)
+            => WebHost.CreateDefaultBuilder<Startup>(args).Build();
 
         static async Task SeedContractContext(ContractContext context, IServiceProvider services)
         {

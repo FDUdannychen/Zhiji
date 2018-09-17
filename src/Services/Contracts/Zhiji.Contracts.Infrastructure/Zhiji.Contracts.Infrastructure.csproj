@@ -18,4 +18,8 @@
     <ProjectReference Include="..\..\Bills\Zhiji.Bills.Domain\Zhiji.Bills.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Domain\Zhiji.Contracts.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>

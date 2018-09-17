@@ -19,8 +19,7 @@ namespace Zhiji.IntegrationEventLog
         public Instant CreateTime { get; private set; }
         public string Type { get; private set; }
         public string Arguments { get; private set; }
-        public IntegrationEventStatus Status { get; set; }
-        public int PublishTimes { get; set; }
+        public bool Published { get; set; }
 
         private IntegrationEventEntry() { }
 
@@ -30,8 +29,7 @@ namespace Zhiji.IntegrationEventLog
             this.CreateTime = evt.CreateTime;
             this.Type = evt.GetType().Name;
             this.Arguments = JsonConvert.SerializeObject(evt, _jsonSettings);
-            this.Status = IntegrationEventStatus.NotPublished;
-            this.PublishTimes = 0;
+            this.Published = false;
         }
     }
 }

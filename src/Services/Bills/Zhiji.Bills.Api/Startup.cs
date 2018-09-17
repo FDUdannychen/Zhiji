@@ -2,7 +2,6 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
-using MediatR.Pipeline;
 using MicroElements.Swashbuckle.NodaTime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +32,7 @@ namespace Zhiji.Bills.Api
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureContainer(IServiceCollection services)
         {
             ConfigureApplication(services);
             ConfigureEntityFramework(services);
@@ -51,8 +50,10 @@ namespace Zhiji.Bills.Api
                 .FromAssemblyOf<BillContext>()
                     .AddClasses(t => t.AssignableTo<IRepository>())
                         .AsImplementedInterfaces()
+                        .WithScopedLifetime()
                     .AddClasses(t => t.AssignableTo<IQuery>())
-                        .AsImplementedInterfaces());     
+                        .AsImplementedInterfaces()
+                        .WithScopedLifetime());
         }
 
         public void ConfigureEntityFramework(IServiceCollection services)
@@ -141,8 +142,14 @@ namespace Zhiji.Bills.Api
 
             app.UseMvc();
 
+            ConfigureEventSubscriptions(app);
+        }
+
+        void ConfigureEventSubscriptions(IApplicationBuilder app)
+        {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<BillingDateReachedIntegrationEvent>("Zhiji.Bills.Api");
+            var subscriptionId = this.GetType().Assembly.GetName().Name;
+            eventBus.Subscribe<BillingDateReachedIntegrationEvent>(subscriptionId);
         }
     }
 }

@@ -28,14 +28,14 @@ namespace Zhiji.IntegrationEventLog.Migrations
 
                     b.Property<long>("CreateTime");
 
-                    b.Property<int>("PublishTimes");
-
-                    b.Property<int>("Status");
+                    b.Property<bool>("Published");
 
                     b.Property<string>("Type")
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateTime");
 
                     b.ToTable("IntegrationEvents");
                 });

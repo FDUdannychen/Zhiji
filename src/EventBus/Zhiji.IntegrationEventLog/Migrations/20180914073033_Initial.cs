@@ -15,13 +15,17 @@ namespace Zhiji.IntegrationEventLog.Migrations
                     CreateTime = table.Column<long>(nullable: false),
                     Type = table.Column<string>(nullable: false),
                     Arguments = table.Column<string>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    PublishTimes = table.Column<int>(nullable: false)
+                    Published = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IntegrationEvents", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IntegrationEvents_CreateTime",
+                table: "IntegrationEvents",
+                column: "CreateTime");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

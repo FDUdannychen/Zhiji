@@ -34,15 +34,14 @@ namespace Zhiji.IntegrationEventLog
         public async Task MarkEventPublishedAsync(IntegrationEvent evt, CancellationToken cancellationToken = default)
         {
             var entry = await _context.IntegrationEvents.SingleAsync(e => e.Id == evt.Id, cancellationToken);
-            entry.PublishTimes++;
-            entry.Status = IntegrationEventStatus.Published;
+            entry.Published = true;
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<Instant> GetLastCreateTimeAsync<T>(CancellationToken cancellationToken = default) where T : IntegrationEvent
+        public async Task<Instant> GetLastPublishTimeAsync<T>(CancellationToken cancellationToken = default) where T : IntegrationEvent
         {
             var latest = await _context.IntegrationEvents
-                .Where(e => e.Type == typeof(T).Name)
+                .Where(e => e.Type == typeof(T).Name && e.Published)
                 .OrderByDescending(e => e.CreateTime)
                 .FirstOrDefaultAsync(cancellationToken);
 

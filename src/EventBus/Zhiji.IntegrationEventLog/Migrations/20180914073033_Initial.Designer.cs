@@ -10,7 +10,7 @@ using Zhiji.IntegrationEventLog;
 namespace Zhiji.IntegrationEventLog.Migrations
 {
     [DbContext(typeof(IntegrationEventContext))]
-    [Migration("20180829060458_Initial")]
+    [Migration("20180914073033_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,14 +30,14 @@ namespace Zhiji.IntegrationEventLog.Migrations
 
                     b.Property<long>("CreateTime");
 
-                    b.Property<int>("PublishTimes");
-
-                    b.Property<int>("Status");
+                    b.Property<bool>("Published");
 
                     b.Property<string>("Type")
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateTime");
 
                     b.ToTable("IntegrationEvents");
                 });

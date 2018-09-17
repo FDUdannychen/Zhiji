@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Zhiji.Bills.Infrastructure.Migrations
@@ -26,13 +25,12 @@ namespace Zhiji.Bills.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
                     ContractId = table.Column<int>(nullable: false),
+                    TemplateId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     TenementId = table.Column<int>(nullable: false),
-                    TemplateId = table.Column<int>(nullable: false),
-                    Period_Start = table.Column<DateTimeOffset>(nullable: false),
-                    Period_End = table.Column<DateTimeOffset>(nullable: false),
+                    Start = table.Column<long>(nullable: false),
+                    End = table.Column<long>(nullable: false),
                     StatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

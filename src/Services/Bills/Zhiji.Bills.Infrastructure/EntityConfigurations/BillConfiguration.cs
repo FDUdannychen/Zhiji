@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Zhiji.Common.Domain;
 using Zhiji.Bills.Domain.Bills;
+using NodaTime;
 
 namespace Zhiji.Bills.Infrastructure.EntityConfigurations
 {
@@ -15,15 +16,18 @@ namespace Zhiji.Bills.Infrastructure.EntityConfigurations
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            builder.Property(e => e.Name).IsRequired();
             builder.Property(e => e.ContractId).IsRequired();
+            builder.Property(e => e.TemplateId).IsRequired();
             builder.Property(e => e.CustomerId).IsRequired();
             builder.Property(e => e.TenementId).IsRequired();
-            builder.Property(e => e.TemplateId).IsRequired();
 
-            var billingPeriod = builder.OwnsOne(e => e.Period);
-            billingPeriod.Property(e => e.Start).IsRequired();
-            billingPeriod.Property(e => e.End).IsRequired();
+            builder.Property(e => e.Start)
+                .IsRequired()
+                .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
+
+            builder.Property(e => e.End)
+                .IsRequired()
+                .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
 
             builder.HasOne(e => e.Status)
                 .WithMany()

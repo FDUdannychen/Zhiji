@@ -54,8 +54,10 @@ namespace Zhiji.Contracts.Api
                 .FromAssemblyOf<ContractContext>()
                     .AddClasses(t => t.AssignableTo<IRepository>())
                         .AsImplementedInterfaces()
+                        .WithScopedLifetime()
                     .AddClasses(t => t.AssignableTo<IQuery>())
-                        .AsImplementedInterfaces());
+                        .AsImplementedInterfaces()
+                        .WithScopedLifetime());
 
             services.AddSingleton(DateTimeZoneProviders.Tzdb);
             services.AddSingleton<IClock>(SystemClock.Instance);

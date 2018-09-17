@@ -21,10 +21,8 @@ namespace Zhiji.Organizations.Api
             await webHost.RunAsync();
         }
 
-        static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        static IWebHost BuildWebHost(string[] args)
+            => WebHost.CreateDefaultBuilder<Startup>(args).Build();
 
         static async Task SeedOrganizationContext(OrganizationContext context, IServiceProvider services)
         {
