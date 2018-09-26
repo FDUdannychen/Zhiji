@@ -77,7 +77,7 @@ namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
 
             var billingMode = contract.Template.BillingMode;
             var billingDate = contract.Template.BillingDate;
-            var startDate = contract.StartDate.InZone(timeZone).Date;
+            var startDate = contract.Start.InZone(timeZone).Date;
             var nextBillingDate = new LocalDate(startDate.Year, billingDate.Month, billingDate.Day);
             var monthOffset = contract.Template.BillingPeriodStartMonthOffset;
 

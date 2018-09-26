@@ -29,8 +29,8 @@ namespace Zhiji.Bills.Infrastructure.Migrations
                     TemplateId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     TenementId = table.Column<int>(nullable: false),
-                    Start = table.Column<long>(nullable: false),
-                    End = table.Column<long>(nullable: false),
+                    StartDate = table.Column<long>(nullable: false),
+                    EndDate = table.Column<long>(nullable: false),
                     StatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

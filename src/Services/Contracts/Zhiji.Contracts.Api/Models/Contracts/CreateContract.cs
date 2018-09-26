@@ -14,8 +14,8 @@ namespace Zhiji.Contracts.Api.Models.Contracts
 
         public int TemplateId { get; set; }
 
-        public LocalDate StartDate { get; set; }
+        public Instant StartDate { get; set; }
 
-        public LocalDate? EndDate { get; set; }
+        public Instant? EndDate { get; set; }
     }
 }

@@ -22,24 +22,5 @@ namespace Zhiji.Bills.Infrastructure.Repositories
                 .Include(e => e.Status)
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
-
-        public Task<Bill[]> ListAsync(
-            int? customerId = null, 
-            int? tenementId = null, 
-            int? contractId = null, 
-            int? templateId = null, 
-            int? billStatusId = null, 
-            CancellationToken cancellationToken = default)
-        {
-            IQueryable<Bill> bills = _context.Bills.Include(e => e.Status);
-
-            if (customerId != null) bills = bills.Where(e => e.CustomerId == customerId.Value);
-            if (tenementId != null) bills = bills.Where(e => e.TenementId == tenementId.Value);
-            if (contractId != null) bills = bills.Where(e => e.Id == contractId.Value);
-            if (templateId != null) bills = bills.Where(e => e.TemplateId == templateId.Value);
-            if (billStatusId != null) bills = bills.Where(e => e.Status.Id == billStatusId.Value);
-
-            return bills.ToArrayAsync(cancellationToken);
-        }
     }
 }

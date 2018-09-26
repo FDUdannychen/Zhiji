@@ -12,8 +12,8 @@ namespace Zhiji.Bills.Domain.Bills
         public int TemplateId { get; private set; }
         public int CustomerId { get; private set; }
         public int TenementId { get; private set; }
-        public Instant Start { get; private set; }
-        public Instant End { get; private set; }
+        public Instant StartDate { get; private set; }
+        public Instant EndDate { get; private set; }
         public BillStatus Status { get; private set; }
 
         public int? _statusId;
@@ -32,8 +32,8 @@ namespace Zhiji.Bills.Domain.Bills
             this.TemplateId = templateId;
             this.CustomerId = customerId;
             this.TenementId = tenementId;
-            this.Start = start;
-            this.End = end;
+            this.StartDate = start;
+            this.EndDate = end;
             _statusId = BillStatus.Created.Id;
         }
 

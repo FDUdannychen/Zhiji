@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Zhiji.Common.Domain\Zhiji.Common.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Common\Zhiji.Common\Zhiji.Common.csproj" />
   </ItemGroup>
 
 </Project>

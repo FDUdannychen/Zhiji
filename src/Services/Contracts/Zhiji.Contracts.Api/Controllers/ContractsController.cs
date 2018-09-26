@@ -48,7 +48,13 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType(typeof(ViewContract[]), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ViewContract[]>> SearchAsync([FromQuery]SearchContract request, CancellationToken cancellationToken)
         {
-            var contracts = await _contractQuery.ListAsync(request.CustomerId, request.TenementId, request.TemplateId, cancellationToken);
+            var contracts = await _contractQuery.ListAsync(request.CustomerId, 
+                request.TenementId, 
+                request.TemplateId, 
+                request.StartDateRange,
+                request.EndDateRange,
+                cancellationToken);
+
             return _mapper.Map<ViewContract[]>(contracts);
         }
 
@@ -56,19 +62,7 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateAsync([FromBody]CreateContract request, CancellationToken cancellationToken)
         {
-            var template = await _templateQuery.GetAsync(request.TemplateId);
-            if (template is null)
-            {
-                this.ModelState.AddModelError(nameof(CreateContract.TemplateId), $"The template id {request.TemplateId} doesn't exist");
-                return BadRequest(this.ModelState);
-            }
-
-            var startDate = request.StartDate.AtStartOfDayInZone(template.TimeZone).ToInstant();
-            var endDate = request.EndDate.HasValue 
-                ? request.EndDate.Value.AtStartOfDayInZone(template.TimeZone).ToInstant()
-                : (Instant?)null;
-
-            var contract = new Contract(request.TemplateId, request.CustomerId, request.TenementId, startDate, endDate);
+            var contract = new Contract(request.TemplateId, request.CustomerId, request.TenementId, request.StartDate, request.EndDate);
             _contractRepository.Add(contract);
             await _contractRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 

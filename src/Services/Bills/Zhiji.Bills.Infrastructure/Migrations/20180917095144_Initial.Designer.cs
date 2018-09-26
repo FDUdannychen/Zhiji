@@ -31,9 +31,9 @@ namespace Zhiji.Bills.Infrastructure.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<long>("End");
+                    b.Property<long>("EndDate");
 
-                    b.Property<long>("Start");
+                    b.Property<long>("StartDate");
 
                     b.Property<int?>("StatusId")
                         .IsRequired();

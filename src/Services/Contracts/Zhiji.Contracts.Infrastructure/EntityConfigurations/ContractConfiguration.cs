@@ -20,15 +20,15 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
                 .WithMany()
                 .HasForeignKey(nameof(Contract.Template) + nameof(Entity.Id))
                 .IsRequired();
-
+            
             builder.Property(e => e.CustomerId).IsRequired();
             builder.Property(e => e.TenementId).IsRequired();
 
-            builder.Property(e => e.StartDate)
+            builder.Property(e => e.Start)
                 .IsRequired()
                 .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
 
-            builder.Property(e => e.EndDate)
+            builder.Property(e => e.End)
                 .HasConversion(v => v == null ? (long?)null : v.Value.ToUnixTimeTicks(),
                     v => v == null ? (Instant?)null : Instant.FromUnixTimeTicks(v.Value));
         }

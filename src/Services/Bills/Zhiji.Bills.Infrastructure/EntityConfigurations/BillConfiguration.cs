@@ -21,11 +21,11 @@ namespace Zhiji.Bills.Infrastructure.EntityConfigurations
             builder.Property(e => e.CustomerId).IsRequired();
             builder.Property(e => e.TenementId).IsRequired();
 
-            builder.Property(e => e.Start)
+            builder.Property(e => e.StartDate)
                 .IsRequired()
                 .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
 
-            builder.Property(e => e.End)
+            builder.Property(e => e.EndDate)
                 .IsRequired()
                 .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
 

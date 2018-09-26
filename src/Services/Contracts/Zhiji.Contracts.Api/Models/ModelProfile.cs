@@ -19,9 +19,9 @@ namespace Zhiji.Contracts.Api.Models
 
             this.CreateMap<Contract, ViewContract>()
                 .ForMember(v => v.StartDate,
-                    o => o.ResolveUsing(c => c.StartDate.InZone(c.Template.TimeZone).Date))
+                    o => o.ResolveUsing(c => c.Start.InZone(c.Template.TimeZone).Date))
                 .ForMember(v => v.EndDate,
-                    o => o.ResolveUsing(c => c.EndDate is null ? (LocalDate?)null : c.EndDate.Value.InZone(c.Template.TimeZone).Date));
+                    o => o.ResolveUsing(c => c.End is null ? (LocalDate?)null : c.End.Value.InZone(c.Template.TimeZone).Date));
 
             this.CreateMap<Domain.Templates.BillingDate, Templates.BillingDate>()
                 .ReverseMap()
