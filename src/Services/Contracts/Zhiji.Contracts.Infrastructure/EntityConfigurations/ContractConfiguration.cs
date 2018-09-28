@@ -24,13 +24,13 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
             builder.Property(e => e.CustomerId).IsRequired();
             builder.Property(e => e.TenementId).IsRequired();
 
-            builder.Property(e => e.Start)
+            builder.Property(e => e.StartDate)
                 .IsRequired()
-                .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
+                .HasConversion(v => v.ToDateTimeUnspecified(), v => LocalDate.FromDateTime(v));
 
-            builder.Property(e => e.End)
-                .HasConversion(v => v == null ? (long?)null : v.Value.ToUnixTimeTicks(),
-                    v => v == null ? (Instant?)null : Instant.FromUnixTimeTicks(v.Value));
+            builder.Property(e => e.EndDate)
+                .HasConversion(v => v == null ? (DateTime?)null : v.Value.ToDateTimeUnspecified(),
+                    v => v == null ? (LocalDate?)null : LocalDate.FromDateTime(v.Value));
         }
     }
 }

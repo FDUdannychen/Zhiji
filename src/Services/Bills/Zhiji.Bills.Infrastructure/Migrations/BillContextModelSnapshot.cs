@@ -15,7 +15,7 @@ namespace Zhiji.Bills.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -29,9 +29,9 @@ namespace Zhiji.Bills.Infrastructure.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<long>("EndDate");
+                    b.Property<DateTime>("EndDate");
 
-                    b.Property<long>("StartDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<int?>("StatusId")
                         .IsRequired();

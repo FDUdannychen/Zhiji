@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NodaTime;
 using Zhiji.Common.Domain;
 
 namespace Zhiji.Contracts.Domain.Templates
@@ -15,11 +16,11 @@ namespace Zhiji.Contracts.Domain.Templates
 
         private BillingDate() { }
 
-        public BillingDate(int month, int day, int intervalMonth)
+        public BillingDate(int month, int day, int interval)
         {
             this.Month = month;
             this.Day = day;
-            this.IntervalMonth = intervalMonth;
+            this.IntervalMonth = interval;
         }
 
         protected override IEnumerable<object> GetAtomicValues()

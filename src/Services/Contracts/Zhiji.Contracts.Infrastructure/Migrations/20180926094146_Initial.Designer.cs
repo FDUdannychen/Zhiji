@@ -10,14 +10,14 @@ using Zhiji.Contracts.Infrastructure;
 namespace Zhiji.Contracts.Infrastructure.Migrations
 {
     [DbContext(typeof(ContractContext))]
-    [Migration("20180911090614_Initial")]
+    [Migration("20180926094146_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -29,9 +29,9 @@ namespace Zhiji.Contracts.Infrastructure.Migrations
 
                     b.Property<int>("CustomerId");
 
-                    b.Property<long?>("EndDate");
+                    b.Property<DateTime?>("EndDate");
 
-                    b.Property<long>("StartDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<int?>("TemplateId")
                         .IsRequired();
@@ -68,7 +68,7 @@ namespace Zhiji.Contracts.Infrastructure.Migrations
 
                     b.Property<int>("BillingPeriodMonth");
 
-                    b.Property<int>("BillingPeriodStartMonthOffset");
+                    b.Property<int>("BillingPeriodOffsetMonth");
 
                     b.Property<string>("Name")
                         .IsRequired()

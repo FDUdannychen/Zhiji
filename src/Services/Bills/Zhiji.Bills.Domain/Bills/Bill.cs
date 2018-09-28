@@ -12,8 +12,8 @@ namespace Zhiji.Bills.Domain.Bills
         public int TemplateId { get; private set; }
         public int CustomerId { get; private set; }
         public int TenementId { get; private set; }
-        public Instant StartDate { get; private set; }
-        public Instant EndDate { get; private set; }
+        public LocalDate StartDate { get; private set; }
+        public LocalDate EndDate { get; private set; }
         public BillStatus Status { get; private set; }
 
         public int? _statusId;
@@ -24,16 +24,16 @@ namespace Zhiji.Bills.Domain.Bills
             int contractId,
             int templateId,
             int customerId,
-            int tenementId,            
-            Instant start, 
-            Instant end)
+            int tenementId,
+            LocalDate startDate,
+            LocalDate endDate)
         {
             this.ContractId = contractId;
             this.TemplateId = templateId;
             this.CustomerId = customerId;
             this.TenementId = tenementId;
-            this.StartDate = start;
-            this.EndDate = end;
+            this.StartDate = startDate;
+            this.EndDate = endDate;
             _statusId = BillStatus.Created.Id;
         }
 

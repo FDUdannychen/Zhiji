@@ -20,7 +20,7 @@ namespace Zhiji.Contracts.Api.Models.Templates
 
         public int BillingPeriodMonth { get; set; }
 
-        public int BillingPeriodStartMonthOffset { get; set; }
+        public int BillingPeriodOffsetMonth { get; set; }
 
         public string TimeZone { get; set; }
     }

@@ -16,12 +16,7 @@ namespace Zhiji.Contracts.Api.Models
         public ModelProfile()
         {
             this.CreateMap<Template, ViewTemplate>();
-
-            this.CreateMap<Contract, ViewContract>()
-                .ForMember(v => v.StartDate,
-                    o => o.ResolveUsing(c => c.Start.InZone(c.Template.TimeZone).Date))
-                .ForMember(v => v.EndDate,
-                    o => o.ResolveUsing(c => c.End is null ? (LocalDate?)null : c.End.Value.InZone(c.Template.TimeZone).Date));
+            this.CreateMap<Contract, ViewContract>();
 
             this.CreateMap<Domain.Templates.BillingDate, Templates.BillingDate>()
                 .ReverseMap()

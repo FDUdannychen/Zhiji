@@ -17,21 +17,9 @@ namespace Zhiji.Bills.Api.Models.Bills
 
         public int? TemplateId { get; set; }
 
-        public Range<Instant>? StartDateRange { get; set; }
+        public DateInterval StartDateRange { get; set; }
 
-        public Range<Instant>? EndDateRange { get; set; }
-
-        //public Instant? StartDateLowerBound { get; set; }
-        //public bool IncludeStartDateLowerBound { get; set; } = true;
-
-        //public Instant? StartDateUpperBound { get; set; }
-        //public bool IncludeStartDateUpperBound { get; set; } = false;
-
-        //public Instant? EndDateLowerBound { get; set; }
-        //public bool IncludeEndDateLowerBound { get; set; } = true;
-
-        //public Instant? EndDateUpperBound { get; set; }
-        //public bool IncludeEndDateUpperBound { get; set; } = false;
+        public DateInterval EndDateRange { get; set; }
 
         public int? StatusId { get; set; }
     }

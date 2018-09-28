@@ -36,7 +36,8 @@ namespace Zhiji.Contracts.Infrastructure.EntityConfigurations
             billingDate.Property(e => e.IntervalMonth).IsRequired();
 
             builder.Property(e => e.BillingPeriodMonth).IsRequired();
-            builder.Property(e => e.BillingPeriodStartMonthOffset).IsRequired();
+
+            builder.Property(e => e.BillingPeriodOffsetMonth).IsRequired();
 
             builder.Property(e => e.TimeZone)
                 .IsRequired()

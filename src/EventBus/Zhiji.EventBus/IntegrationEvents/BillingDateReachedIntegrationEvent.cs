@@ -13,18 +13,20 @@ namespace Zhiji.EventBus.IntegrationEvents
         public int TemplateId { get; }
         public int CustomerId { get; }
         public int TenementId { get; }
-        public Instant BillingDate { get; }
-        public Instant BillingPeriodStart { get; }
-        public Instant BillingPeriodEnd { get; }
+        public LocalDate BillingDate { get; }
+        public LocalDate BillingPeriodStart { get; }
+        public LocalDate BillingPeriodEnd { get; }
+        public DateTimeZone TimeZone { get; }
 
         public BillingDateReachedIntegrationEvent(
             int contractId,
             int templateId,
             int customerId,
             int tenementId,
-            Instant billingDate, 
-            Instant billingPeriodStart, 
-            Instant billingPeriodEnd)
+            LocalDate billingDate,
+            LocalDate billingPeriodStart,
+            LocalDate billingPeriodEnd,
+            DateTimeZone timeZone)
         {
             this.ContractId = contractId;
             this.TemplateId = templateId;
@@ -33,6 +35,7 @@ namespace Zhiji.EventBus.IntegrationEvents
             this.BillingDate = billingDate;
             this.BillingPeriodStart = billingPeriodStart;
             this.BillingPeriodEnd = billingPeriodEnd;
+            this.TimeZone = timeZone;
         }
     }
 }

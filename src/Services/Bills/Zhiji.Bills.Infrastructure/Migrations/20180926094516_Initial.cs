@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Zhiji.Bills.Infrastructure.Migrations
@@ -29,8 +30,8 @@ namespace Zhiji.Bills.Infrastructure.Migrations
                     TemplateId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     TenementId = table.Column<int>(nullable: false),
-                    StartDate = table.Column<long>(nullable: false),
-                    EndDate = table.Column<long>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
                     StatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

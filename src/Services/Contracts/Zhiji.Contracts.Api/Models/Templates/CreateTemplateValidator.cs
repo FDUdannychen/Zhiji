@@ -30,7 +30,7 @@ namespace Zhiji.Contracts.Api.Models.Templates
                 .NotEmpty()
                 .GreaterThan(0);
 
-            this.RuleFor(m => m.BillingPeriodStartMonthOffset)
+            this.RuleFor(m => m.BillingPeriodOffsetMonth)
                 .NotEmpty()
                 .GreaterThan(0).When(m => m.BillingModeId == BillingMode.Prepaid.Id)
                 .LessThan(0).When(m => m.BillingModeId == BillingMode.Postpaid.Id);

@@ -15,9 +15,9 @@ namespace Zhiji.Contracts.Domain.Contracts
 
         Task<Contract[]> ListAsync(int? customerId, 
             int? tenementId, 
-            int? templateId, 
-            Range<Instant>? startDateRange, 
-            Range<Instant>? endDateRange,
+            int? templateId,
+            DateInterval startDateRange,
+            DateInterval endDateRange,
             CancellationToken cancellationToken = default);
 
         Task<Contract[]> ListEffectiveAsync(CancellationToken cancellationToken = default);

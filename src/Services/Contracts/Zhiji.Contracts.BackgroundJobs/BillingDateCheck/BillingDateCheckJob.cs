@@ -72,31 +72,29 @@ namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
             var timeZone = contract.Template.TimeZone;
             var lastDate = lastCreateTime.InZone(timeZone).Date;
             var currentDate = _clock.GetCurrentInstant().InZone(timeZone).Date;
-
+            
             if (lastDate >= currentDate) yield break;
 
             var billingMode = contract.Template.BillingMode;
             var billingDate = contract.Template.BillingDate;
-            var startDate = contract.Start.InZone(timeZone).Date;
-            var nextBillingDate = new LocalDate(startDate.Year, billingDate.Month, billingDate.Day);
-            var monthOffset = contract.Template.BillingPeriodStartMonthOffset;
+            var billingPeriodOffset = contract.Template.BillingPeriodOffsetMonth;
+            var nextBillingDate = new LocalDate(contract.StartDate.Year, billingDate.Month, billingDate.Day);
 
-            while (nextBillingDate > startDate)
-                nextBillingDate = nextBillingDate.PlusMonths(-billingDate.IntervalMonth);
-
-            while (nextBillingDate.PlusMonths(billingDate.IntervalMonth + monthOffset) <= startDate)
-                nextBillingDate = nextBillingDate.PlusMonths(billingDate.IntervalMonth);
-
-            if (billingMode.Equals(BillingMode.Postpaid))
+            while (nextBillingDate > contract.StartDate)
             {
                 nextBillingDate = nextBillingDate.PlusMonths(-billingDate.IntervalMonth);
+            }
+
+            while (nextBillingDate.PlusMonths(billingDate.IntervalMonth + billingPeriodOffset) <= contract.StartDate)
+            {
+                nextBillingDate = nextBillingDate.PlusMonths(billingDate.IntervalMonth);
             }
 
             while (nextBillingDate < currentDate)
             {
                 if (nextBillingDate > lastDate)
                 {
-                    var billingStart = nextBillingDate.PlusMonths(contract.Template.BillingPeriodStartMonthOffset);
+                    var billingStart = nextBillingDate.PlusMonths(billingPeriodOffset);
                     var billingEnd = billingStart.PlusMonths(contract.Template.BillingPeriodMonth);
 
                     yield return new BillingDateReachedIntegrationEvent(
@@ -104,9 +102,10 @@ namespace Zhiji.Contracts.BackgroundJobs.BillingDateCheck
                         contract.Template.Id,
                         contract.CustomerId,
                         contract.TenementId,
-                        nextBillingDate.AtStartOfDayInZone(timeZone).ToInstant(),
-                        billingStart.AtStartOfDayInZone(timeZone).ToInstant(),
-                        billingEnd.AtStartOfDayInZone(timeZone).ToInstant());
+                        nextBillingDate,
+                        billingStart,
+                        billingEnd,
+                        timeZone);
                 }
 
                 nextBillingDate = nextBillingDate.PlusMonths(billingDate.IntervalMonth);

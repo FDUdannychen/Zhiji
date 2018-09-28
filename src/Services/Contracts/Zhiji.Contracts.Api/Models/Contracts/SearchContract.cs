@@ -15,8 +15,8 @@ namespace Zhiji.Contracts.Api.Models.Contracts
 
         public int? TemplateId { get; set; }
 
-        public Range<Instant>? StartDateRange { get; set; }
+        public DateInterval StartDateRange { get; set; }
 
-        public Range<Instant>? EndDateRange { get; set; }
+        public DateInterval EndDateRange { get; set; }
     }
 }

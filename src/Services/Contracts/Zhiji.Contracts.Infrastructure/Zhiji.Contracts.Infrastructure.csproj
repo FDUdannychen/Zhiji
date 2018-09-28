@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180829060402_Initial.cs" />
+    <Compile Remove="Migrations\20180911090614_Initial.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,9 +18,5 @@
     <ProjectReference Include="..\..\..\Common\Zhiji.Common.EntityFrameworkCore\Zhiji.Common.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\Bills\Zhiji.Bills.Domain\Zhiji.Bills.Domain.csproj" />
     <ProjectReference Include="..\Zhiji.Contracts.Domain\Zhiji.Contracts.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

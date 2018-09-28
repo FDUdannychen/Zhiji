@@ -21,7 +21,7 @@ namespace Zhiji.Contracts.Api.Controllers
         private readonly ITemplateQuery _templateQuery;
         private readonly IContractQuery _contractQuery;
         private readonly IContractRepository _contractRepository;
-
+                
         public ContractsController(IMapper mapper,
             ITemplateQuery templateQuery,
             IContractQuery contractQuery,
@@ -48,9 +48,9 @@ namespace Zhiji.Contracts.Api.Controllers
         [ProducesResponseType(typeof(ViewContract[]), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ViewContract[]>> SearchAsync([FromQuery]SearchContract request, CancellationToken cancellationToken)
         {
-            var contracts = await _contractQuery.ListAsync(request.CustomerId, 
-                request.TenementId, 
-                request.TemplateId, 
+            var contracts = await _contractQuery.ListAsync(request.CustomerId,
+                request.TenementId,
+                request.TemplateId,
                 request.StartDateRange,
                 request.EndDateRange,
                 cancellationToken);

@@ -32,8 +32,8 @@ namespace Zhiji.Contracts.Infrastructure.Queries
         public async Task<Contract[]> ListAsync(int? customerId, 
             int? tenementId, 
             int? templateId,
-            Range<Instant>? startDateRange,
-            Range<Instant>? endDateRange,
+            DateInterval startDateRange,
+            DateInterval endDateRange,
             CancellationToken cancellationToken = default)
         {
             IQueryable<Contract> query = _context.Contracts.Include(e => e.Template.BillingMode);
@@ -42,42 +42,14 @@ namespace Zhiji.Contracts.Infrastructure.Queries
             if (tenementId.HasValue) query = query.Where(e => e.TenementId == tenementId);
             if (templateId.HasValue) query = query.Where(e => e.Template.Id == templateId);
 
-            if (startDateRange.HasValue)
+            if (startDateRange != null)
             {
-                if (startDateRange.Value.LowerBound.HasValue)
-                {
-                    var lowerBound = startDateRange.Value.LowerBound.Value;
-                    query = startDateRange.Value.IncludeLowerBound
-                        ? query.Where(e => e.Start >= lowerBound)
-                        : query.Where(e => e.Start > lowerBound);
-                }
-
-                if (startDateRange.Value.UpperBound.HasValue)
-                {
-                    var upperBound = startDateRange.Value.UpperBound.Value;
-                    query = startDateRange.Value.IncludeUpperBound
-                        ? query.Where(e => e.Start <= upperBound)
-                        : query.Where(e => e.Start < upperBound);
-                }
+                query = query.Where(e => e.StartDate >= startDateRange.Start && e.StartDate <= startDateRange.End);
             }
 
-            if (endDateRange.HasValue)
+            if (endDateRange != null)
             {
-                if (endDateRange.Value.LowerBound.HasValue)
-                {
-                    var lowerBound = startDateRange.Value.LowerBound.Value;
-                    query = endDateRange.Value.IncludeLowerBound
-                        ? query.Where(e => e.End >= lowerBound)
-                        : query.Where(e => e.End > lowerBound);
-                }
-
-                if (endDateRange.Value.UpperBound.HasValue)
-                {
-                    var upperBound = endDateRange.Value.UpperBound.Value;
-                    query = endDateRange.Value.IncludeUpperBound
-                        ? query.Where(e => e.End <= upperBound)
-                        : query.Where(e => e.End < upperBound);
-                }
+                query = query.Where(e => e.EndDate >= endDateRange.Start && e.EndDate <= endDateRange.End);
             }
 
             return await query.ToArrayAsync(cancellationToken);
@@ -86,11 +58,18 @@ namespace Zhiji.Contracts.Infrastructure.Queries
         public async Task<Contract[]> ListEffectiveAsync(CancellationToken cancellationToken = default)
         {
             var now = _clock.GetCurrentInstant();
+            var today = now.InUtc().Date;
 
-            return await _context.Contracts
+            var query = await _context.Contracts
                 .Include(e => e.Template.BillingMode)
-                .Where(c => c.Start <= now && c.End > now)
+                .Where(c => c.StartDate <= today.PlusDays(1) && c.EndDate > today.PlusDays(-1))
                 .ToArrayAsync(cancellationToken);
+
+            return query.Where(c =>
+            {
+                var date = now.InZone(c.Template.TimeZone).Date;
+                return c.StartDate <= date && c.EndDate > date;
+            }).ToArray();
         }
     }
 }

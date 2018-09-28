@@ -23,11 +23,11 @@ namespace Zhiji.Bills.Infrastructure.EntityConfigurations
 
             builder.Property(e => e.StartDate)
                 .IsRequired()
-                .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
+                .HasConversion(v => v.ToDateTimeUnspecified(), v => LocalDate.FromDateTime(v));
 
             builder.Property(e => e.EndDate)
                 .IsRequired()
-                .HasConversion(v => v.ToUnixTimeTicks(), v => Instant.FromUnixTimeTicks(v));
+                .HasConversion(v => v.ToDateTimeUnspecified(), v => LocalDate.FromDateTime(v));
 
             builder.HasOne(e => e.Status)
                 .WithMany()

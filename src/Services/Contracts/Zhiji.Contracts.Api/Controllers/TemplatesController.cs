@@ -57,7 +57,7 @@ namespace Zhiji.Contracts.Api.Controllers
         {
             var billingDate = _mapper.Map<Domain.Templates.BillingDate>(request.BillingDate);
             var timeZone = _dateTimeZoneProvider[request.TimeZone];
-            var template = new Template(request.Name, request.Price, request.BillingModeId, billingDate, request.BillingPeriodMonth, request.BillingPeriodStartMonthOffset, timeZone);
+            var template = new Template(request.Name, request.Price, request.BillingModeId, billingDate, request.BillingPeriodMonth, request.BillingPeriodOffsetMonth, timeZone);
             _templateRepository.Add(template);
             await _templateRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             var vm = _mapper.Map<ViewTemplate>(template);

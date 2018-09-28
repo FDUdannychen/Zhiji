@@ -12,20 +12,21 @@ namespace Zhiji.Contracts.Domain.Contracts
         public Template Template { get; private set; }
         public int CustomerId { get; private set; }
         public int TenementId { get; private set; }
-        public Instant Start { get; set; }
-        public Instant? End { get; set; }
+        public LocalDate StartDate { get; set; }
+        public LocalDate? EndDate { get; set; }
 
         private int? _templateId;
 
         private Contract() { }
 
-        public Contract(int templateId, int customerId, int tenementId, Instant start, Instant? end)
+        public Contract(int templateId, int customerId, int tenementId, LocalDate start, LocalDate? end)
         {
             _templateId = templateId;
+
             this.CustomerId = customerId;
             this.TenementId = tenementId;
-            this.Start = start;
-            this.End = end;
+            this.StartDate = start;
+            this.EndDate = end;
         }
     }
 }

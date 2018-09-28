@@ -24,8 +24,8 @@ namespace Zhiji.Bills.Infrastructure.Queries
             int? tenementId,
             int? contractId,
             int? templateId,
-            Range<Instant>? startDateRange,
-            Range<Instant>? endDateRange,
+            DateInterval startDateRange,
+            DateInterval endDateRange,
             int? billStatusId,
             CancellationToken cancellationToken = default)
         {
@@ -37,42 +37,14 @@ namespace Zhiji.Bills.Infrastructure.Queries
             if (templateId != null) query = query.Where(e => e.TemplateId == templateId.Value);
             if (billStatusId != null) query = query.Where(e => e.Status.Id == billStatusId.Value);
 
-            if (startDateRange.HasValue)
+            if (startDateRange != null)
             {
-                if (startDateRange.Value.LowerBound.HasValue)
-                {
-                    var lowerBound = startDateRange.Value.LowerBound.Value;
-                    query = startDateRange.Value.IncludeLowerBound
-                        ? query.Where(e => e.StartDate >= lowerBound)
-                        : query.Where(e => e.StartDate > lowerBound);
-                }
-
-                if (startDateRange.Value.UpperBound.HasValue)
-                {
-                    var upperBound = startDateRange.Value.UpperBound.Value;
-                    query = startDateRange.Value.IncludeUpperBound
-                        ? query.Where(e => e.StartDate <= upperBound)
-                        : query.Where(e => e.StartDate < upperBound);
-                }
+                query = query.Where(e => e.StartDate >= startDateRange.Start && e.StartDate <= startDateRange.End);
             }
 
-            if (endDateRange.HasValue)
+            if (endDateRange != null)
             {
-                if (endDateRange.Value.LowerBound.HasValue)
-                {
-                    var lowerBound = startDateRange.Value.LowerBound.Value;
-                    query = endDateRange.Value.IncludeLowerBound
-                        ? query.Where(e => e.EndDate >= lowerBound)
-                        : query.Where(e => e.EndDate > lowerBound);
-                }
-
-                if (endDateRange.Value.UpperBound.HasValue)
-                {
-                    var upperBound = endDateRange.Value.UpperBound.Value;
-                    query = endDateRange.Value.IncludeUpperBound
-                        ? query.Where(e => e.EndDate <= upperBound)
-                        : query.Where(e => e.EndDate < upperBound);
-                }
+                query = query.Where(e => e.EndDate >= endDateRange.Start && e.EndDate <= endDateRange.End);
             }
 
             return await query.ToArrayAsync(cancellationToken);

@@ -15,8 +15,8 @@ namespace Zhiji.Bills.Domain.Bills
             int? tenementId,
             int? contractId,
             int? templateId,
-            Range<Instant>? startDateRange,
-            Range<Instant>? endDateRange,
+            DateInterval startDateRange,
+            DateInterval endDateRange,
             int? billStatusId,
             CancellationToken cancellationToken = default);
     }

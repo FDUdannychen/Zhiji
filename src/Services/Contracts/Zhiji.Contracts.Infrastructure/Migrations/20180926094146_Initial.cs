@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Zhiji.Contracts.Infrastructure.Migrations
@@ -32,7 +33,7 @@ namespace Zhiji.Contracts.Infrastructure.Migrations
                     BillingDate_Day = table.Column<int>(nullable: false),
                     BillingDate_IntervalMonth = table.Column<int>(nullable: false),
                     BillingPeriodMonth = table.Column<int>(nullable: false),
-                    BillingPeriodStartMonthOffset = table.Column<int>(nullable: false),
+                    BillingPeriodOffsetMonth = table.Column<int>(nullable: false),
                     TimeZone = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -55,8 +56,8 @@ namespace Zhiji.Contracts.Infrastructure.Migrations
                     TemplateId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     TenementId = table.Column<int>(nullable: false),
-                    StartDate = table.Column<long>(nullable: false),
-                    EndDate = table.Column<long>(nullable: true)
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
